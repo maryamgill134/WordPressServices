@@ -1,0 +1,17 @@
+{
+  "name": "wpforge",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api -c cyan,magenta \"npm run dev -w client\" \"npm run dev -w server\"",
+    "build": "npm run build -w client && npm run build -w server",
+    "lint": "npm run lint -w client && npm run lint -w server",
+    "start": "concurrently -n web,api -c cyan,magenta \"npm run start -w client\" \"npm run start -w server\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

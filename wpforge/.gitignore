@@ -1,0 +1,11 @@
+node_modules/
+.next/
+dist/
+.env
+.env.local
+*.log
+*.tsbuildinfo
+AGENTS.md
+CLAUDE.md
+server/data/
+.DS_Store
