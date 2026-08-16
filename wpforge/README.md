@@ -1,4 +1,4 @@
-# WPForge
+# WPServices
 
 A production-ready website for a WordPress services studio. The project combines a
 responsive Next.js marketing site with an Express API that validates and stores
