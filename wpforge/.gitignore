@@ -7,5 +7,6 @@ dist/
 *.tsbuildinfo
 AGENTS.md
 CLAUDE.md
+client/src/generated/prisma/
 server/data/
 .DS_Store

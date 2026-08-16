@@ -4,9 +4,9 @@ export default function Home() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: "WPDEV",
-    url: "https://wpdev.com",
-    email: "hello@wpdev.com",
+    name: "WPServices",
+    url: "https://wpservices.com",
+    email: "hello@wpservices.com",
     description:
       "Custom WordPress development, maintenance, SEO, performance, and security.",
     areaServed: "Worldwide",

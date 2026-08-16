@@ -10,10 +10,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://wpdev.com"),
+  metadataBase: new URL("https://wpservices.com"),
   title: {
-    default: "WPDEV — WordPress Websites That Drive Results",
-    template: "%s | WPDEV",
+    default: "WPServices — WordPress Websites That Drive Results",
+    template: "%s | WPServices",
   },
   description:
     "Professional WordPress development, customization, maintenance, SEO, performance, and security services.",
@@ -25,16 +25,16 @@ export const metadata: Metadata = {
     "WordPress speed optimization",
   ],
   openGraph: {
-    title: "WPDEV — WordPress Websites That Drive Results",
+    title: "WPServices — WordPress Websites That Drive Results",
     description:
       "Fast, secure, SEO-friendly WordPress websites built for your business.",
-    url: "https://wpdev.com",
-    siteName: "WPDEV",
+    url: "https://wpservices.com",
+    siteName: "WPServices",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "WPDEV — WordPress Websites That Drive Results",
+    title: "WPServices — WordPress Websites That Drive Results",
     description:
       "Fast, secure, SEO-friendly WordPress websites built for your business.",
   },

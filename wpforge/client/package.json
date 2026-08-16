@@ -1,26 +1,36 @@
 {
-  "name": "@wpforge/client",
+  "name": "@wpservices/web",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "cross-env NEXT_IGNORE_INCORRECT_LOCKFILE=1 next dev",
+    "build": "cross-env NEXT_IGNORE_INCORRECT_LOCKFILE=1 next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
     "framer-motion": "^13.1.0",
     "lucide-react": "^1.31.0",
-    "next": "^16.3.1",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "next": "^14.2.35",
+    "pg": "^8.23.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.2.0",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "cross-env": "^10.1.0",
     "postcss": "^8.5.26",
+    "prisma": "^7.9.1",
     "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2"
+    "typescript": "^5.9.3"
   }
 }

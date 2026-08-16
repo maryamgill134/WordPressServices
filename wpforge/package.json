@@ -1,17 +1,20 @@
 {
-  "name": "wpforge",
+  "name": "wpservices",
   "private": true,
   "workspaces": [
-    "client",
-    "server"
+    "client"
   ],
   "scripts": {
-    "dev": "concurrently -n web,api -c cyan,magenta \"npm run dev -w client\" \"npm run dev -w server\"",
-    "build": "npm run build -w client && npm run build -w server",
-    "lint": "npm run lint -w client && npm run lint -w server",
-    "start": "concurrently -n web,api -c cyan,magenta \"npm run start -w client\" \"npm run start -w server\""
+    "dev": "npm run dev -w client",
+    "build": "npm run build -w client",
+    "lint": "npm run lint -w client",
+    "start": "npm run start -w client",
+    "db:generate": "npm run db:generate -w client",
+    "db:migrate": "npm run db:migrate -w client",
+    "db:studio": "npm run db:studio -w client"
   },
   "devDependencies": {
-    "concurrently": "^10.0.5"
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7"
   }
 }

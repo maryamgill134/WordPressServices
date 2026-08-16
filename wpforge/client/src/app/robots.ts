@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://wpdev.com/sitemap.xml",
+    sitemap: "https://wpservices.com/sitemap.xml",
   };
 }
