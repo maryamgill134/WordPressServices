@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Blocks,
@@ -176,18 +176,98 @@ const insights = [
     title: "How to Make WordPress Faster Without Breaking Your Site",
     text: "A practical Core Web Vitals checklist for faster pages and stronger conversions.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85",
+    sections: [
+      {
+        heading: "Start with what visitors actually feel",
+        paragraphs: [
+          "Speed work should protect conversions, not just improve a lab score. Measure Largest Contentful Paint, Interaction to Next Paint, and Cumulative Layout Shift on the pages that bring in leads or sales.",
+          "Fix the homepage, key service pages, and checkout or contact templates first. Those pages decide whether someone stays long enough to take action.",
+        ],
+      },
+      {
+        heading: "A Core Web Vitals checklist that stays safe",
+        paragraphs: ["Use this sequence so optimization does not break layout, forms, or WooCommerce:"],
+        items: [
+          "Compress and serve images in WebP or AVIF, with correct width and height attributes.",
+          "Remove unused plugins, then delay non-critical JavaScript instead of stripping scripts the theme still needs.",
+          "Cache HTML for anonymous visitors and keep cart, account, and form pages excluded.",
+          "Preload only the hero font and the main image. Extra preloads can slow first paint.",
+          "Test forms, menus, and checkout after every change, not only PageSpeed scores.",
+        ],
+      },
+      {
+        heading: "Keep the site maintainable",
+        paragraphs: [
+          "Document what you changed and why. A faster site that nobody can update safely is not a win. Re-test after plugin and theme updates so performance gains do not quietly disappear.",
+        ],
+      },
+    ],
   },
   {
     category: "Security",
     title: "The WordPress Security Checklist Every Business Needs",
     text: "Reduce risk with sensible hardening, monitoring, backups, and access controls.",
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=85",
+    sections: [
+      {
+        heading: "Lock down access before you add more tools",
+        paragraphs: [
+          "Most WordPress incidents start with weak logins, leftover admin accounts, or outdated plugins. Hardening is useful only if the basics are already in place.",
+        ],
+        items: [
+          "Use unique admin usernames, strong passwords, and two-factor authentication.",
+          "Limit login attempts and hide unused author archives.",
+          "Give each teammate the lowest role they need. Do not share one administrator login.",
+          "Remove inactive users, demo accounts, and plugins that are no longer in use.",
+        ],
+      },
+      {
+        heading: "Backups, updates, and monitoring",
+        paragraphs: [
+          "A clean backup is the difference between a short recovery and a lost week. Keep automated offsite backups, then confirm you can restore them.",
+          "Apply core, theme, and plugin updates on a schedule. Pair that with malware scanning and uptime alerts so you notice problems before customers do.",
+        ],
+      },
+      {
+        heading: "Sensible hardening",
+        paragraphs: [
+          "Disable file editing in wp-admin, keep XML-RPC restricted unless you need it, and serve the site over HTTPS everywhere. Security is a process, not a one-time plugin install.",
+        ],
+      },
+    ],
   },
   {
     category: "WooCommerce",
     title: "Seven Ways to Improve Your Store’s Conversion Rate",
     text: "Remove buying friction and create a checkout experience customers trust.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85",
+    sections: [
+      {
+        heading: "Make the path to purchase obvious",
+        paragraphs: [
+          "Shoppers abandon stores when they cannot find shipping costs, product details, or a simple next step. Conversion work is mostly about removing doubt.",
+        ],
+      },
+      {
+        heading: "Seven changes that usually move the needle",
+        paragraphs: [],
+        items: [
+          "Show price, stock, and delivery expectations on the product page, not only at checkout.",
+          "Use clear product photos and short benefit-led descriptions above the fold.",
+          "Keep the cart visible and make “Add to cart” the strongest action on the page.",
+          "Offer guest checkout so first-time buyers are not forced to create an account.",
+          "Cut extra form fields. Ask only for what you need to fulfill the order.",
+          "Display trust signals near payment: secure checkout, return policy, and real support.",
+          "Test the mobile checkout on a real phone. Most drop-off happens there.",
+        ],
+      },
+      {
+        heading: "Measure, then refine",
+        paragraphs: [
+          "Watch add-to-cart rate, checkout start rate, and completed orders after each change. Improve one friction point at a time so you know what actually helped.",
+        ],
+      },
+    ],
   },
 ];
 
@@ -199,11 +279,75 @@ const faqs = [
   ["Is SEO included?", "Every project includes technical SEO foundations, semantic structure, metadata, sitemap configuration, performance work, and analytics readiness."],
 ];
 
+const trustBrands = [
+  {
+    name: "Envato",
+    wordmark: "envato",
+    icon: (
+      <svg viewBox="0 0 20 24" aria-hidden="true">
+        <path d="M10 1.05C8.25 7.45 2.1 9.7 2.1 16.35a7.9 7.9 0 0015.8 0C17.9 9.7 11.75 7.45 10 1.05z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Cloudways",
+    wordmark: "Cloudways",
+    icon: (
+      <svg viewBox="0 0 28 20" aria-hidden="true">
+        <path d="M1.2 5.4h7.6M1.2 10h5.4M1.2 14.6h7.6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+        <path d="M13.2 16.4h10.6a4.15 4.15 0 00.35-8.28 5.55 5.55 0 00-10.7-1.05 3.95 3.95 0 00-.25 9.33z" />
+      </svg>
+    ),
+  },
+  {
+    name: "GoDaddy",
+    wordmark: "GoDaddy",
+    className: "trust-logo--godaddy",
+    icon: (
+      <svg viewBox="0 0 22 22" aria-hidden="true">
+        <path d="M11 20S4.2 15.4 4.2 10.2A4.4 4.4 0 0111 6.4a4.4 4.4 0 016.8 3.8C17.8 15.4 11 20 11 20z" />
+      </svg>
+    ),
+  },
+  {
+    name: "HubSpot",
+    wordmark: "HubSpot",
+    icon: (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="3.15" />
+        <circle cx="12" cy="4.15" r="2.2" />
+        <circle cx="18.75" cy="15.95" r="2.2" />
+        <circle cx="5.25" cy="15.95" r="2.2" />
+        <path d="M12 6.3v2.55M16.85 14.85l-2.2-1.28M7.15 14.85l2.2-1.28" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    name: "ThemeForest",
+    wordmark: "themeforest",
+    icon: (
+      <svg viewBox="0 0 22 22" aria-hidden="true">
+        <path fillRule="evenodd" d="M5 1.6h12A3.4 3.4 0 0120.4 5v12a3.4 3.4 0 01-3.4 3.4H5A3.4 3.4 0 011.6 17V5A3.4 3.4 0 015 1.6zm6 2.7c-1.15 3.6-5.1 4.95-5.1 8.7a5.1 5.1 0 1010.2 0c0-3.75-3.95-5.1-5.1-8.7z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Elementor",
+    wordmark: "elementor",
+    className: "trust-logo--elementor",
+    icon: (
+      <svg viewBox="0 0 22 22" aria-hidden="true">
+        <path fillRule="evenodd" d="M4.2 1.6h13.6A2.6 2.6 0 0120.4 4.2v13.6a2.6 2.6 0 01-2.6 2.6H4.2a2.6 2.6 0 01-2.6-2.6V4.2A2.6 2.6 0 014.2 1.6zm2.7 3.9h8.2v2H6.9v-2zm0 4.3h5.4v2H6.9v-2zm0 4.3h8.2v2H6.9v-2z" />
+      </svg>
+    ),
+  },
+];
+
 const fadeUp = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-70px" },
-  transition: { duration: 0.55 },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
 };
 
 const pricingGridMotion = {
@@ -221,9 +365,9 @@ const pricingCardMotion = {
   },
 };
 
-function Logo({ light = false, detailed = false }: { light?: boolean; detailed?: boolean }) {
+function Logo({ light = false, detailed = false, onClick }: { light?: boolean; detailed?: boolean; onClick?: () => void }) {
   return (
-    <a className={`logo ${light ? "logo--light" : ""} ${detailed ? "logo--detailed" : ""}`} href="#home" aria-label="WPServices home">
+    <a className={`logo ${light ? "logo--light" : ""} ${detailed ? "logo--detailed" : ""}`} href="#home" aria-label="WPServices home" onClick={onClick}>
       <span>{detailed ? <b>W</b> : <Code2 />}</span>
       <span className="logo-copy"><strong>WPServices</strong>{detailed && <small>WordPress Solutions</small>}</span>
     </a>
@@ -231,8 +375,9 @@ function Logo({ light = false, detailed = false }: { light?: boolean; detailed?:
 }
 
 function Heading({ label, title, text, light = false }: { label: string; title: string; text?: string; light?: boolean }) {
+  const reduceMotion = useReducedMotion();
   return (
-    <motion.div className={`section-heading ${light ? "section-heading--light" : ""}`} {...fadeUp}>
+    <motion.div className={`section-heading ${light ? "section-heading--light" : ""}`} {...(reduceMotion ? { initial: false } : fadeUp)}>
       <span>{label}</span>
       <h2>{title}</h2>
       {text && <p>{text}</p>}
@@ -287,17 +432,47 @@ export function LandingPage() {
   const [leadMessage, setLeadMessage] = useState("");
   const [startedAt, setStartedAt] = useState(() => Date.now());
   const [selectedPlan, setSelectedPlan] = useState("Business");
+  const [activeProcess, setActiveProcess] = useState(0);
+  const [activeSection, setActiveSection] = useState("home");
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
   const [caseStudy, setCaseStudy] = useState<(typeof projects)[number] | null>(null);
+  const [article, setArticle] = useState<(typeof insights)[number] | null>(null);
   const servicesMenuRef = useRef<HTMLDivElement>(null);
   const caseStudyCloseRef = useRef<HTMLButtonElement>(null);
+  const articleCloseRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
+  const reveal = reduceMotion ? { initial: false as const } : fadeUp;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const sections = ["home", "about", "portfolio", "insights", "contact"];
+    const onScroll = () => {
+      setScrolled(window.scrollY > 16);
+      let current = "home";
+      for (const id of sections) {
+        const section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= 120) current = id;
+      }
+      setActiveSection(current);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 780) setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen || caseStudy || article ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen, caseStudy, article]);
 
   useEffect(() => {
     const closeOnOutsideClick = (event: PointerEvent) => {
@@ -315,18 +490,23 @@ export function LandingPage() {
   }, []);
 
   useEffect(() => {
+    if (!article) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setArticle(null);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    articleCloseRef.current?.focus();
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [article]);
+
+  useEffect(() => {
     if (!caseStudy) return;
-    const previousOverflow = document.body.style.overflow;
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setCaseStudy(null);
     };
-    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", closeOnEscape);
     caseStudyCloseRef.current?.focus();
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
-    };
+    return () => window.removeEventListener("keydown", closeOnEscape);
   }, [caseStudy]);
 
   const filteredProjects = useMemo(
@@ -372,12 +552,14 @@ export function LandingPage() {
   }
 
   const nav = ["Home", "Services", "Portfolio", "About", "Blog", "Contact"];
+  const navTarget = (item: string) => item === "Blog" ? "insights" : item.toLowerCase();
 
   return (
-    <main id="home">
+    <main>
+      <a className="skip-link" href="#home">Skip to content</a>
       <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
         <div className="container nav-shell">
-          <Logo detailed />
+          <Logo detailed onClick={() => { setMenuOpen(false); setServicesMenuOpen(false); }} />
           <nav className={`nav ${menuOpen ? "nav--open" : ""}`} aria-label="Primary navigation">
             {nav.map((item) => item === "Services" ? (
               <div className="nav-services" ref={servicesMenuRef} key={item}>
@@ -417,10 +599,16 @@ export function LandingPage() {
                 </div>
               </div>
             ) : (
-              <a key={item} href={item === "Blog" ? "#insights" : `#${item.toLowerCase()}`} onClick={() => {
-                setMenuOpen(false);
-                setServicesMenuOpen(false);
-              }}>
+              <a
+                key={item}
+                href={`#${navTarget(item)}`}
+                className={activeSection === navTarget(item) ? "nav-link--active" : undefined}
+                aria-current={activeSection === navTarget(item) ? "page" : undefined}
+                onClick={() => {
+                  setMenuOpen(false);
+                  setServicesMenuOpen(false);
+                }}
+              >
                 {item}
               </a>
             ))}
@@ -432,7 +620,7 @@ export function LandingPage() {
         </div>
       </header>
 
-      <section className="hero">
+      <section className="hero" id="home">
         <div className="container hero-layout">
           <div className="hero-copy">
             <span className="eyebrow">WORDPRESS DEVELOPMENT AGENCY</span>
@@ -452,24 +640,90 @@ export function LandingPage() {
             <SitePreview />
           </div>
         </div>
-        <div className="container trust-row">
-          <span>TRUSTED BY BUSINESSES WORLDWIDE</span>
-          <div><b>● envato</b><b>☁ Cloudways</b><b>◎ GoDaddy</b><b>HubSpot</b><b>◧ themeforest</b><b>◉ Elementor</b></div>
+      </section>
+
+      <section className="why section" id="about">
+        <div className="container">
+          <Heading label="ABOUT" title="Built With Strategy. Developed With Precision." text="We combine creativity, technology, and strategy to deliver WordPress websites that drive real business results." />
+          <div className="why-grid">
+            {[
+              { icon: Zap, title: "Performance First", text: "Fast-loading websites optimized for a better user experience." },
+              { icon: MonitorSmartphone, title: "Fully Responsive", text: "Websites that look great on desktop, tablet, and mobile." },
+              { icon: LockKeyhole, title: "Secure & Reliable", text: "Security-focused development with reliable maintenance." },
+              { icon: Palette, title: "Custom Design", text: "Unique experiences designed around your business." },
+              { icon: Users, title: "Scalable Development", text: "Websites built to grow with your business." },
+              { icon: Headphones, title: "Long-Term Support", text: "We're available even after your website goes live." },
+            ].map((item, index) => (
+              <motion.article
+                key={item.title}
+                {...reveal}
+                transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
+              >
+                <span><item.icon /></span><h3>{item.title}</h3><p>{item.text}</p>
+              </motion.article>
+            ))}
+          </div>
         </div>
       </section>
+
+      <motion.section
+        className="trust-bar"
+        id="trusted"
+        aria-label="Trusted by businesses worldwide"
+        initial={reduceMotion ? false : { opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="trust-row">
+          <p className="trust-label">TRUSTED BY BUSINESSES WORLDWIDE</p>
+          <div className="trust-marquee">
+            <div className="trust-track">
+              {[0, 1].map((copy) => (
+                <ul className="trust-logos" key={copy} aria-hidden={copy === 1}>
+                  {trustBrands.map((brand) => (
+                    <li key={`${copy}-${brand.name}`}>
+                      <span className={`trust-logo ${brand.className ?? ""}`}>
+                        {brand.icon}
+                        {brand.wordmark}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.section>
 
       <section className="portfolio section" id="portfolio">
         <div className="container">
           <Heading label="PORTFOLIO" title="Our Recent Work" />
           <div className="filters">
             {["All", "Business", "E-commerce", "Healthcare", "Real Estate", "Redesign"].map((item) => (
-              <button className={filter === item ? "active" : ""} type="button" key={item} onClick={() => setFilter(item)}>{item}</button>
+              <button
+                className={filter === item ? "active" : ""}
+                type="button"
+                key={item}
+                aria-pressed={filter === item}
+                onClick={() => setFilter(item)}
+              >
+                {item}
+              </button>
             ))}
           </div>
           <motion.div layout className="portfolio-grid">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project) => (
-                <motion.article layout key={project.title} className="project-card" initial={{ opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: .96 }}>
+                <motion.article
+                  layout
+                  key={project.title}
+                  className="project-card"
+                  initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
                   <div className="project-image"><Image src={project.image} alt={`${project.title} project`} fill sizes="(max-width: 720px) 100vw, 33vw" /></div>
                   <div className="project-content">
                     <h3>{project.title}</h3><p>{project.type}</p>
@@ -530,29 +784,25 @@ export function LandingPage() {
           <Heading light label="OUR PROCESS" title="From Idea to Launch" text="A simple, transparent process to bring your vision to life." />
           <div className="process-grid">
             {process.map((step, index) => (
-              <motion.article key={step.number} {...fadeUp} transition={{ delay: index * .06 }}>
-                <span className={index === 0 ? "active" : ""}><step.icon /></span>
+              <motion.article
+                key={step.number}
+                {...reveal}
+                transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
+                className={activeProcess === index ? "is-active" : ""}
+                role="button"
+                tabIndex={0}
+                aria-pressed={activeProcess === index}
+                aria-label={`Select ${step.title} process step`}
+                onClick={() => setActiveProcess(index)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActiveProcess(index);
+                  }
+                }}
+              >
+                <span className={activeProcess === index ? "active" : ""}><step.icon /></span>
                 <b>{step.number}</b><h3>{step.title}</h3><p>{step.text}</p>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="why section" id="about">
-        <div className="container">
-          <Heading label="WHY WPSERVICES" title="Built With Strategy. Developed With Precision." text="We combine creativity, technology, and strategy to deliver WordPress websites that drive real business results." />
-          <div className="why-grid">
-            {[
-              { icon: Zap, title: "Performance First", text: "Fast-loading websites optimized for a better user experience." },
-              { icon: MonitorSmartphone, title: "Fully Responsive", text: "Websites that look great on desktop, tablet, and mobile." },
-              { icon: LockKeyhole, title: "Secure & Reliable", text: "Security-focused development with reliable maintenance." },
-              { icon: Palette, title: "Custom Design", text: "Unique experiences designed around your business." },
-              { icon: Users, title: "Scalable Development", text: "Websites built to grow with your business." },
-              { icon: Headphones, title: "Long-Term Support", text: "We're available even after your website goes live." },
-            ].map((item) => (
-              <motion.article key={item.title} {...fadeUp}>
-                <span><item.icon /></span><h3>{item.title}</h3><p>{item.text}</p>
               </motion.article>
             ))}
           </div>
@@ -564,8 +814,12 @@ export function LandingPage() {
           <Heading label="TESTIMONIALS" title="What Our Clients Say" />
           <div className="testimonial-grid">
             {testimonials.map((review, index) => (
-              <motion.figure key={review.name} {...fadeUp} transition={{ delay: index * .07 }}>
-                <div className="review-head"><Image src={review.avatar} alt="" width={52} height={52} /><div><strong>{review.name}</strong><small>{review.role}</small></div></div>
+              <motion.figure
+                key={review.name}
+                {...reveal}
+                transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.07 }}
+              >
+                <div className="review-head"><Image src={review.avatar} alt={review.name} width={52} height={52} /><div><strong>{review.name}</strong><small>{review.role}</small></div></div>
                 <blockquote>&ldquo;{review.quote}&rdquo;</blockquote>
                 <div className="stars">★★★★★</div>
               </motion.figure>
@@ -580,7 +834,7 @@ export function LandingPage() {
           <motion.div
             className="pricing-grid"
             variants={pricingGridMotion}
-            initial="hidden"
+            initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, amount: 0.18 }}
           >
@@ -591,8 +845,7 @@ export function LandingPage() {
                 key={plan.name}
                 className={isSelected ? "featured" : ""}
                 variants={pricingCardMotion}
-                layout
-                whileHover={{ y: -8, transition: { duration: 0.22 } }}
+                whileHover={reduceMotion ? undefined : { y: -6, transition: { duration: 0.22 } }}
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSelected}
@@ -611,7 +864,7 @@ export function LandingPage() {
                   <small>{plan.audience}</small>
                 </div>
                 <strong>Custom <span>Quote</span></strong>
-                <ul>{plan.features.map((feature) => <li key={feature}><Check />{feature}</li>)}</ul>
+                <ul>{plan.features.map((feature) => <li key={feature}><span className="pricing-check"><Check /></span>{feature}</li>)}</ul>
                 <a className="button" href="#contact" aria-label={`Get started with the ${plan.name} plan`}>
                   Get Started <ArrowRight aria-hidden="true" />
                 </a>
@@ -627,14 +880,58 @@ export function LandingPage() {
           <Heading label="INSIGHTS" title="Practical WordPress Advice" text="Clear guidance to help you make smarter decisions about performance, security, SEO, and growth." />
           <div className="insights-grid">
             {insights.map((article, index) => (
-              <motion.article key={article.title} {...fadeUp} transition={{ delay: index * .06 }}>
-                <div className="insight-image"><Image src={article.image} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
-                <div><span>{article.category}</span><h3>{article.title}</h3><p>{article.text}</p><a href="#contact">Read article <ArrowRight /></a></div>
+              <motion.article
+                key={article.title}
+                {...reveal}
+                transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
+              >
+                <div className="insight-image"><Image src={article.image} alt={article.title} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
+                <div>
+                  <span>{article.category}</span>
+                  <h3>{article.title}</h3>
+                  <p>{article.text}</p>
+                  <button type="button" onClick={() => setArticle(article)} aria-label={`Read article: ${article.title}`}>
+                    Read article <ArrowRight />
+                  </button>
+                </div>
               </motion.article>
             ))}
           </div>
         </div>
       </section>
+
+      {article && (
+        <div
+          className="case-study-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setArticle(null);
+          }}
+        >
+          <article className="case-study-modal article-modal" role="dialog" aria-modal="true" aria-labelledby="article-title">
+            <button ref={articleCloseRef} className="case-study-close" type="button" onClick={() => setArticle(null)} aria-label="Close article">
+              <X aria-hidden="true" />
+            </button>
+            <div className="case-study-image">
+              <Image src={article.image} alt="" fill sizes="(max-width: 760px) 92vw, 720px" />
+            </div>
+            <small>{article.category}</small>
+            <h2 id="article-title">{article.title}</h2>
+            <p className="case-study-type">{article.text}</p>
+            {article.sections.map((section) => (
+              <div className="case-study-block" key={section.heading}>
+                <h3>{section.heading}</h3>
+                {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {section.items && (
+                  <ul className="article-points">
+                    {section.items.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                )}
+              </div>
+            ))}
+            <a className="button" href="#contact" onClick={() => setArticle(null)}>Talk to a WordPress specialist <ArrowRight /></a>
+          </article>
+        </div>
+      )}
 
       <section className="faq section" id="faq">
         <div className="container faq-layout">
@@ -670,18 +967,21 @@ export function LandingPage() {
 
       <section className="lead-section section" id="contact">
         <div className="container lead-layout">
-          <motion.div className="lead-copy" {...fadeUp}>
+          <motion.div className="lead-copy" {...reveal}>
             <span className="eyebrow">START YOUR PROJECT</span>
             <h2>Let&apos;s Build a WordPress Website That Grows Your Business</h2>
             <p>Share your goals, challenges, and ideal timeline. We&apos;ll reply with practical next steps—not a generic sales pitch.</p>
             <ul>
-              <li><Check /> Response within one business day</li>
-              <li><Check /> Clear scope and transparent pricing</li>
-              <li><Check /> No obligation or aggressive follow-up</li>
+              <li><span className="lead-check"><Check /></span> Response within one business day</li>
+              <li><span className="lead-check"><Check /></span> Clear scope and transparent pricing</li>
+              <li><span className="lead-check"><Check /></span> No obligation or aggressive follow-up</li>
             </ul>
-            <div className="lead-trust"><strong>150+</strong><span>websites launched</span><strong>98%</strong><span>client satisfaction</span></div>
+            <div className="lead-trust">
+              <div><strong>150+</strong><span>websites launched</span></div>
+              <div><strong>98%</strong><span>client satisfaction</span></div>
+            </div>
           </motion.div>
-          <motion.form className="lead-form" onSubmit={submitLead} {...fadeUp}>
+          <motion.form className="lead-form" onSubmit={submitLead} {...reveal}>
             <div className="lead-form-row">
               <label>Full name<input name="name" required minLength={2} autoComplete="name" placeholder="Alex Morgan" /></label>
               <label>Work email<input name="email" required type="email" autoComplete="email" placeholder="alex@company.com" /></label>
@@ -721,7 +1021,13 @@ export function LandingPage() {
       <section className="newsletter" id="newsletter">
         <div className="container newsletter-inner">
           <div><span>Stay Updated with WordPress Tips</span><p>Join our newsletter and get the latest tips, guides, and WordPress insights.</p></div>
-          <form onSubmit={(event) => event.preventDefault()}><input type="email" required aria-label="Email address" placeholder="Enter your email address" /><button type="submit">Subscribe <Send /></button></form>
+          <form onSubmit={(event) => event.preventDefault()}>
+            <label className="newsletter-field">
+              <span className="sr-only">Email address</span>
+              <input type="email" required autoComplete="email" placeholder="Enter your email address" />
+            </label>
+            <button type="submit">Subscribe <Send /></button>
+          </form>
         </div>
       </section>
 
