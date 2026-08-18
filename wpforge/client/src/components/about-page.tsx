@@ -7,7 +7,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Bot,
-  Check,
   FileCode2,
   Gauge,
   GraduationCap,
@@ -34,15 +33,10 @@ function pointerGlow(reduceMotion: boolean | null) {
   };
 }
 
-const story = [
-  "Build new WordPress websites",
-  "Redesign outdated websites",
-  "Customize WordPress solutions",
-  "Develop WooCommerce stores",
-  "Build LearnDash platforms",
-  "Improve website performance",
-  "Automate workflows",
-  "Maintain and scale websites",
+const whoHighlights = [
+  { n: "01", title: "Expertise", text: "Deep WordPress & digital expertise" },
+  { n: "02", title: "Performance", text: "Built for speed, scalability & growth" },
+  { n: "03", title: "Partnership", text: "Focused on long-term success" },
 ];
 
 const expertise = [
@@ -113,17 +107,68 @@ export function AboutPage() {
       </section>
 
       <section className="section about-story">
-        <div className="container about-story-grid">
-          <motion.div {...reveal}>
+        <div className="container about-who">
+          <motion.div
+            className="about-who-visual"
+            aria-hidden="true"
+            initial={reduceMotion ? false : { opacity: 0, x: -28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="about-who-glow" />
+            <article className="about-who-screen about-who-screen--back">
+              <span /><span /><span />
+            </article>
+            <article className="about-who-screen about-who-screen--main">
+              <div className="about-who-chrome">
+                <i /><i /><i />
+                <em>wpservices.com</em>
+              </div>
+              <div className="about-who-page">
+                <div className="about-who-nav">
+                  <b>Studio</b>
+                  <span /><span />
+                </div>
+                <div className="about-who-hero-block">
+                  <small>WORDPRESS EXPERIENCE</small>
+                  <strong>Built to convert.</strong>
+                </div>
+                <div className="about-who-cards">
+                  <span /><span /><span />
+                </div>
+              </div>
+            </article>
+            <aside className="about-who-metric">
+              <strong>150+</strong>
+              <span>Websites launched</span>
+            </aside>
+            <span className="about-who-chip about-who-chip--one">WORDPRESS</span>
+            <span className="about-who-chip about-who-chip--two">UI/UX</span>
+            <span className="about-who-chip about-who-chip--three">DEVELOPMENT</span>
+          </motion.div>
+
+          <div className="about-who-copy">
             <span className="eyebrow">WHO WE ARE</span>
-            <h2>Built for Better Digital Experiences.</h2>
-          </motion.div>
-          <motion.div {...reveal}>
-            <p>We work with businesses that need WordPress to do more than look finished. That means new sites, careful redesigns, custom builds, commerce, learning platforms, performance, automation, and the care that keeps everything moving after launch.</p>
-            <ul className="svc-points about-story-points">
-              {story.map((item) => <li key={item}><Check />{item}</li>)}
-            </ul>
-          </motion.div>
+            <motion.h2 {...reveal}>Building Digital Experiences That <em>Work as Hard as Your Business.</em></motion.h2>
+            <motion.p {...reveal}>We are a WordPress development and digital agency focused on creating high-performing, scalable, and conversion-focused digital experiences. From custom websites and WooCommerce stores to redesigns, optimization, and automation, we help businesses turn ideas into powerful digital solutions.</motion.p>
+            <motion.p {...reveal}>Our approach combines thoughtful design, clean development, and business-focused strategy to create experiences that are not only visually impressive but built to perform.</motion.p>
+            <div className="about-who-highlights">
+              {whoHighlights.map((item, index) => (
+                <motion.article
+                  className="about-who-highlight glow-card"
+                  key={item.n}
+                  {...reveal}
+                  {...pointerGlow(reduceMotion)}
+                  transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: 0.08 + index * 0.08 }}
+                >
+                  <b>{item.n}</b>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </motion.article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -184,19 +229,21 @@ export function AboutPage() {
             <span>OUR APPROACH</span>
             <h2>A clear path from brief to better.</h2>
           </motion.div>
-          <ol className="svc-timeline about-timeline">
-            {approach.map((step, index) => (
-              <motion.li
-                key={step.n}
-                {...reveal}
-                transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
-              >
-                <b>{step.n}</b>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </motion.li>
-            ))}
-          </ol>
+          <div className="about-timeline-wrap">
+            <ol className="about-timeline">
+              {approach.map((step, index) => (
+                <motion.li
+                  key={step.n}
+                  {...reveal}
+                  transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
+                >
+                  <b>{step.n}</b>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
