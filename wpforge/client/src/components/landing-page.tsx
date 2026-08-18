@@ -365,11 +365,10 @@ const pricingCardMotion = {
   },
 };
 
-function Logo({ light = false, detailed = false, onClick }: { light?: boolean; detailed?: boolean; onClick?: () => void }) {
+function Logo({ onClick }: { onClick?: () => void }) {
   return (
-    <a className={`logo ${light ? "logo--light" : ""} ${detailed ? "logo--detailed" : ""}`} href="#home" aria-label="WPServices home" onClick={onClick}>
-      <span>{detailed ? <b>W</b> : <Code2 />}</span>
-      <span className="logo-copy"><strong>WPServices</strong>{detailed && <small>WordPress Solutions</small>}</span>
+    <a className="logo" href="#home" aria-label="WP Services home" onClick={onClick}>
+      <Image src="/logo.png" alt="WP Services" width={300} height={95} priority />
     </a>
   );
 }
@@ -389,6 +388,7 @@ function SitePreview() {
   return (
     <div className="hero-visual" role="img" aria-label="Premium WordPress website displayed on a laptop">
       <div className="hero-visual-shape" />
+      <div className="hero-dots" aria-hidden="true" />
       <div className="hero-laptop">
         <div className="hero-laptop-screen">
           <div className="mock-nav">
@@ -559,7 +559,7 @@ export function LandingPage() {
       <a className="skip-link" href="#home">Skip to content</a>
       <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
         <div className="container nav-shell">
-          <Logo detailed onClick={() => { setMenuOpen(false); setServicesMenuOpen(false); }} />
+          <Logo onClick={() => { setMenuOpen(false); setServicesMenuOpen(false); }} />
           <nav className={`nav ${menuOpen ? "nav--open" : ""}`} aria-label="Primary navigation">
             {nav.map((item) => item === "Services" ? (
               <div className="nav-services" ref={servicesMenuRef} key={item}>
@@ -1035,7 +1035,7 @@ export function LandingPage() {
         <div className="container footer-inner">
           <div className="footer-top">
             <div className="footer-brand">
-              <Logo detailed />
+              <Logo />
               <p>WPServices is a WordPress development studio focused on custom themes, WooCommerce, plugins, migrations, and ongoing care for teams that need reliable delivery.</p>
               <p className="footer-note">Remote-first delivery across multiple time zones.</p>
               <a className="footer-email" href="mailto:info@technologiallc.com"><Mail aria-hidden="true" /> info@technologiallc.com</a>
