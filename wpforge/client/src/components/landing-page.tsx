@@ -1,85 +1,40 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
-  Blocks,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   CircleGauge,
   Code2,
   Compass,
-  FileCode2,
-  Gauge,
-  Globe2,
   Headphones,
   Layers3,
   LockKeyhole,
-  Mail,
-  Menu,
   MonitorSmartphone,
   Palette,
   PenTool,
-  Search,
+  Quote,
   Send,
   ShieldCheck,
-  ShoppingCart,
   Sparkles,
+  Star,
   Users,
-  Wrench,
   X,
   Zap,
 } from "lucide-react";
-
-const services = [
-  { icon: FileCode2, title: "WordPress Development", text: "Custom WordPress websites designed around your business goals.", color: "blue" },
-  { icon: ShoppingCart, title: "WooCommerce Development", text: "Powerful, scalable online stores built with WooCommerce.", color: "violet" },
-  { icon: Blocks, title: "Custom WordPress Development", text: "Custom functionality, integrations, plugins, and features.", color: "cyan" },
-  { icon: Palette, title: "WordPress Redesign", text: "Transform an outdated website into a modern digital experience.", color: "indigo" },
-  { icon: Gauge, title: "Speed Optimization", text: "Improve performance, loading times, and Core Web Vitals.", color: "sky" },
-  { icon: Wrench, title: "WordPress Maintenance", text: "Updates, backups, security monitoring, fixes, and ongoing support.", color: "purple" },
-  { icon: ShieldCheck, title: "WordPress Security", text: "Protect your website against vulnerabilities, malware, and attacks.", color: "blue" },
-  { icon: Search, title: "SEO-Friendly Development", text: "Build websites with clean structure and strong technical SEO.", color: "cyan" },
-  { icon: Globe2, title: "WordPress Migration", text: "Move your website safely between hosts or platforms with zero downtime.", color: "sky" },
-  { icon: Headphones, title: "Ongoing Support", text: "Reliable expert help, proactive improvements, and priority troubleshooting.", color: "purple" },
-];
-
-const serviceMenuColumns = [
-  {
-    title: "BUILD — CREATION & FOUNDATION",
-    groups: [
-      { label: "SETUP", items: ["Custom Websites", "WordPress Setup", "WooCommerce Setup", "LearnDash Setup", "WooCommerce Development", "LearnDash Development"] },
-      { label: "CUSTOMIZE", items: ["WordPress Customization", "WooCommerce Customization", "LearnDash Customization", "Plugin Development"] },
-      { label: "MIGRATE", items: ["Migrate to WordPress", "Migrate to WooCommerce", "Migrate to LearnDash"], newItems: ["Migrate to WordPress"] },
-    ],
-  },
-  {
-    title: "MANAGE — MAINTENANCE & OPERATIONS",
-    groups: [
-      { label: "MAINTAIN", items: ["WordPress Maintenance"] },
-      { label: "RETAINERS", items: ["Website Management", "Hire WordPress Developers", "Hire WooCommerce Developers", "Hire LearnDash Developers"] },
-    ],
-  },
-  {
-    title: "ENHANCE — GROWTH & OPTIMIZATION",
-    groups: [
-      { label: "REDESIGN", items: ["WordPress Re-design", "Landing Page Redesign"], newItems: ["WordPress Re-design"] },
-      { label: "SPEED", items: ["WordPress Speed Optimization", "WooCommerce Speed Optimization"] },
-      { label: "INTEGRATE", items: ["WordPress API Development"] },
-      { label: "AUTOMATE", items: ["WordPress AI Automation"], newItems: ["WordPress AI Automation"] },
-      { label: "SEO", items: ["WordPress SEO Services"] },
-    ],
-  },
-];
+import { getAllServiceTitles } from "@/data/services";
 
 const projects = [
   {
     title: "E-Commerce Store",
     type: "Fashion & Retail",
     category: "E-commerce",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=85",
     tags: ["WooCommerce", "Performance"],
     keywords: ["fashion WooCommerce theme", "minimal clothing store WordPress", "product-first ecommerce"],
     theme: "A clean WooCommerce fashion theme with large product imagery and a short checkout path.",
@@ -91,7 +46,7 @@ const projects = [
     title: "Business Website",
     type: "Consulting",
     category: "Business",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=85",
     tags: ["WordPress", "Redesign"],
     keywords: ["consulting WordPress theme", "professional services agency", "clean corporate landing"],
     theme: "A professional consulting theme with a strong hero, service cards, and a lead-focused contact path.",
@@ -103,7 +58,7 @@ const projects = [
     title: "Corporate Website",
     type: "Technology",
     category: "Business",
-    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=85",
     tags: ["Custom Development", "SEO"],
     keywords: ["tech company WordPress theme", "SaaS corporate website", "enterprise clean layout"],
     theme: "A modern technology theme with structured service sections, case-study modules, and technical SEO foundations.",
@@ -115,7 +70,7 @@ const projects = [
     title: "Real Estate Website",
     type: "Real Estate",
     category: "Real Estate",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85",
     tags: ["Property Listing", "Custom Search"],
     keywords: ["real estate listing WordPress", "property search theme", "modern realtor website"],
     theme: "A listing-focused real estate theme with property cards, filters, and inquiry forms.",
@@ -127,7 +82,7 @@ const projects = [
     title: "Healthcare Website",
     type: "Healthcare",
     category: "Healthcare",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=85",
     tags: ["Appointments", "Optimization"],
     keywords: ["medical clinic WordPress theme", "appointment booking healthcare", "trust-focused medical site"],
     theme: "A calm healthcare theme with clear service pages, doctor profiles, and appointment calls to action.",
@@ -139,7 +94,7 @@ const projects = [
     title: "Restaurant Website",
     type: "Food & Beverage",
     category: "Redesign",
-    image: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1600&q=85",
     tags: ["Reservations", "Custom Design"],
     keywords: ["restaurant reservation WordPress", "food menu theme", "hospitality website redesign"],
     theme: "A hospitality theme with a visual menu, reservation block, and mobile-first dining story.",
@@ -159,9 +114,9 @@ const process = [
 ];
 
 const testimonials = [
-  { name: "James Carter", role: "CEO, Northstar", quote: "The team completely transformed our website. The new design looks stunning and has increased our lead quality.", avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=120&q=85" },
-  { name: "Sarah Mitchell", role: "Marketing Director, Brightland", quote: "Professional, responsive, and highly skilled. WPServices delivered exactly what we needed, ahead of schedule.", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=85" },
-  { name: "David Lee", role: "Founder, ShopBlend", quote: "Our new WooCommerce store runs incredibly fast and is finally easy to manage. Sales improved from week one.", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=85" },
+  { name: "James Carter", role: "CEO, Northstar", quote: "The team completely transformed our website. The new design looks stunning and has increased our lead quality.", avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1600&q=85" },
+  { name: "Sarah Mitchell", role: "Marketing Director, Brightland", quote: "Professional, responsive, and highly skilled. WPServices delivered exactly what we needed, ahead of schedule.", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1600&q=85" },
+  { name: "David Lee", role: "Founder, ShopBlend", quote: "Our new WooCommerce store runs incredibly fast and is finally easy to manage. Sales improved from week one.", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1600&q=85" },
 ];
 
 const pricing = [
@@ -365,18 +320,61 @@ const pricingCardMotion = {
   },
 };
 
-function Logo({ onClick }: { onClick?: () => void }) {
-  return (
-    <a className="logo" href="#home" aria-label="WP Services home" onClick={onClick}>
-      <Image src="/logo.png" alt="WP Services" width={300} height={95} priority />
-    </a>
-  );
+function pointerGlow(reduceMotion: boolean | null) {
+  if (reduceMotion) return {};
+  return {
+    onMouseMove: (event: MouseEvent<HTMLElement>) => {
+      const el = event.currentTarget;
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+      el.style.setProperty("--my", `${event.clientY - rect.top}px`);
+    },
+  };
 }
 
-function Heading({ label, title, text, light = false }: { label: string; title: string; text?: string; light?: boolean }) {
+function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    if (reduceMotion) {
+      node.textContent = `${value}${suffix}`;
+      return;
+    }
+
+    let frame = 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const tick = (now: number) => {
+          const progress = Math.min(1, (now - start) / 1400);
+          const eased = 1 - (1 - progress) ** 3;
+          node.textContent = `${Math.round(value * eased)}${suffix}`;
+          if (progress < 1) frame = requestAnimationFrame(tick);
+        };
+        frame = requestAnimationFrame(tick);
+      },
+      { threshold: 0.4 },
+    );
+
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [value, suffix, reduceMotion]);
+
+  return <span ref={ref}>0{suffix}</span>;
+}
+
+function Heading({ label, title, text, light = false, align = "center" }: { label: string; title: string; text?: string; light?: boolean; align?: "center" | "left" }) {
   const reduceMotion = useReducedMotion();
   return (
-    <motion.div className={`section-heading ${light ? "section-heading--light" : ""}`} {...(reduceMotion ? { initial: false } : fadeUp)}>
+    <motion.div className={`section-heading ${light ? "section-heading--light" : ""} ${align === "left" ? "section-heading--left" : ""}`} {...(reduceMotion ? { initial: false } : fadeUp)}>
       <span>{label}</span>
       <h2>{title}</h2>
       {text && <p>{text}</p>}
@@ -386,46 +384,56 @@ function Heading({ label, title, text, light = false }: { label: string; title: 
 
 function SitePreview() {
   return (
-    <div className="hero-visual" role="img" aria-label="Premium WordPress website displayed on a laptop">
-      <div className="hero-visual-shape" />
-      <div className="hero-dots" aria-hidden="true" />
-      <div className="hero-laptop">
-        <div className="hero-laptop-screen">
-          <div className="mock-nav">
-            <strong>MODERN STUDIO</strong>
-            <span>Home &nbsp; About &nbsp; Services &nbsp; Work &nbsp; Contact</span>
+    <div className="hero-visual" role="img" aria-label="Premium WordPress website in a browser window">
+      <div className="hero-visual-glow" aria-hidden="true" />
+      <div className="hero-browser">
+        <div className="hero-browser-bar" aria-hidden="true">
+          <span className="hero-browser-dots"><i /><i /><i /></span>
+          <span className="hero-browser-url">northstudio.com</span>
+        </div>
+        <div className="hero-browser-page">
+          <div className="preview-nav">
+            <b>NORTH STUDIO</b>
+            <span>Work &nbsp; Services &nbsp; Studio</span>
+            <i>Get Started</i>
           </div>
-          <div className="mock-site">
-            <div className="mock-site-copy">
-              <span>DIGITAL EXPERIENCES</span>
-              <strong>We create digital<br />experiences that<br />drive real results.</strong>
-              <i>View Our Work</i>
-            </div>
-            <div className="mock-site-image">
-              <Image
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85"
-                alt=""
-                fill
-                sizes="(max-width: 780px) 88vw, 44vw"
-              />
+          <div className="preview-stage">
+            <Image
+              src="/hero-preview.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 780px) 92vw, 55vw"
+              priority
+            />
+            <div className="preview-copy">
+              <small>WORDPRESS EXPERIENCE</small>
+              <strong>A website built to convert.</strong>
+              <em>View Our Work</em>
             </div>
           </div>
-          <div className="mock-features">
-            <span><b>Strategy</b><small>Smart strategy that brings clarity.</small></span>
-            <span><b>Design</b><small>Clean design that converts.</small></span>
-            <span><b>Development</b><small>Powerful development that performs.</small></span>
-            <span><b>Support</b><small>Ongoing support you can count on.</small></span>
+          <div className="preview-strip" aria-hidden="true">
+            <span>Strategy</span>
+            <span>Design</span>
+            <span>Launch</span>
           </div>
         </div>
-        <div className="hero-laptop-base" />
+      </div>
+      <div className="hero-phone" aria-hidden="true">
+        <span className="hero-phone-notch" />
+        <div className="hero-phone-screen">
+          <Image
+            src="/hero-preview.jpg"
+            alt=""
+            fill
+            sizes="140px"
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 export function LandingPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [filter, setFilter] = useState("All");
   const [openFaq, setOpenFaq] = useState(0);
   const [leadStatus, setLeadStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -433,61 +441,20 @@ export function LandingPage() {
   const [startedAt, setStartedAt] = useState(() => Date.now());
   const [selectedPlan, setSelectedPlan] = useState("Business");
   const [activeProcess, setActiveProcess] = useState(0);
-  const [activeSection, setActiveSection] = useState("home");
-  const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
   const [caseStudy, setCaseStudy] = useState<(typeof projects)[number] | null>(null);
   const [article, setArticle] = useState<(typeof insights)[number] | null>(null);
-  const servicesMenuRef = useRef<HTMLDivElement>(null);
+  const [activeReview, setActiveReview] = useState(0);
   const caseStudyCloseRef = useRef<HTMLButtonElement>(null);
   const articleCloseRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
   const reveal = reduceMotion ? { initial: false as const } : fadeUp;
 
   useEffect(() => {
-    const sections = ["home", "about", "portfolio", "insights", "contact"];
-    const onScroll = () => {
-      setScrolled(window.scrollY > 16);
-      let current = "home";
-      for (const id of sections) {
-        const section = document.getElementById(id);
-        if (section && section.getBoundingClientRect().top <= 120) current = id;
-      }
-      setActiveSection(current);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth > 780) setMenuOpen(false);
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen || caseStudy || article ? "hidden" : "";
+    document.body.style.overflow = caseStudy || article ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuOpen, caseStudy, article]);
-
-  useEffect(() => {
-    const closeOnOutsideClick = (event: PointerEvent) => {
-      if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target as Node)) setServicesMenuOpen(false);
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setServicesMenuOpen(false);
-    };
-    document.addEventListener("pointerdown", closeOnOutsideClick);
-    window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.removeEventListener("pointerdown", closeOnOutsideClick);
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, []);
+  }, [caseStudy, article]);
 
   useEffect(() => {
     if (!article) return;
@@ -551,89 +518,42 @@ export function LandingPage() {
     }
   }
 
-  const nav = ["Home", "Services", "Portfolio", "About", "Blog", "Contact"];
-  const navTarget = (item: string) => item === "Blog" ? "insights" : item.toLowerCase();
-
   return (
     <main>
-      <a className="skip-link" href="#home">Skip to content</a>
-      <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
-        <div className="container nav-shell">
-          <Logo onClick={() => { setMenuOpen(false); setServicesMenuOpen(false); }} />
-          <nav className={`nav ${menuOpen ? "nav--open" : ""}`} aria-label="Primary navigation">
-            {nav.map((item) => item === "Services" ? (
-              <div className="nav-services" ref={servicesMenuRef} key={item}>
-                <button
-                  className="nav-service-trigger"
-                  type="button"
-                  aria-expanded={servicesMenuOpen}
-                  aria-controls="services-mega-menu"
-                  onClick={() => setServicesMenuOpen((open) => !open)}
-                >
-                  Services <ChevronDown aria-hidden="true" />
-                </button>
-                <div
-                  className={`service-mega-menu ${servicesMenuOpen ? "service-mega-menu--open" : ""}`}
-                  id="services-mega-menu"
-                  aria-hidden={!servicesMenuOpen}
-                >
-                  {serviceMenuColumns.map((column) => (
-                    <div className="service-menu-column" key={column.title}>
-                      <h2>{column.title}</h2>
-                      {column.groups.map((group) => (
-                        <div className="service-menu-group" key={group.label}>
-                          <h3>{group.label}</h3>
-                          {group.items.map((service) => (
-                            <a href="#contact" key={service} onClick={() => {
-                              setServicesMenuOpen(false);
-                              setMenuOpen(false);
-                            }}>
-                              {service}
-                              {group.newItems?.includes(service) && <small>NEW</small>}
-                            </a>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <a
-                key={item}
-                href={`#${navTarget(item)}`}
-                className={activeSection === navTarget(item) ? "nav-link--active" : undefined}
-                aria-current={activeSection === navTarget(item) ? "page" : undefined}
-                onClick={() => {
-                  setMenuOpen(false);
-                  setServicesMenuOpen(false);
-                }}
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
-          <a className="button button--small header-cta" href="#contact">Get a Free Quote</a>
-          <button className="menu-button" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
-            {menuOpen ? <X /> : <Menu />}
-          </button>
+      <section
+        className="hero"
+        id="home"
+        onMouseMove={(event) => {
+          if (reduceMotion) return;
+          const rect = event.currentTarget.getBoundingClientRect();
+          event.currentTarget.style.setProperty("--hero-x", ((event.clientX - rect.left) / rect.width).toFixed(4));
+          event.currentTarget.style.setProperty("--hero-y", ((event.clientY - rect.top) / rect.height).toFixed(4));
+        }}
+      >
+        <div className="hero-bg" aria-hidden="true">
+          <span className="hero-grid" />
+          <span className="hero-orb hero-orb--one" />
+          <span className="hero-orb hero-orb--two" />
+          <span className="hero-spot" />
         </div>
-      </header>
-
-      <section className="hero" id="home">
         <div className="container hero-layout">
           <div className="hero-copy">
             <span className="eyebrow">WORDPRESS DEVELOPMENT AGENCY</span>
-            <h1><span>We Build WordPress</span><span>Websites That Help</span><em>You Grow Your Business.</em></h1>
+            <h1><span>We Build WordPress</span><span>Websites That Help</span><em>Your Business Grow.</em></h1>
             <p>Fast, secure and high-performing WordPress websites designed to rank higher and convert better.</p>
             <div className="hero-actions">
               <a className="button" href="#contact">Get a Free Quote <ArrowRight /></a>
               <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
             </div>
+            <div className="hero-trust">
+              <div><b>150+</b><span>Websites Launched</span></div>
+              <div><b>98%</b><span>Client Satisfaction</span></div>
+              <div><b>4–8</b><span>Week Timeline</span></div>
+            </div>
             <div className="hero-benefits">
-              <div><Zap /><span><strong>Blazing Fast</strong><small>Speed Optimized</small></span></div>
-              <div><ShieldCheck /><span><strong>Secure &amp; Reliable</strong><small>Built with Security</small></span></div>
-              <div><Headphones /><span><strong>24/7 Support</strong><small>We&apos;re Here Anytime</small></span></div>
+              <div><Zap /><strong>Fast &amp; Optimized</strong></div>
+              <div><ShieldCheck /><strong>Secure &amp; Reliable</strong></div>
+              <div><Headphones /><strong>24/7 Support</strong></div>
             </div>
           </div>
           <div className="hero-preview">
@@ -643,25 +563,61 @@ export function LandingPage() {
       </section>
 
       <section className="why section" id="about">
+        <div className="container why-layout">
+          <div className="why-copy">
+            <Heading align="left" label="ABOUT" title="Built With Strategy. Developed With Precision." text="We combine creativity, technology, and strategy to deliver WordPress websites that drive real business results." />
+            <div className="why-bento">
+              {[
+                { icon: Zap, title: "Performance First", text: "Fast-loading websites optimized for a better user experience." },
+                { icon: MonitorSmartphone, title: "Fully Responsive", text: "Websites that look great on desktop, tablet, and mobile." },
+                { icon: LockKeyhole, title: "Secure & Reliable", text: "Security-focused development with reliable maintenance." },
+                { icon: Palette, title: "Custom Design", text: "Unique experiences designed around your business." },
+                { icon: Users, title: "Scalable Development", text: "Websites built to grow with your business." },
+                { icon: Headphones, title: "Long-Term Support", text: "We're available even after your website goes live." },
+              ].map((item, index) => (
+                <motion.article
+                  key={item.title}
+                  className="why-card glow-card"
+                  {...reveal}
+                  {...pointerGlow(reduceMotion)}
+                  whileHover={reduceMotion ? undefined : { y: -5, transition: { duration: 0.22 } }}
+                  transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.05 }}
+                >
+                  <span><item.icon /></span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+          <motion.aside className="why-visual" {...reveal} aria-label="WPServices studio">
+            <Image
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=85"
+              alt="WPServices team collaborating on a WordPress project"
+              fill
+              sizes="(max-width: 780px) 100vw, 42vw"
+            />
+            <div className="why-visual-shade" />
+            <div className="why-visual-panel">
+              <p>Remote-first delivery across multiple time zones.</p>
+              <div className="why-visual-stats">
+                <div><strong>150+</strong><span>Websites launched</span></div>
+                <div><strong>98%</strong><span>Client satisfaction</span></div>
+              </div>
+            </div>
+          </motion.aside>
+        </div>
+      </section>
+
+      <section className="stats-strip" aria-label="Studio results">
         <div className="container">
-          <Heading label="ABOUT" title="Built With Strategy. Developed With Precision." text="We combine creativity, technology, and strategy to deliver WordPress websites that drive real business results." />
-          <div className="why-grid">
-            {[
-              { icon: Zap, title: "Performance First", text: "Fast-loading websites optimized for a better user experience." },
-              { icon: MonitorSmartphone, title: "Fully Responsive", text: "Websites that look great on desktop, tablet, and mobile." },
-              { icon: LockKeyhole, title: "Secure & Reliable", text: "Security-focused development with reliable maintenance." },
-              { icon: Palette, title: "Custom Design", text: "Unique experiences designed around your business." },
-              { icon: Users, title: "Scalable Development", text: "Websites built to grow with your business." },
-              { icon: Headphones, title: "Long-Term Support", text: "We're available even after your website goes live." },
-            ].map((item, index) => (
-              <motion.article
-                key={item.title}
-                {...reveal}
-                transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
-              >
-                <span><item.icon /></span><h3>{item.title}</h3><p>{item.text}</p>
-              </motion.article>
-            ))}
+          <div className="stats-grid">
+            <article aria-label="150 plus websites launched"><strong><CountUp value={150} suffix="+" /></strong><span>Websites launched</span></article>
+            <article aria-label="98 percent client satisfaction"><strong><CountUp value={98} suffix="%" /></strong><span>Client satisfaction</span></article>
+            <article aria-label="Typical project timeline of 4 to 8 weeks"><strong>4–8</strong><span>Week typical timeline</span></article>
+            <article aria-label="Three global offices"><strong>3</strong><span>Global offices</span></article>
           </div>
         </div>
       </section>
@@ -719,18 +675,24 @@ export function LandingPage() {
                   layout
                   key={project.title}
                   className="project-card"
-                  initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className="project-image"><Image src={project.image} alt={`${project.title} project`} fill sizes="(max-width: 720px) 100vw, 33vw" /></div>
-                  <div className="project-content">
-                    <h3>{project.title}</h3><p>{project.type}</p>
-                    <ul>{project.tags.map((tag) => <li key={tag}><Check />{tag}</li>)}</ul>
-                    <button type="button" onClick={() => setCaseStudy(project)} aria-label={`View case study for ${project.title}`}>
-                      View Case Study <ArrowRight />
-                    </button>
+                  <div className="project-image">
+                    <Image src={project.image} alt={`${project.title} project`} fill sizes="(max-width: 720px) 100vw, 66vw" />
+                  </div>
+                  <span className="project-cat">{project.category}</span>
+                  <div className="project-reveal">
+                    <p>{project.type}</p>
+                    <h3>{project.title}</h3>
+                    <div className="project-extra">
+                      <ul>{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+                      <button type="button" onClick={() => setCaseStudy(project)} aria-label={`View case study for ${project.title}`}>
+                        View Case Study <ArrowRight />
+                      </button>
+                    </div>
                   </div>
                 </motion.article>
               ))}
@@ -786,9 +748,11 @@ export function LandingPage() {
             {process.map((step, index) => (
               <motion.article
                 key={step.number}
+                className={`glow-card ${activeProcess === index ? "is-active" : ""}`}
                 {...reveal}
+                {...pointerGlow(reduceMotion)}
+                whileHover={reduceMotion ? undefined : { y: -5, transition: { duration: 0.22 } }}
                 transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
-                className={activeProcess === index ? "is-active" : ""}
                 role="button"
                 tabIndex={0}
                 aria-pressed={activeProcess === index}
@@ -812,19 +776,65 @@ export function LandingPage() {
       <section className="testimonials section">
         <div className="container">
           <Heading label="TESTIMONIALS" title="What Our Clients Say" />
-          <div className="testimonial-grid">
-            {testimonials.map((review, index) => (
-              <motion.figure
-                key={review.name}
-                {...reveal}
-                transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.07 }}
-              >
-                <div className="review-head"><Image src={review.avatar} alt={review.name} width={52} height={52} /><div><strong>{review.name}</strong><small>{review.role}</small></div></div>
-                <blockquote>&ldquo;{review.quote}&rdquo;</blockquote>
-                <div className="stars">★★★★★</div>
-              </motion.figure>
-            ))}
-          </div>
+          <motion.div className="testimonial-board" {...reveal}>
+            <div className="testimonial-portrait">
+              {testimonials.map((review, index) => (
+                <div
+                  key={review.name}
+                  className={`testimonial-portrait-frame ${index === activeReview ? "is-active" : ""}`}
+                  aria-hidden={index !== activeReview}
+                >
+                  <Image src={review.avatar} alt={review.name} fill sizes="(max-width: 780px) 100vw, 38vw" />
+                </div>
+              ))}
+            </div>
+            <figure className="testimonial-quote">
+              <Quote className="quote-mark" aria-hidden="true" />
+              <div className="stars" aria-label="5 out of 5 stars">{Array.from({ length: 5 }).map((_, star) => <Star key={star} fill="currentColor" />)}</div>
+              <blockquote key={testimonials[activeReview].name} className="testimonial-copy">
+                &ldquo;{testimonials[activeReview].quote}&rdquo;
+              </blockquote>
+              <figcaption>
+                <strong>{testimonials[activeReview].name}</strong>
+                <small>{testimonials[activeReview].role}</small>
+              </figcaption>
+              <div className="testimonial-controls">
+                <button type="button" aria-label="Previous testimonial" onClick={() => setActiveReview((current) => (current - 1 + testimonials.length) % testimonials.length)}>
+                  <ChevronLeft />
+                </button>
+                <div className="testimonial-dots" role="tablist" aria-label="Choose a testimonial">
+                  {testimonials.map((review, index) => (
+                    <button
+                      type="button"
+                      key={review.name}
+                      className={index === activeReview ? "is-active" : ""}
+                      aria-label={`Show review from ${review.name}`}
+                      aria-pressed={index === activeReview}
+                      onClick={() => setActiveReview(index)}
+                    />
+                  ))}
+                </div>
+                <button type="button" aria-label="Next testimonial" onClick={() => setActiveReview((current) => (current + 1) % testimonials.length)}>
+                  <ChevronRight />
+                </button>
+              </div>
+              <div className="testimonial-people">
+                {testimonials.map((review, index) => (
+                  <button
+                    type="button"
+                    key={review.name}
+                    className={index === activeReview ? "is-active" : ""}
+                    aria-label={`Show review from ${review.name}`}
+                    aria-pressed={index === activeReview}
+                    onClick={() => setActiveReview(index)}
+                  >
+                    <Image src={review.avatar} alt="" width={48} height={48} />
+                    <span>{review.name.split(" ")[0]}</span>
+                  </button>
+                ))}
+              </div>
+            </figure>
+          </motion.div>
         </div>
       </section>
 
@@ -843,9 +853,9 @@ export function LandingPage() {
               return (
               <motion.article
                 key={plan.name}
-                className={isSelected ? "featured" : ""}
+                className={`glow-card ${isSelected ? "featured" : ""}`}
                 variants={pricingCardMotion}
-                whileHover={reduceMotion ? undefined : { y: -6, transition: { duration: 0.22 } }}
+                {...pointerGlow(reduceMotion)}
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSelected}
@@ -875,22 +885,39 @@ export function LandingPage() {
         </div>
       </section>
 
+      <section className="cta-band">
+        <div className="container cta-band-inner">
+          <div>
+            <span className="eyebrow">START YOUR PROJECT</span>
+            <h2>Let&apos;s Build a WordPress Website That Grows Your Business</h2>
+            <p>Share your goals, challenges, and ideal timeline. We&apos;ll reply with practical next steps—not a generic sales pitch.</p>
+          </div>
+          <div className="cta-band-actions">
+            <a className="button" href="#contact">Get a Free Quote <ArrowRight /></a>
+            <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
+          </div>
+        </div>
+      </section>
+
       <section className="insights section" id="insights">
         <div className="container">
           <Heading label="INSIGHTS" title="Practical WordPress Advice" text="Clear guidance to help you make smarter decisions about performance, security, SEO, and growth." />
-          <div className="insights-grid">
-            {insights.map((article, index) => (
+          <div className="insights-stage">
+            {insights.map((articleItem, index) => (
               <motion.article
-                key={article.title}
+                key={articleItem.title}
+                className={`insight-card glow-card ${index === 0 ? "insight-card--featured" : ""}`}
                 {...reveal}
+                {...pointerGlow(reduceMotion)}
+                whileHover={reduceMotion ? undefined : { y: -6, transition: { duration: 0.22 } }}
                 transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
               >
-                <div className="insight-image"><Image src={article.image} alt={article.title} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
+                <div className="insight-image"><Image src={articleItem.image} alt={articleItem.title} fill sizes="(max-width: 760px) 100vw, 50vw" /></div>
                 <div>
-                  <span>{article.category}</span>
-                  <h3>{article.title}</h3>
-                  <p>{article.text}</p>
-                  <button type="button" onClick={() => setArticle(article)} aria-label={`Read article: ${article.title}`}>
+                  <span>{articleItem.category}</span>
+                  <h3>{articleItem.title}</h3>
+                  <p>{articleItem.text}</p>
+                  <button type="button" onClick={() => setArticle(articleItem)} aria-label={`Read article: ${articleItem.title}`}>
                     Read article <ArrowRight />
                   </button>
                 </div>
@@ -977,8 +1004,8 @@ export function LandingPage() {
               <li><span className="lead-check"><Check /></span> No obligation or aggressive follow-up</li>
             </ul>
             <div className="lead-trust">
-              <div><strong>150+</strong><span>websites launched</span></div>
-              <div><strong>98%</strong><span>client satisfaction</span></div>
+              <div><strong><CountUp value={150} suffix="+" /></strong><span>websites launched</span></div>
+              <div><strong><CountUp value={98} suffix="%" /></strong><span>client satisfaction</span></div>
             </div>
           </motion.div>
           <motion.form className="lead-form" onSubmit={submitLead} {...reveal}>
@@ -994,7 +1021,7 @@ export function LandingPage() {
               <label>Service
                 <select name="service" required defaultValue="">
                   <option value="" disabled>Select a service</option>
-                  {services.map((service) => <option key={service.title} value={service.title}>{service.title}</option>)}
+                  {getAllServiceTitles().map((service) => <option key={service} value={service}>{service}</option>)}
                 </select>
               </label>
               <label>Estimated budget
@@ -1030,75 +1057,6 @@ export function LandingPage() {
           </form>
         </div>
       </section>
-
-      <footer>
-        <div className="container footer-inner">
-          <div className="footer-top">
-            <div className="footer-brand">
-              <Logo />
-              <p>WPServices is a WordPress development studio focused on custom themes, WooCommerce, plugins, migrations, and ongoing care for teams that need reliable delivery.</p>
-              <p className="footer-note">Remote-first delivery across multiple time zones.</p>
-              <a className="footer-email" href="mailto:info@technologiallc.com"><Mail aria-hidden="true" /> info@technologiallc.com</a>
-              <div className="footer-social">
-                <a href="#" aria-label="Facebook">f</a>
-                <a href="#" aria-label="LinkedIn">in</a>
-                <a href="#" aria-label="Instagram">◎</a>
-                <a href="#" aria-label="YouTube">▶</a>
-              </div>
-            </div>
-            <div className="footer-links">
-              <div>
-                <h3>Our Services</h3>
-                <a href="#contact">Website Development</a>
-                <a href="#contact">Website Revamp</a>
-                <a href="#contact">Performance Optimization</a>
-                <a href="#contact">Maintenance &amp; Care</a>
-                <a href="#contact">AI Automations</a>
-                <a href="#contact">Website Design Services</a>
-              </div>
-              <div>
-                <h3>Studio</h3>
-                <a href="#contact">Hire Us</a>
-                <a href="#about">About Us</a>
-                <a href="#portfolio">Portfolio</a>
-                <a href="#process">Our Process</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#faq">FAQs</a>
-                <a href="#about">Industries</a>
-              </div>
-              <div>
-                <h3>Resources</h3>
-                <a href="#insights">Blog</a>
-                <a href="#portfolio">Case Studies</a>
-                <a href="#insights">Guidebooks</a>
-                <a href="#insights">Tools</a>
-                <a href="#contact">WooCommerce Plugins</a>
-              </div>
-            </div>
-          </div>
-          <div className="footer-offices">
-            <article>
-              <span>UAE</span>
-              <p>Sahara Health Care City, Regus 524, Dubai</p>
-              <a href="tel:+971585847929">00971585847929</a>
-            </article>
-            <article>
-              <span>Pakistan</span>
-              <p>Gujranwala, Punjab</p>
-              <a href="tel:+923042336926">03042336926</a>
-            </article>
-            <article>
-              <span>USA</span>
-              <p>New York, NY 10001</p>
-              <a href="tel:+15551234567">+1 (555) 123-4567</a>
-            </article>
-          </div>
-          <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} WPServices. All Rights Reserved.</span>
-            <div><a href="#">Privacy Policy</a><a href="#">Terms & Conditions</a></div>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
