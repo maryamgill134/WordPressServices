@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { servicePillars } from "@/data/services";
 import { Logo } from "@/components/logo";
+import { QuoteLink } from "@/components/quote-link";
 
 const nav = ["Home", "Services", "Portfolio", "About", "Blog", "Contact"];
 const navTarget = (item: string) => (item === "Blog" ? "insights" : item.toLowerCase());
@@ -219,7 +220,7 @@ export function SiteHeader() {
               </a>
             ))}
           </nav>
-          <Link className="button button--small header-cta" href="/contact" onClick={closeMenus}>Get a Free Quote</Link>
+          <QuoteLink className="button button--small header-cta" onClick={closeMenus}>Get a Free Quote</QuoteLink>
           <button className="menu-button" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
             {menuOpen ? <X /> : <Menu />}
           </button>

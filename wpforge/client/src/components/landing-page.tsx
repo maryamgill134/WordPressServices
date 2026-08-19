@@ -32,6 +32,7 @@ import { getAllServiceTitles } from "@/data/services";
 import { getHomePlugins } from "@/data/plugins";
 import { PhoneField } from "@/components/phone-field";
 import { PluginCard } from "@/components/plugin-card";
+import { QuoteLink } from "@/components/quote-link";
 
 const projects = [
   {
@@ -549,7 +550,7 @@ export function LandingPage() {
             <h1><span>We Build WordPress</span><span>Websites That Help</span><em>Your Business Grow.</em></h1>
             <p>Fast, secure and high-performing WordPress websites designed to rank higher and convert better.</p>
             <div className="hero-actions">
-              <a className="button" href="/contact">Get a Free Quote <ArrowRight /></a>
+              <QuoteLink className="button">Get a Free Quote <ArrowRight /></QuoteLink>
               <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
             </div>
             <div className="hero-trust">
@@ -928,7 +929,7 @@ export function LandingPage() {
             <p>Share your goals, challenges, and ideal timeline. We&apos;ll reply with practical next steps—not a generic sales pitch.</p>
           </div>
           <div className="cta-band-actions">
-            <a className="button" href="/contact">Get a Free Quote <ArrowRight /></a>
+            <QuoteLink className="button">Get a Free Quote <ArrowRight /></QuoteLink>
             <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
           </div>
         </div>
@@ -1027,7 +1028,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="lead-section section" id="contact">
+      <section className="lead-section section" id="start-your-project">
         <div className="container lead-layout">
           <motion.div className="lead-copy" {...reveal}>
             <span className="eyebrow">START YOUR PROJECT</span>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { HashScroll } from "@/components/hash-scroll";
 import "./globals.css";
 
 const inter = Inter({
@@ -68,6 +69,7 @@ export default function RootLayout({
     <html lang="en" className={`scroll-smooth ${inter.variable} ${plusJakarta.variable} ${instrument.variable}`}>
       <body>
         <SiteHeader />
+        <HashScroll />
         {children}
         <SiteFooter />
       </body>
