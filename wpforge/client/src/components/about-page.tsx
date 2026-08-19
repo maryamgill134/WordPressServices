@@ -90,7 +90,7 @@ export function AboutPage() {
             <h1>We Build WordPress Experiences That <em>Move Businesses Forward.</em></h1>
             <p>We are a WordPress development and digital agency focused on creating high-performing, scalable, and conversion-focused digital experiences.</p>
             <div className="hero-actions">
-              <a className="button" href="/#contact">Start a Project <ArrowRight /></a>
+              <a className="button" href="/contact">Start a Project <ArrowRight /></a>
               <Link className="button button--ghost" href="/services">Explore Our Services <ArrowRight /></Link>
             </div>
           </div>
@@ -294,7 +294,7 @@ export function AboutPage() {
             <p>Have a WordPress project, redesign, or digital challenge in mind? Let&apos;s turn your ideas into a high-performing digital experience.</p>
           </div>
           <div className="cta-band-actions">
-            <a className="button" href="/#contact">Start Your Project <ArrowRight /></a>
+            <a className="button" href="/contact">Start Your Project <ArrowRight /></a>
             <Link className="button button--ghost" href="/services">View Services <ArrowRight /></Link>
           </div>
         </div>

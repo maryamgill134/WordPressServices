@@ -27,10 +27,11 @@ export function SiteFooter() {
               <a href="/services/maintain">Maintenance &amp; Care</a>
               <a href="/services/automate">AI Automations</a>
               <a href="/services/seo">WordPress SEO</a>
+              <a href="https://zainsaeed.com/services/">Website Design Services</a>
             </div>
             <div>
               <h3>Studio</h3>
-              <a href="/#contact">Hire Us</a>
+              <a href="/contact">Hire Us</a>
               <a href="/about">About Us</a>
               <a href="/#portfolio">Portfolio</a>
               <a href="/#process">Our Process</a>
@@ -42,7 +43,7 @@ export function SiteFooter() {
               <a href="/#insights">Blog</a>
               <a href="/#portfolio">Case Studies</a>
               <a href="/services">All Services</a>
-              <a href="/#contact">WooCommerce Plugins</a>
+              <a href="/products">WooCommerce Plugins</a>
               <a href="/services/retainers">Retainers</a>
             </div>
           </div>

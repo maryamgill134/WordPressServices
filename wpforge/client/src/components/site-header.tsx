@@ -14,18 +14,61 @@ export function SiteHeader() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const onServices = pathname.startsWith("/services");
+  const onContact = pathname === "/contact";
   const root = isHome ? "" : "/";
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const servicesMenuRef = useRef<HTMLDivElement>(null);
+  const servicesCloseTimer = useRef<number | null>(null);
+
+  function isDesktopNav() {
+    return window.innerWidth > 780;
+  }
+
+  function clearServicesCloseTimer() {
+    if (servicesCloseTimer.current) {
+      window.clearTimeout(servicesCloseTimer.current);
+      servicesCloseTimer.current = null;
+    }
+  }
+
+  function openServicesMenu() {
+    clearServicesCloseTimer();
+    setServicesMenuOpen(true);
+  }
+
+  function closeServicesMenu() {
+    clearServicesCloseTimer();
+    setServicesMenuOpen(false);
+  }
+
+  function onServicesPointerEnter() {
+    if (isDesktopNav()) openServicesMenu();
+  }
+
+  function onServicesPointerLeave() {
+    if (!isDesktopNav()) return;
+    servicesCloseTimer.current = window.setTimeout(() => {
+      setServicesMenuOpen(false);
+      servicesCloseTimer.current = null;
+    }, 120);
+  }
+
+  function onServicesTriggerClick() {
+    if (isDesktopNav()) {
+      openServicesMenu();
+      return;
+    }
+    setServicesMenuOpen((open) => !open);
+  }
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 16);
       if (!isHome) return;
-      const sections = ["home", "portfolio", "insights", "contact"];
+      const sections = ["home", "portfolio", "insights"];
       let current = "home";
       for (const id of sections) {
         const section = document.getElementById(id);
@@ -57,10 +100,10 @@ export function SiteHeader() {
 
   useEffect(() => {
     const closeOnOutsideClick = (event: PointerEvent) => {
-      if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target as Node)) setServicesMenuOpen(false);
+      if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target as Node)) closeServicesMenu();
     };
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setServicesMenuOpen(false);
+      if (event.key === "Escape") closeServicesMenu();
     };
     document.addEventListener("pointerdown", closeOnOutsideClick);
     window.addEventListener("keydown", closeOnEscape);
@@ -70,14 +113,16 @@ export function SiteHeader() {
     };
   }, []);
 
+  useEffect(() => () => clearServicesCloseTimer(), []);
+
   useEffect(() => {
     setMenuOpen(false);
-    setServicesMenuOpen(false);
+    closeServicesMenu();
   }, [pathname]);
 
   function closeMenus() {
     setMenuOpen(false);
-    setServicesMenuOpen(false);
+    closeServicesMenu();
   }
 
   return (
@@ -89,32 +134,23 @@ export function SiteHeader() {
           <nav className={`nav ${menuOpen ? "nav--open" : ""}`} aria-label="Primary navigation">
             {nav.map((item) => item === "Services" ? (
               <div
-                className="nav-services"
+                className={`nav-services ${servicesMenuOpen ? "nav-services--open" : ""}`}
                 ref={servicesMenuRef}
                 key={item}
-                onMouseEnter={() => { if (window.innerWidth > 780) setServicesMenuOpen(true); }}
-                onMouseLeave={() => { if (window.innerWidth > 780) setServicesMenuOpen(false); }}
+                onPointerEnter={onServicesPointerEnter}
+                onPointerLeave={onServicesPointerLeave}
               >
-                <div className="nav-service-pair">
-                  <Link
-                    href="/services"
-                    className={`nav-service-trigger ${onServices ? "nav-link--active" : ""}`}
-                    aria-current={onServices ? "page" : undefined}
-                    onClick={closeMenus}
-                  >
-                    Services
-                  </Link>
-                  <button
-                    className="nav-service-more"
-                    type="button"
-                    aria-label="Browse service categories"
-                    aria-expanded={servicesMenuOpen}
-                    aria-controls="services-mega-menu"
-                    onClick={() => setServicesMenuOpen((open) => !open)}
-                  >
-                    <ChevronDown aria-hidden="true" />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  className={`nav-service-trigger ${onServices ? "nav-link--active" : ""}`}
+                  aria-expanded={servicesMenuOpen}
+                  aria-controls="services-mega-menu"
+                  aria-haspopup="true"
+                  onClick={onServicesTriggerClick}
+                >
+                  Services
+                  <ChevronDown aria-hidden="true" />
+                </button>
                 <div
                   className={`service-mega-menu ${servicesMenuOpen ? "service-mega-menu--open" : ""}`}
                   id="services-mega-menu"
@@ -151,6 +187,16 @@ export function SiteHeader() {
               >
                 About
               </Link>
+            ) : item === "Contact" ? (
+              <Link
+                key={item}
+                href="/contact"
+                className={onContact ? "nav-link--active" : undefined}
+                aria-current={onContact ? "page" : undefined}
+                onClick={closeMenus}
+              >
+                Contact
+              </Link>
             ) : item === "Home" ? (
               <Link
                 key={item}
@@ -173,7 +219,7 @@ export function SiteHeader() {
               </a>
             ))}
           </nav>
-          <a className="button button--small header-cta" href={`${root}#contact`}>Get a Free Quote</a>
+          <Link className="button button--small header-cta" href="/contact" onClick={closeMenus}>Get a Free Quote</Link>
           <button className="menu-button" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
             {menuOpen ? <X /> : <Menu />}
           </button>

@@ -37,8 +37,8 @@ function ServiceCta({ title = "Have a WordPress project in mind?" }: { title?: s
           <p>Let&apos;s build, optimize, and grow your WordPress experience.</p>
         </div>
         <div className="cta-band-actions">
-          <a className="button" href="/#contact">Start Your Project <ArrowRight /></a>
-          <a className="button button--ghost" href="/#contact">Contact Us <ArrowRight /></a>
+          <a className="button" href="/contact">Start Your Project <ArrowRight /></a>
+          <a className="button button--ghost" href="/contact">Contact Us <ArrowRight /></a>
         </div>
       </div>
     </section>
@@ -95,8 +95,8 @@ export function CategoryPage({ category }: { category: ServiceCategory }) {
             <h1>{category.title}</h1>
             <p>{category.summary}</p>
             <div className="hero-actions">
-              <a className="button" href="/#contact">Get Started <ArrowRight /></a>
-              <a className="button button--ghost" href="/#contact">Talk to an Expert <ArrowRight /></a>
+              <a className="button" href="/contact">Get Started <ArrowRight /></a>
+              <a className="button button--ghost" href="/contact">Talk to an Expert <ArrowRight /></a>
             </div>
           </div>
           <div className="svc-hero-visual" aria-hidden="true">
@@ -325,8 +325,8 @@ export function ServiceDetailPage({ category, service }: { category: ServiceCate
             <h1>{service.title}</h1>
             <p>{service.overview}</p>
             <div className="hero-actions">
-              <a className="button" href="/#contact">Get Started <ArrowRight /></a>
-              <a className="button button--ghost" href="/#contact">Talk to an Expert <ArrowRight /></a>
+              <a className="button" href="/contact">Get Started <ArrowRight /></a>
+              <a className="button button--ghost" href="/contact">Talk to an Expert <ArrowRight /></a>
             </div>
           </div>
           <div className="svc-hero-visual" aria-hidden="true">
@@ -428,7 +428,7 @@ export function ServiceDetailPage({ category, service }: { category: ServiceCate
             <span className="eyebrow">FAQ</span>
             <h2>Questions we hear first</h2>
             <p>Still have a question? Tell us about the project and a WordPress specialist will respond within one business day.</p>
-            <a className="button" href="/#contact">Ask a Question <ArrowRight /></a>
+            <a className="button" href="/contact">Ask a Question <ArrowRight /></a>
           </div>
           <div className="faq-list">
             {service.faqs.map((faq, index) => (

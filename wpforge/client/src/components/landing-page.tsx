@@ -27,7 +27,11 @@ import {
   X,
   Zap,
 } from "lucide-react";
+import Link from "next/link";
 import { getAllServiceTitles } from "@/data/services";
+import { getHomePlugins } from "@/data/plugins";
+import { PhoneField } from "@/components/phone-field";
+import { PluginCard } from "@/components/plugin-card";
 
 const projects = [
   {
@@ -444,6 +448,7 @@ export function LandingPage() {
   const [caseStudy, setCaseStudy] = useState<(typeof projects)[number] | null>(null);
   const [article, setArticle] = useState<(typeof insights)[number] | null>(null);
   const [activeReview, setActiveReview] = useState(0);
+  const [phoneValid, setPhoneValid] = useState(true);
   const caseStudyCloseRef = useRef<HTMLButtonElement>(null);
   const articleCloseRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
@@ -480,9 +485,11 @@ export function LandingPage() {
     () => filter === "All" ? projects : projects.filter((project) => project.category === filter),
     [filter],
   );
+  const homePlugins = getHomePlugins();
 
   async function submitLead(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!phoneValid) return;
     const form = event.currentTarget;
     const formData = new FormData(form);
     setLeadStatus("loading");
@@ -542,7 +549,7 @@ export function LandingPage() {
             <h1><span>We Build WordPress</span><span>Websites That Help</span><em>Your Business Grow.</em></h1>
             <p>Fast, secure and high-performing WordPress websites designed to rank higher and convert better.</p>
             <div className="hero-actions">
-              <a className="button" href="#contact">Get a Free Quote <ArrowRight /></a>
+              <a className="button" href="/contact">Get a Free Quote <ArrowRight /></a>
               <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
             </div>
             <div className="hero-trust">
@@ -735,10 +742,38 @@ export function LandingPage() {
               <h3>Result</h3>
               <p>{caseStudy.outcome}</p>
             </div>
-            <a className="button" href="#contact" onClick={() => setCaseStudy(null)}>Start a Similar Project <ArrowRight /></a>
+            <a className="button" href="/contact" onClick={() => setCaseStudy(null)}>Start a Similar Project <ArrowRight /></a>
           </section>
         </div>
       )}
+
+      <section className="plugins section" id="plugins">
+        <div className="container">
+          <Heading
+            label="WOOCOMMERCE PLUGINS"
+            title="WooCommerce Plugins Built for Real Stores"
+            text="Powerful WooCommerce extensions designed to simplify operations, improve conversions, and help online stores grow."
+          />
+          <motion.div layout className="plugins-grid">
+            {homePlugins.map((plugin, index) => (
+              <motion.article
+                key={plugin.name}
+                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: reduceMotion ? 0 : 0.4, delay: reduceMotion ? 0 : index * 0.04, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <PluginCard plugin={plugin} reduceMotion={reduceMotion} />
+              </motion.article>
+            ))}
+          </motion.div>
+          <motion.div className="plugins-more" {...reveal}>
+            <Link className="button" href="/products">
+              View All Plugins <ArrowRight />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
 
       <section className="process section" id="process">
         <div className="process-dots" />
@@ -875,7 +910,7 @@ export function LandingPage() {
                 </div>
                 <strong>Custom <span>Quote</span></strong>
                 <ul>{plan.features.map((feature) => <li key={feature}><span className="pricing-check"><Check /></span>{feature}</li>)}</ul>
-                <a className="button" href="#contact" aria-label={`Get started with the ${plan.name} plan`}>
+                <a className="button" href="/contact" aria-label={`Get started with the ${plan.name} plan`}>
                   Get Started <ArrowRight aria-hidden="true" />
                 </a>
               </motion.article>
@@ -893,7 +928,7 @@ export function LandingPage() {
             <p>Share your goals, challenges, and ideal timeline. We&apos;ll reply with practical next steps—not a generic sales pitch.</p>
           </div>
           <div className="cta-band-actions">
-            <a className="button" href="#contact">Get a Free Quote <ArrowRight /></a>
+            <a className="button" href="/contact">Get a Free Quote <ArrowRight /></a>
             <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
           </div>
         </div>
@@ -955,7 +990,7 @@ export function LandingPage() {
                 )}
               </div>
             ))}
-            <a className="button" href="#contact" onClick={() => setArticle(null)}>Talk to a WordPress specialist <ArrowRight /></a>
+            <a className="button" href="/contact" onClick={() => setArticle(null)}>Talk to a WordPress specialist <ArrowRight /></a>
           </article>
         </div>
       )}
@@ -966,7 +1001,7 @@ export function LandingPage() {
             <span className="eyebrow">COMMON QUESTIONS</span>
             <h2>Everything You Need to Know Before We Start</h2>
             <p>Still have a question? Tell us about your project and a WordPress specialist will respond within one business day.</p>
-            <a className="button" href="#contact">Ask a Question <ArrowRight /></a>
+            <a className="button" href="/contact">Ask a Question <ArrowRight /></a>
           </div>
           <div className="faq-list">
             {faqs.map(([question, answer], index) => (
@@ -1014,7 +1049,10 @@ export function LandingPage() {
               <label>Work email<input name="email" required type="email" autoComplete="email" placeholder="alex@company.com" /></label>
             </div>
             <div className="lead-form-row">
-              <label>Phone <small>Optional</small><input name="phone" type="tel" autoComplete="tel" placeholder="+1 555 123 4567" /></label>
+              <div className="lead-phone">
+                <span>WhatsApp number <small>Optional</small></span>
+                <PhoneField resetKey={startedAt} onValidityChange={setPhoneValid} />
+              </div>
               <label>Company <small>Optional</small><input name="company" autoComplete="organization" placeholder="Company name" /></label>
             </div>
             <div className="lead-form-row">

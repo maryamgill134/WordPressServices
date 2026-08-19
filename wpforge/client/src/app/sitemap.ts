@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { allCategories, getAllServicePaths } from "@/data/services";
+import { getProductPlugins } from "@/data/plugins";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -8,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...allCategories.map((category) => `/services/${category.slug}`),
     ...getAllServicePaths().map((path) => `/services/${path.category}/${path.service}`),
   ];
+  const productPages = getProductPlugins().map((plugin) => plugin.href);
 
   return [
     {
@@ -22,11 +24,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: "https://wpservices.com/products",
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://wpservices.com/contact",
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     ...servicePages.map((path) => ({
       url: `https://wpservices.com${path}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: path === "/services" ? 0.8 : 0.7,
+    })),
+    ...productPages.map((path) => ({
+      url: `https://wpservices.com${path}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }
