@@ -242,7 +242,7 @@ not harm keyboard navigation or SEO.
 Requirements: Node.js 20+ and PostgreSQL.
 
 ```bash
-cd wpforge
+cd Wpservices
 npm install
 copy client\.env.example client\.env
 npm run db:generate
@@ -266,7 +266,7 @@ npm run lint
 npm run build
 ```
 
-For Vercel, set the root directory to `wpforge/client`, configure both environment
+For Vercel, set the root directory to `Wpservices/client`, configure both environment
 variables, attach a managed PostgreSQL database, and run migrations during the
 release workflow. Use `prisma migrate deploy` rather than `prisma migrate dev`
 in production.
