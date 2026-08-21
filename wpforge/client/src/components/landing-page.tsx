@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Check,
@@ -33,81 +33,6 @@ import { getHomePlugins } from "@/data/plugins";
 import { PhoneField } from "@/components/phone-field";
 import { PluginCard } from "@/components/plugin-card";
 import { QuoteLink } from "@/components/quote-link";
-
-const projects = [
-  {
-    title: "E-Commerce Store",
-    type: "Fashion & Retail",
-    category: "E-commerce",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=85",
-    tags: ["WooCommerce", "Performance"],
-    keywords: ["fashion WooCommerce theme", "minimal clothing store WordPress", "product-first ecommerce"],
-    theme: "A clean WooCommerce fashion theme with large product imagery and a short checkout path.",
-    study: "We interviewed the store owner, mapped the buying journey, and compared competitor catalogs. Then we searched ThemeForest and WordPress.org using fashion-specific keywords to shortlist three product-first themes.",
-    approach: "We customized the chosen theme for brand colors, built reusable product blocks, optimized images, and streamlined cart-to-checkout so shoppers could complete an order in fewer steps.",
-    outcome: "The store launched with faster category pages, clearer product details, and a checkout flow the client can manage without a developer.",
-  },
-  {
-    title: "Business Website",
-    type: "Consulting",
-    category: "Business",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=85",
-    tags: ["WordPress", "Redesign"],
-    keywords: ["consulting WordPress theme", "professional services agency", "clean corporate landing"],
-    theme: "A professional consulting theme with a strong hero, service cards, and a lead-focused contact path.",
-    study: "We reviewed the old site’s bounce points, collected service keywords from sales calls, and searched WordPress themes for consulting and professional-services layouts that supported trust and lead capture.",
-    approach: "We redesigned the homepage around one offer, rebuilt service pages as editable blocks, and connected the contact form to a clear follow-up process.",
-    outcome: "The new site presents the firm’s expertise in seconds and makes it easy for prospects to request a consultation.",
-  },
-  {
-    title: "Corporate Website",
-    type: "Technology",
-    category: "Business",
-    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Custom Development", "SEO"],
-    keywords: ["tech company WordPress theme", "SaaS corporate website", "enterprise clean layout"],
-    theme: "A modern technology theme with structured service sections, case-study modules, and technical SEO foundations.",
-    study: "We audited existing content, listed search terms the sales team already used, and compared SaaS/corporate WordPress themes for clean typography, fast page templates, and schema-ready layouts.",
-    approach: "We selected one theme as the visual base, then customized templates, added structured markup, and built reusable blocks so the marketing team could publish without breaking layout.",
-    outcome: "The company now has a faster corporate site with clearer positioning and pages that are easier to rank and maintain.",
-  },
-  {
-    title: "Real Estate Website",
-    type: "Real Estate",
-    category: "Real Estate",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Property Listing", "Custom Search"],
-    keywords: ["real estate listing WordPress", "property search theme", "modern realtor website"],
-    theme: "A listing-focused real estate theme with property cards, filters, and inquiry forms.",
-    study: "We studied how buyers filter homes, collected neighborhood and property-type keywords, and searched WordPress themes built for listings, maps, and agent inquiry flows.",
-    approach: "We customized the selected theme, added property search filters, connected listing details to inquiry forms, and kept the agent dashboard simple to update.",
-    outcome: "Visitors can find relevant properties faster, and agents can publish new listings without waiting on a developer.",
-  },
-  {
-    title: "Healthcare Website",
-    type: "Healthcare",
-    category: "Healthcare",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Appointments", "Optimization"],
-    keywords: ["medical clinic WordPress theme", "appointment booking healthcare", "trust-focused medical site"],
-    theme: "A calm healthcare theme with clear service pages, doctor profiles, and appointment calls to action.",
-    study: "We reviewed patient questions, mapped the appointment journey, and searched healthcare WordPress themes using clinic, booking, and trust-focused keywords to find a layout that felt professional and easy to use.",
-    approach: "We customized the chosen theme, simplified service descriptions, added appointment prompts, and optimized page speed so patients could book without friction.",
-    outcome: "The clinic site now feels trustworthy, loads quickly, and guides patients toward booking instead of calling around.",
-  },
-  {
-    title: "Restaurant Website",
-    type: "Food & Beverage",
-    category: "Redesign",
-    image: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1600&q=85",
-    tags: ["Reservations", "Custom Design"],
-    keywords: ["restaurant reservation WordPress", "food menu theme", "hospitality website redesign"],
-    theme: "A hospitality theme with a visual menu, reservation block, and mobile-first dining story.",
-    study: "We reviewed the old menu pages, noted where guests dropped off, and searched WordPress themes with restaurant, reservation, and food-menu keywords to find a design that looked appetizing on phones.",
-    approach: "We rebuilt the site on the selected theme, designed a scannable menu, added reservation calls to action, and kept content easy for the restaurant team to update daily.",
-    outcome: "Guests can view the menu and request a table in one visit, and the restaurant can change specials without extra support.",
-  },
-];
 
 const process = [
   { icon: Compass, number: "01", title: "Discovery", text: "We understand your business, audience, and goals." },
@@ -439,28 +364,25 @@ function SitePreview() {
 }
 
 export function LandingPage() {
-  const [filter, setFilter] = useState("All");
   const [openFaq, setOpenFaq] = useState(0);
   const [leadStatus, setLeadStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [leadMessage, setLeadMessage] = useState("");
   const [startedAt, setStartedAt] = useState(() => Date.now());
   const [selectedPlan, setSelectedPlan] = useState("Business");
   const [activeProcess, setActiveProcess] = useState(0);
-  const [caseStudy, setCaseStudy] = useState<(typeof projects)[number] | null>(null);
   const [article, setArticle] = useState<(typeof insights)[number] | null>(null);
   const [activeReview, setActiveReview] = useState(0);
   const [phoneValid, setPhoneValid] = useState(true);
-  const caseStudyCloseRef = useRef<HTMLButtonElement>(null);
   const articleCloseRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
   const reveal = reduceMotion ? { initial: false as const } : fadeUp;
 
   useEffect(() => {
-    document.body.style.overflow = caseStudy || article ? "hidden" : "";
+    document.body.style.overflow = article ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [caseStudy, article]);
+  }, [article]);
 
   useEffect(() => {
     if (!article) return;
@@ -472,20 +394,6 @@ export function LandingPage() {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [article]);
 
-  useEffect(() => {
-    if (!caseStudy) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setCaseStudy(null);
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    caseStudyCloseRef.current?.focus();
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [caseStudy]);
-
-  const filteredProjects = useMemo(
-    () => filter === "All" ? projects : projects.filter((project) => project.category === filter),
-    [filter],
-  );
   const homePlugins = getHomePlugins();
 
   async function submitLead(event: FormEvent<HTMLFormElement>) {
@@ -551,7 +459,7 @@ export function LandingPage() {
             <p>Fast, secure and high-performing WordPress websites designed to rank higher and convert better.</p>
             <div className="hero-actions">
               <QuoteLink className="button">Get a Free Quote <ArrowRight /></QuoteLink>
-              <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
+              <Link className="button button--ghost" href="/services">View Services <ArrowRight /></Link>
             </div>
             <div className="hero-trust">
               <div><b>150+</b><span>Websites Launched</span></div>
@@ -659,94 +567,6 @@ export function LandingPage() {
           </div>
         </div>
       </motion.section>
-
-      <section className="portfolio section" id="portfolio">
-        <div className="container">
-          <Heading label="PORTFOLIO" title="Our Recent Work" />
-          <div className="filters">
-            {["All", "Business", "E-commerce", "Healthcare", "Real Estate", "Redesign"].map((item) => (
-              <button
-                className={filter === item ? "active" : ""}
-                type="button"
-                key={item}
-                aria-pressed={filter === item}
-                onClick={() => setFilter(item)}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-          <motion.div layout className="portfolio-grid">
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project) => (
-                <motion.article
-                  layout
-                  key={project.title}
-                  className="project-card"
-                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <div className="project-image">
-                    <Image src={project.image} alt={`${project.title} project`} fill sizes="(max-width: 720px) 100vw, 66vw" />
-                  </div>
-                  <span className="project-cat">{project.category}</span>
-                  <div className="project-reveal">
-                    <p>{project.type}</p>
-                    <h3>{project.title}</h3>
-                    <div className="project-extra">
-                      <ul>{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
-                      <button type="button" onClick={() => setCaseStudy(project)} aria-label={`View case study for ${project.title}`}>
-                        View Case Study <ArrowRight />
-                      </button>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </section>
-
-      {caseStudy && (
-        <div
-          className="case-study-backdrop"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setCaseStudy(null);
-          }}
-        >
-          <section className="case-study-modal" role="dialog" aria-modal="true" aria-labelledby="case-study-title">
-            <button ref={caseStudyCloseRef} className="case-study-close" type="button" onClick={() => setCaseStudy(null)} aria-label="Close case study">
-              <X aria-hidden="true" />
-            </button>
-            <div className="case-study-image">
-              <Image src={caseStudy.image} alt={`${caseStudy.title} case study`} fill sizes="(max-width: 720px) 92vw, 640px" />
-            </div>
-            <small>PORTFOLIO CASE STUDY</small>
-            <h2 id="case-study-title">{caseStudy.title}</h2>
-            <p className="case-study-type">{caseStudy.type}</p>
-            <div className="case-study-keywords">
-              <span>Theme search keywords</span>
-              {caseStudy.keywords.map((keyword) => <b key={keyword}>{keyword}</b>)}
-            </div>
-            <div className="case-study-block">
-              <h3>How we conducted the study</h3>
-              <p>{caseStudy.study}</p>
-            </div>
-            <div className="case-study-block">
-              <h3>How we handled the website</h3>
-              <p>{caseStudy.approach}</p>
-              <p>{caseStudy.theme}</p>
-            </div>
-            <div className="case-study-block">
-              <h3>Result</h3>
-              <p>{caseStudy.outcome}</p>
-            </div>
-            <a className="button" href="/contact" onClick={() => setCaseStudy(null)}>Start a Similar Project <ArrowRight /></a>
-          </section>
-        </div>
-      )}
 
       <section className="plugins section" id="plugins">
         <div className="container">
@@ -930,7 +750,7 @@ export function LandingPage() {
           </div>
           <div className="cta-band-actions">
             <QuoteLink className="button">Get a Free Quote <ArrowRight /></QuoteLink>
-            <a className="button button--ghost" href="#portfolio">View Our Work <ArrowRight /></a>
+            <Link className="button button--ghost" href="/portfolio">View Our Work <ArrowRight /></Link>
           </div>
         </div>
       </section>

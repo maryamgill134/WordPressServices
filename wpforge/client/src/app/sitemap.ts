@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { allCategories, getAllServicePaths } from "@/data/services";
 import { getProductPlugins } from "@/data/plugins";
+import { portfolioProjects } from "@/data/portfolio";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -36,6 +37,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: "https://wpservices.com/portfolio",
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...portfolioProjects.map((project) => ({
+      url: `https://wpservices.com/portfolio/${project.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
     ...servicePages.map((path) => ({
       url: `https://wpservices.com${path}`,
       lastModified: now,

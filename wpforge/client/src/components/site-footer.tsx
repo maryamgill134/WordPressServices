@@ -33,7 +33,7 @@ export function SiteFooter() {
               <h3>Studio</h3>
               <a href="/contact">Hire Us</a>
               <a href="/about">About Us</a>
-              <a href="/#portfolio">Portfolio</a>
+              <a href="/portfolio">Portfolio</a>
               <a href="/#process">Our Process</a>
               <a href="/#pricing">Pricing</a>
               <a href="/#faq">FAQs</a>
@@ -41,7 +41,7 @@ export function SiteFooter() {
             <div>
               <h3>Resources</h3>
               <a href="/#insights">Blog</a>
-              <a href="/#portfolio">Case Studies</a>
+              <a href="/portfolio">Case Studies</a>
               <a href="/services">All Services</a>
               <a href="/products">WooCommerce Plugins</a>
               <a href="/services/retainers">Retainers</a>

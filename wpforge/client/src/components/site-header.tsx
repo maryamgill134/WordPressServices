@@ -57,19 +57,11 @@ export function SiteHeader() {
     }, 120);
   }
 
-  function onServicesTriggerClick() {
-    if (isDesktopNav()) {
-      openServicesMenu();
-      return;
-    }
-    setServicesMenuOpen((open) => !open);
-  }
-
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 16);
       if (!isHome) return;
-      const sections = ["home", "portfolio", "insights"];
+      const sections = ["home", "insights"];
       let current = "home";
       for (const id of sections) {
         const section = document.getElementById(id);
@@ -141,17 +133,18 @@ export function SiteHeader() {
                 onPointerEnter={onServicesPointerEnter}
                 onPointerLeave={onServicesPointerLeave}
               >
-                <button
-                  type="button"
+                <Link
+                  href="/services"
                   className={`nav-service-trigger ${onServices ? "nav-link--active" : ""}`}
                   aria-expanded={servicesMenuOpen}
                   aria-controls="services-mega-menu"
                   aria-haspopup="true"
-                  onClick={onServicesTriggerClick}
+                  aria-current={pathname === "/services" ? "page" : undefined}
+                  onClick={closeMenus}
                 >
                   Services
                   <ChevronDown aria-hidden="true" />
-                </button>
+                </Link>
                 <div
                   className={`service-mega-menu ${servicesMenuOpen ? "service-mega-menu--open" : ""}`}
                   id="services-mega-menu"
@@ -178,6 +171,16 @@ export function SiteHeader() {
                   ))}
                 </div>
               </div>
+            ) : item === "Portfolio" ? (
+              <Link
+                key={item}
+                href="/portfolio"
+                className={pathname.startsWith("/portfolio") ? "nav-link--active" : undefined}
+                aria-current={pathname.startsWith("/portfolio") ? "page" : undefined}
+                onClick={closeMenus}
+              >
+                Portfolio
+              </Link>
             ) : item === "About" ? (
               <Link
                 key={item}
