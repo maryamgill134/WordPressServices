@@ -1,11 +1,11 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, Mail, Phone, Send } from "lucide-react";
 import { PhoneField } from "@/components/phone-field";
 import { contactLeadSchema } from "@/lib/lead-validation";
+import { InnerPageHero } from "@/components/inner-page-hero";
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -113,18 +113,16 @@ export function ContactPage() {
 
   return (
     <div className="svc-page contact-page">
-      <section className="svc-dir-hero">
-        <div className="container">
-          <p className="svc-crumb">
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <span>Contact</span>
-          </p>
-          <span className="eyebrow">CONTACT</span>
-          <h1>Contact Our WordPress Team</h1>
-          <p>Tell us about your theme, WooCommerce store, migration, or retainer needs. We typically reply within 1–2 business days.</p>
-        </div>
-      </section>
+      <InnerPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Contact" },
+        ]}
+        label="Contact"
+        title="Contact Our WordPress Team"
+        description="Tell us about your theme, WooCommerce store, migration, or retainer needs. We typically reply within 1–2 business days."
+        primary={{ label: "Get Started", href: "#contact-form" }}
+      />
 
       <section className="contact-shell">
         <div className="container contact-layout">
@@ -170,7 +168,7 @@ export function ContactPage() {
             </article>
           </motion.div>
 
-          <motion.form className="lead-form contact-form" onSubmit={submitLead} noValidate {...reveal}>
+          <motion.form id="contact-form" className="lead-form contact-form" onSubmit={submitLead} noValidate {...reveal}>
             <div className="contact-form-intro">
               <h2>Request a WordPress Consultation</h2>
               <p>Share a short brief — we usually reply within one business day.</p>

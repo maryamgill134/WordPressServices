@@ -3,10 +3,11 @@
 import { useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import type { ServiceCategory, ServiceItem } from "@/data/services";
 import { getPillarForCategory } from "@/data/services";
 import { serviceIconMap } from "@/components/service-icons";
+import { categoryCrumbLabel, InnerPageHero } from "@/components/inner-page-hero";
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -25,24 +26,6 @@ function pointerGlow(reduceMotion: boolean | null) {
       el.style.setProperty("--my", `${event.clientY - rect.top}px`);
     },
   };
-}
-
-function ServiceCta({ title = "Have a WordPress project in mind?" }: { title?: string }) {
-  return (
-    <section className="cta-band">
-      <div className="container cta-band-inner">
-        <div>
-          <span className="eyebrow">START YOUR PROJECT</span>
-          <h2>{title}</h2>
-          <p>Let&apos;s build, optimize, and grow your WordPress experience.</p>
-        </div>
-        <div className="cta-band-actions">
-          <a className="button" href="/contact">Start Your Project <ArrowRight /></a>
-          <a className="button button--ghost" href="/contact">Contact Us <ArrowRight /></a>
-        </div>
-      </div>
-    </section>
-  );
 }
 
 function TechList({ items }: { items: string[] }) {
@@ -71,43 +54,21 @@ export function CategoryPage({ category }: { category: ServiceCategory }) {
   const reduceMotion = useReducedMotion();
   const reveal = reduceMotion ? { initial: false as const } : fadeUp;
   const pillar = getPillarForCategory(category.slug);
-  const Icon = serviceIconMap[category.icon];
   const extras = extraBlocks(category.slug);
+  const crumbLabel = categoryCrumbLabel(category.title);
 
   return (
     <div className={`svc-page ${category.slug === "automate" ? "svc-page--automate" : ""}`}>
-      <section className="svc-hero">
-        <div className="svc-hero-bg" aria-hidden="true">
-          <span className="hero-grid" />
-          <span className="hero-orb hero-orb--one" />
-          <span className="hero-orb hero-orb--two" />
-        </div>
-        <div className="container svc-hero-inner">
-          <div className="svc-hero-copy">
-            <p className="svc-crumb">
-              <Link href="/">Home</Link>
-              <span>/</span>
-              <Link href="/#services">Services</Link>
-              <span>/</span>
-              <span>{category.label}</span>
-            </p>
-            <span className="eyebrow">{pillar ? `${pillar.kicker} — ${category.label}` : category.label}</span>
-            <h1>{category.title}</h1>
-            <p>{category.summary}</p>
-            <div className="hero-actions">
-              <a className="button" href="/contact">Get Started <ArrowRight /></a>
-              <a className="button button--ghost" href="/contact">Talk to an Expert <ArrowRight /></a>
-            </div>
-          </div>
-          <div className="svc-hero-visual" aria-hidden="true">
-            <div className="svc-hero-panel">
-              <span><Icon /></span>
-              <strong>{category.label}</strong>
-              <small>{category.services.length} {category.services.length === 1 ? "service" : "services"}</small>
-            </div>
-          </div>
-        </div>
-      </section>
+      <InnerPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+          { label: crumbLabel },
+        ]}
+        label={category.label}
+        title={category.title}
+        description={category.summary}
+      />
 
       <section className="section svc-grid-section">
         <div className="container">
@@ -133,9 +94,7 @@ export function CategoryPage({ category }: { category: ServiceCategory }) {
                   <h3>{service.title}</h3>
                   <p>{service.short}</p>
                   <small>{service.benefit}</small>
-                  <Link href={`/services/${category.slug}/${service.slug}`}>
-                    Explore Service <ArrowRight />
-                  </Link>
+                  <Link href={`/services/${category.slug}/${service.slug}`}>Explore Service</Link>
                 </motion.article>
               );
             })}
@@ -184,8 +143,6 @@ export function CategoryPage({ category }: { category: ServiceCategory }) {
           <TechList items={category.technologies} />
         </div>
       </section>
-
-      <ServiceCta />
     </div>
   );
 }
@@ -298,46 +255,22 @@ function extraBlocks(slug: string) {
 export function ServiceDetailPage({ category, service }: { category: ServiceCategory; service: ServiceItem }) {
   const reduceMotion = useReducedMotion();
   const reveal = reduceMotion ? { initial: false as const } : fadeUp;
-  const Icon = serviceIconMap[service.icon];
   const [openFaq, setOpenFaq] = useState(0);
+  const crumbLabel = categoryCrumbLabel(category.title);
 
   return (
     <div className={`svc-page ${category.slug === "automate" ? "svc-page--automate" : ""}`}>
-      <section className="svc-hero">
-        <div className="svc-hero-bg" aria-hidden="true">
-          <span className="hero-grid" />
-          <span className="hero-orb hero-orb--one" />
-          <span className="hero-orb hero-orb--two" />
-        </div>
-        <div className="container svc-hero-inner">
-          <div className="svc-hero-copy">
-            <p className="svc-crumb">
-              <Link href="/">Home</Link>
-              <span>/</span>
-              <Link href={`/services/${category.slug}`}>{category.label}</Link>
-              <span>/</span>
-              <span>{service.title}</span>
-            </p>
-            <span className="eyebrow">
-              {category.label}
-              {service.isNew && <b className="svc-new">NEW</b>}
-            </span>
-            <h1>{service.title}</h1>
-            <p>{service.overview}</p>
-            <div className="hero-actions">
-              <a className="button" href="/contact">Get Started <ArrowRight /></a>
-              <a className="button button--ghost" href="/contact">Talk to an Expert <ArrowRight /></a>
-            </div>
-          </div>
-          <div className="svc-hero-visual" aria-hidden="true">
-            <div className="svc-hero-panel">
-              <span><Icon /></span>
-              <strong>{service.title}</strong>
-              <small>{service.benefit}</small>
-            </div>
-          </div>
-        </div>
-      </section>
+      <InnerPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+          { label: crumbLabel, href: `/services/${category.slug}` },
+          { label: service.title },
+        ]}
+        label={category.label}
+        title={service.title}
+        description={service.overview}
+      />
 
       <section className="section">
         <div className="container svc-split">
@@ -428,7 +361,7 @@ export function ServiceDetailPage({ category, service }: { category: ServiceCate
             <span className="eyebrow">FAQ</span>
             <h2>Questions we hear first</h2>
             <p>Still have a question? Tell us about the project and a WordPress specialist will respond within one business day.</p>
-            <a className="button" href="/contact">Ask a Question <ArrowRight /></a>
+            <a className="button" href="/contact">Ask a Question</a>
           </div>
           <div className="faq-list">
             {service.faqs.map((faq, index) => (
@@ -445,8 +378,6 @@ export function ServiceDetailPage({ category, service }: { category: ServiceCate
           </div>
         </div>
       </section>
-
-      <ServiceCta title="Ready to start this service?" />
     </div>
   );
 }

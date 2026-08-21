@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowRight,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -19,7 +18,6 @@ import {
   Palette,
   PenTool,
   Quote,
-  Send,
   ShieldCheck,
   Sparkles,
   Star,
@@ -28,9 +26,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { getAllServiceTitles } from "@/data/services";
 import { getHomePlugins } from "@/data/plugins";
-import { PhoneField } from "@/components/phone-field";
 import { PluginCard } from "@/components/plugin-card";
 import { QuoteLink } from "@/components/quote-link";
 
@@ -365,14 +361,10 @@ function SitePreview() {
 
 export function LandingPage() {
   const [openFaq, setOpenFaq] = useState(0);
-  const [leadStatus, setLeadStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [leadMessage, setLeadMessage] = useState("");
-  const [startedAt, setStartedAt] = useState(() => Date.now());
   const [selectedPlan, setSelectedPlan] = useState("Business");
   const [activeProcess, setActiveProcess] = useState(0);
   const [article, setArticle] = useState<(typeof insights)[number] | null>(null);
   const [activeReview, setActiveReview] = useState(0);
-  const [phoneValid, setPhoneValid] = useState(true);
   const articleCloseRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
   const reveal = reduceMotion ? { initial: false as const } : fadeUp;
@@ -395,44 +387,6 @@ export function LandingPage() {
   }, [article]);
 
   const homePlugins = getHomePlugins();
-
-  async function submitLead(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!phoneValid) return;
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    setLeadStatus("loading");
-    setLeadMessage("");
-
-    try {
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.get("name"),
-          email: formData.get("email"),
-          phone: formData.get("phone"),
-          company: formData.get("company"),
-          service: formData.get("service"),
-          budget: formData.get("budget"),
-          message: formData.get("message"),
-          consent: formData.get("consent") === "on",
-          website: formData.get("website"),
-          startedAt,
-        }),
-      });
-      const result = (await response.json()) as { message?: string };
-      if (!response.ok) throw new Error(result.message ?? "Unable to submit your request.");
-
-      form.reset();
-      setStartedAt(Date.now());
-      setLeadStatus("success");
-      setLeadMessage(result.message ?? "Thanks! We’ll be in touch shortly.");
-    } catch (error) {
-      setLeadStatus("error");
-      setLeadMessage(error instanceof Error ? error.message : "Please try again.");
-    }
-  }
 
   return (
     <main>
@@ -458,8 +412,8 @@ export function LandingPage() {
             <h1><span>We Build WordPress</span><span>Websites That Help</span><em>Your Business Grow.</em></h1>
             <p>Fast, secure and high-performing WordPress websites designed to rank higher and convert better.</p>
             <div className="hero-actions">
-              <QuoteLink className="button">Get a Free Quote <ArrowRight /></QuoteLink>
-              <Link className="button button--ghost" href="/services">View Services <ArrowRight /></Link>
+              <QuoteLink className="button">Get a Free Quote</QuoteLink>
+              <Link className="button button--ghost" href="/services">View Services</Link>
             </div>
             <div className="hero-trust">
               <div><b>150+</b><span>Websites Launched</span></div>
@@ -589,9 +543,7 @@ export function LandingPage() {
             ))}
           </motion.div>
           <motion.div className="plugins-more" {...reveal}>
-            <Link className="button" href="/products">
-              View All Plugins <ArrowRight />
-            </Link>
+            <Link className="button" href="/products">View All Plugins</Link>
           </motion.div>
         </div>
       </section>
@@ -732,8 +684,7 @@ export function LandingPage() {
                 <strong>Custom <span>Quote</span></strong>
                 <ul>{plan.features.map((feature) => <li key={feature}><span className="pricing-check"><Check /></span>{feature}</li>)}</ul>
                 <a className="button" href="/contact" aria-label={`Get started with the ${plan.name} plan`}>
-                  Get Started <ArrowRight aria-hidden="true" />
-                </a>
+                  Get Started</a>
               </motion.article>
               );
             })}
@@ -749,8 +700,8 @@ export function LandingPage() {
             <p>Share your goals, challenges, and ideal timeline. We&apos;ll reply with practical next steps—not a generic sales pitch.</p>
           </div>
           <div className="cta-band-actions">
-            <QuoteLink className="button">Get a Free Quote <ArrowRight /></QuoteLink>
-            <Link className="button button--ghost" href="/portfolio">View Our Work <ArrowRight /></Link>
+            <QuoteLink className="button">Get a Free Quote</QuoteLink>
+            <Link className="button button--ghost" href="/portfolio">View Our Work</Link>
           </div>
         </div>
       </section>
@@ -774,8 +725,7 @@ export function LandingPage() {
                   <h3>{articleItem.title}</h3>
                   <p>{articleItem.text}</p>
                   <button type="button" onClick={() => setArticle(articleItem)} aria-label={`Read article: ${articleItem.title}`}>
-                    Read article <ArrowRight />
-                  </button>
+                    Read article</button>
                 </div>
               </motion.article>
             ))}
@@ -811,7 +761,7 @@ export function LandingPage() {
                 )}
               </div>
             ))}
-            <a className="button" href="/contact" onClick={() => setArticle(null)}>Talk to a WordPress specialist <ArrowRight /></a>
+            <a className="button" href="/contact" onClick={() => setArticle(null)}>Talk to a WordPress specialist</a>
           </article>
         </div>
       )}
@@ -822,7 +772,7 @@ export function LandingPage() {
             <span className="eyebrow">COMMON QUESTIONS</span>
             <h2>Everything You Need to Know Before We Start</h2>
             <p>Still have a question? Tell us about your project and a WordPress specialist will respond within one business day.</p>
-            <a className="button" href="/contact">Ask a Question <ArrowRight /></a>
+            <a className="button" href="/contact">Ask a Question</a>
           </div>
           <div className="faq-list">
             {faqs.map(([question, answer], index) => (
@@ -845,75 +795,6 @@ export function LandingPage() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="lead-section section" id="start-your-project">
-        <div className="container lead-layout">
-          <motion.div className="lead-copy" {...reveal}>
-            <span className="eyebrow">START YOUR PROJECT</span>
-            <h2>Let&apos;s Build a WordPress Website That Grows Your Business</h2>
-            <p>Share your goals, challenges, and ideal timeline. We&apos;ll reply with practical next steps—not a generic sales pitch.</p>
-            <ul>
-              <li><span className="lead-check"><Check /></span> Response within one business day</li>
-              <li><span className="lead-check"><Check /></span> Clear scope and transparent pricing</li>
-              <li><span className="lead-check"><Check /></span> No obligation or aggressive follow-up</li>
-            </ul>
-            <div className="lead-trust">
-              <div><strong><CountUp value={150} suffix="+" /></strong><span>websites launched</span></div>
-              <div><strong><CountUp value={98} suffix="%" /></strong><span>client satisfaction</span></div>
-            </div>
-          </motion.div>
-          <motion.form className="lead-form" onSubmit={submitLead} {...reveal}>
-            <div className="lead-form-row">
-              <label>Full name<input name="name" required minLength={2} autoComplete="name" placeholder="Alex Morgan" /></label>
-              <label>Work email<input name="email" required type="email" autoComplete="email" placeholder="alex@company.com" /></label>
-            </div>
-            <div className="lead-form-row">
-              <div className="lead-phone">
-                <span>WhatsApp number <small>Optional</small></span>
-                <PhoneField resetKey={startedAt} onValidityChange={setPhoneValid} />
-              </div>
-              <label>Company <small>Optional</small><input name="company" autoComplete="organization" placeholder="Company name" /></label>
-            </div>
-            <div className="lead-form-row">
-              <label>Service
-                <select name="service" required defaultValue="">
-                  <option value="" disabled>Select a service</option>
-                  {getAllServiceTitles().map((service) => <option key={service} value={service}>{service}</option>)}
-                </select>
-              </label>
-              <label>Estimated budget
-                <select name="budget" defaultValue="">
-                  <option value="">Not sure yet</option>
-                  <option>$2,500–$5,000</option>
-                  <option>$5,000–$10,000</option>
-                  <option>$10,000–$20,000</option>
-                  <option>$20,000+</option>
-                </select>
-              </label>
-            </div>
-            <label>Project details<textarea name="message" required minLength={20} rows={5} placeholder="What are you building, fixing, or improving?" /></label>
-            <label className="honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-            <label className="consent"><input name="consent" type="checkbox" required />I agree that WPServices may use these details to respond to my inquiry.</label>
-            <button className="button lead-submit" type="submit" disabled={leadStatus === "loading"}>
-              {leadStatus === "loading" ? "Sending request..." : "Request a Free Consultation"} <Send />
-            </button>
-            {leadMessage && <p className={`lead-message lead-message--${leadStatus}`} role="status">{leadMessage}</p>}
-          </motion.form>
-        </div>
-      </section>
-
-      <section className="newsletter" id="newsletter">
-        <div className="container newsletter-inner">
-          <div><span>Stay Updated with WordPress Tips</span><p>Join our newsletter and get the latest tips, guides, and WordPress insights.</p></div>
-          <form onSubmit={(event) => event.preventDefault()}>
-            <label className="newsletter-field">
-              <span className="sr-only">Email address</span>
-              <input type="email" required autoComplete="email" placeholder="Enter your email address" />
-            </label>
-            <button type="submit">Subscribe <Send /></button>
-          </form>
         </div>
       </section>
     </main>

@@ -3,7 +3,7 @@
 import { type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import type { WooPlugin } from "@/data/plugins";
 
 function pointerGlow(reduceMotion: boolean | null) {
@@ -37,7 +37,7 @@ export function PluginCard({ plugin, reduceMotion }: { plugin: WooPlugin; reduce
           <small>WooCommerce Extension</small>
           <strong>{plugin.price}</strong>
         </div>
-        <em className="plugin-card-cta">View Details <ArrowRight /></em>
+        <em className="plugin-card-cta">View Details</em>
       </div>
     </Link>
   );

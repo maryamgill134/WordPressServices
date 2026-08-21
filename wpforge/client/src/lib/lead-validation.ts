@@ -12,7 +12,7 @@ export const leadSchema = z.object({
     .or(z.literal("")),
   company: z.string().trim().max(160).optional().or(z.literal("")),
   service: z.string().trim().min(2, "Select a service.").max(120),
-  budget: z.string().trim().max(80).optional().or(z.literal("")),
+  budget: z.string().trim().min(1, "Select an estimated budget.").max(80),
   message: z.string().trim().min(20, "Tell us a little more about your project.").max(5000),
   consent: z.literal(true, {
     error: "Consent is required.",

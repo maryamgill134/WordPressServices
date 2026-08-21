@@ -8,7 +8,7 @@ export function HashScroll() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname !== "/") return;
+    if (pathname === "/contact" || pathname.startsWith("/contact/")) return;
     if (window.location.hash !== `#${QUOTE_SECTION_ID}`) return;
     const timer = window.setTimeout(() => {
       scrollToQuoteForm();

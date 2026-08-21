@@ -1,45 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import type { WooPlugin } from "@/data/plugins";
+import { InnerPageHero } from "@/components/inner-page-hero";
 
 export function PluginProductPage({ plugin }: { plugin: WooPlugin }) {
   const summary = plugin.overview ?? plugin.description;
 
   return (
     <div className="svc-page">
-      <section className="svc-hero">
-        <div className="svc-hero-bg" aria-hidden="true" />
-        <div className="container svc-hero-inner">
-          <div className="svc-hero-copy">
-            <p className="svc-crumb">
-              <Link href="/">Home</Link>
-              <span>/</span>
-              <Link href="/products">WooCommerce Plugins</Link>
-              <span>/</span>
-              <span>{plugin.name}</span>
-            </p>
-            <span className="eyebrow">{plugin.badge ?? plugin.category}</span>
-            <h1>{plugin.name}</h1>
-            <p>{summary}</p>
-            <div className="hero-actions">
-              <a className="button" href="/contact">
-                Request this extension <ArrowRight />
-              </a>
-              <Link className="button button--ghost" href="/products">
-                All plugins <ArrowRight />
-              </Link>
-            </div>
-          </div>
-          <div className="svc-hero-visual">
-            <div className="plugin-product-visual">
-              <Image src={plugin.image} alt={plugin.name} fill sizes="(max-width: 780px) 92vw, 420px" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <InnerPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "WooCommerce Plugins", href: "/products" },
+          { label: plugin.name },
+        ]}
+        label={plugin.badge ?? plugin.category}
+        title={plugin.name}
+        description={summary}
+      />
 
       <section className="section svc-grid-section">
         <div className="container">
@@ -55,12 +35,13 @@ export function PluginProductPage({ plugin }: { plugin: WooPlugin }) {
               </ul>
             </div>
             <article className="svc-card plugin-product-buy">
+              <div className="plugin-product-visual">
+                <Image src={plugin.image} alt={plugin.name} fill sizes="(max-width: 780px) 92vw, 420px" />
+              </div>
               <small>WooCommerce Extension</small>
               <strong>{plugin.price}</strong>
               <p>Licensed for a single WooCommerce store, with setup guidance from our team.</p>
-              <a className="button" href="/contact">
-                Get {plugin.name} <ArrowRight />
-              </a>
+              <a className="button" href="/contact">Get {plugin.name}</a>
             </article>
           </div>
         </div>

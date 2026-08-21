@@ -3,6 +3,7 @@ import { Instrument_Serif, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { HashScroll } from "@/components/hash-scroll";
+import { PageEndMatter } from "@/components/page-end-matter";
 import "./globals.css";
 
 const inter = Inter({
@@ -71,6 +72,7 @@ export default function RootLayout({
         <SiteHeader />
         <HashScroll />
         {children}
+        <PageEndMatter />
         <SiteFooter />
       </body>
     </html>

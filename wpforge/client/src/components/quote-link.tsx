@@ -13,6 +13,10 @@ export function scrollToQuoteForm() {
   return true;
 }
 
+function isContactPath(pathname: string) {
+  return pathname === "/contact" || pathname.startsWith("/contact/");
+}
+
 export function QuoteLink({
   className,
   children,
@@ -25,20 +29,19 @@ export function QuoteLink({
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "onClick">) {
   const pathname = usePathname();
   const router = useRouter();
-  const href = `/#${QUOTE_SECTION_ID}`;
+  const href = isContactPath(pathname) ? `/#${QUOTE_SECTION_ID}` : `${pathname === "/" ? "" : pathname}#${QUOTE_SECTION_ID}`;
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     onClick?.(event);
     if (event.defaultPrevented) return;
     event.preventDefault();
 
-    if (pathname === "/") {
-      scrollToQuoteForm();
+    if (!isContactPath(pathname) && scrollToQuoteForm()) {
       history.replaceState(null, "", href);
       return;
     }
 
-    router.push(href);
+    router.push(`/#${QUOTE_SECTION_ID}`);
   }
 
   return (

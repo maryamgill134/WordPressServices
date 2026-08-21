@@ -4,10 +4,9 @@ import { useMemo, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { servicePillars, type ServicePillar } from "@/data/services";
 import { getServiceCardImage } from "@/data/service-images";
-import { QuoteLink } from "@/components/quote-link";
+import { InnerPageHero } from "@/components/inner-page-hero";
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -61,24 +60,15 @@ export function ServicesDirectory() {
 
   return (
     <div className="svc-page svc-dir svc-catalog">
-      <section className="svc-dir-hero">
-        <div className="container">
-          <p className="svc-crumb">
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <span>Services</span>
-          </p>
-          <span className="eyebrow">SERVICES</span>
-          <h1>WordPress Services</h1>
-          <p>From WordPress development and WooCommerce solutions to optimization, maintenance, and custom development, we provide complete solutions to build, improve, and grow your website.</p>
-          <div className="hero-actions">
-            <QuoteLink className="button">Get Started <ArrowRight /></QuoteLink>
-            <Link className="button button--ghost" href="/contact">
-              Contact Us <ArrowRight />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <InnerPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services" },
+        ]}
+        label="Services"
+        title="WordPress Services"
+        description="From WordPress development and WooCommerce solutions to optimization, maintenance, and custom development, we provide complete solutions to build, improve, and grow your website."
+      />
 
       <div className="svc-catalog-nav" id="service-catalog">
         <div className="container">
@@ -132,9 +122,7 @@ export function ServicesDirectory() {
                         <div className="svc-catalog-copy">
                           <h4>{service.title}</h4>
                           <p>{service.short}</p>
-                          <Link href={`/services/${category.slug}/${service.slug}`}>
-                            Learn More <ArrowRight />
-                          </Link>
+                          <Link href={`/services/${category.slug}/${service.slug}`}>Learn More</Link>
                         </div>
                       </motion.article>
                     ))}
@@ -144,19 +132,6 @@ export function ServicesDirectory() {
           </div>
         </section>
       ))}
-
-      <section className="cta-band">
-        <div className="container cta-band-inner">
-          <div>
-            <span className="eyebrow">START YOUR PROJECT</span>
-            <h2>Ready to Transform Your Website?</h2>
-            <p>Let&apos;s build, optimize, and grow your business with powerful WordPress solutions.</p>
-          </div>
-          <div className="cta-band-actions">
-            <QuoteLink className="button">Get a Free Consultation <ArrowRight /></QuoteLink>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, Globe, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { getCountryCallingCode, type CountryCode } from "libphonenumber-js/max";
 import {
   SITE_DEFAULT_COUNTRY,
@@ -12,12 +12,27 @@ import {
   emptyPrefix,
   listCountries,
   looksInternational,
-  toCountryCode,
   type PhoneDetection,
 } from "@/lib/phone-detect";
 
 function flagUrl(country: CountryCode) {
   return `https://flagcdn.com/w40/${country.toLowerCase()}.png`;
+}
+
+function CountryFlag({ country }: { country: CountryCode }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) return null;
+
+  return (
+    <img
+      src={flagUrl(country)}
+      alt=""
+      width={20}
+      height={14}
+      onError={() => setFailed(true)}
+    />
+  );
 }
 
 const countries = listCountries();
@@ -65,23 +80,6 @@ export function PhoneField({
     setFinished(false);
     pickedRef.current = false;
   }, [resetKey]);
-
-  useEffect(() => {
-    let active = true;
-    fetch("https://ipwho.is/")
-      .then((response) => response.json())
-      .then((data: { country_code?: string }) => {
-        if (!active || pickedRef.current || inputRef.current?.value.trim()) return;
-        const country = toCountryCode(data.country_code);
-        if (!country) return;
-        setSelectedCountry(country);
-        setDetection(emptyPrefix(country));
-      })
-      .catch(() => undefined);
-    return () => {
-      active = false;
-    };
-  }, []);
 
   useEffect(() => {
     const form = rootRef.current?.closest("form");
@@ -173,13 +171,9 @@ export function PhoneField({
           aria-haspopup="listbox"
           onClick={() => setOpen((value) => !value)}
         >
-          {detection.callingCode && !detection.country ? (
-            <Globe />
-          ) : (
-            <img src={flagUrl(displayCountry)} alt="" width={20} height={14} />
-          )}
+          <CountryFlag key={displayCountry} country={displayCountry} />
           <span>+{displayCode}</span>
-          <ChevronDown />
+          <span className="phone-field-chevron" aria-hidden="true" />
         </button>
         <span className="phone-field-divider" aria-hidden="true" />
         <input
@@ -202,7 +196,7 @@ export function PhoneField({
         {open && (
           <div className="phone-field-menu" role="listbox" aria-label="Country codes">
             <div className="phone-field-search">
-              <Search />
+              <Search aria-hidden="true" />
               <input
                 ref={searchRef}
                 type="search"
@@ -224,7 +218,7 @@ export function PhoneField({
                     aria-selected={item.iso === displayCountry}
                     onClick={() => selectCountry(item.iso)}
                   >
-                    <img src={flagUrl(item.iso)} alt="" width={20} height={14} />
+                    <CountryFlag country={item.iso} />
                     <span>{item.name}</span>
                     <small>+{item.dial}</small>
                   </button>

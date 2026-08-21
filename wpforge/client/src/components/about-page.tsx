@@ -1,11 +1,8 @@
 "use client";
 
 import { type MouseEvent } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowRight,
   Bot,
   FileCode2,
   Gauge,
@@ -13,6 +10,7 @@ import {
   Palette,
   ShoppingCart,
 } from "lucide-react";
+import { InnerPageHero } from "@/components/inner-page-hero";
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -78,33 +76,15 @@ export function AboutPage() {
 
   return (
     <div className="svc-page about-page">
-      <section className="about-hero">
-        <div className="about-hero-bg" aria-hidden="true">
-          <span className="hero-grid" />
-          <span className="hero-orb hero-orb--one" />
-          <span className="hero-orb hero-orb--two" />
-        </div>
-        <div className="container about-hero-inner">
-          <div className="about-hero-copy">
-            <span className="eyebrow">ABOUT US</span>
-            <h1>We Build WordPress Experiences That <em>Move Businesses Forward.</em></h1>
-            <p>We are a WordPress development and digital agency focused on creating high-performing, scalable, and conversion-focused digital experiences.</p>
-            <div className="hero-actions">
-              <a className="button" href="/contact">Start a Project <ArrowRight /></a>
-              <Link className="button button--ghost" href="/services">Explore Our Services <ArrowRight /></Link>
-            </div>
-          </div>
-          <figure className="about-hero-visual">
-            <Image
-              src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=85"
-              alt="WordPress development workspace"
-              fill
-              sizes="(max-width: 780px) 100vw, 44vw"
-              priority
-            />
-          </figure>
-        </div>
-      </section>
+      <InnerPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "About" },
+        ]}
+        label="About Us"
+        title="We Build WordPress Experiences That Move Businesses Forward."
+        description="We are a WordPress development and digital agency focused on creating high-performing, scalable, and conversion-focused digital experiences."
+      />
 
       <section className="section about-story">
         <div className="container about-who">
@@ -282,20 +262,6 @@ export function AboutPage() {
                 </div>
               </motion.article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="cta-band">
-        <div className="container cta-band-inner">
-          <div>
-            <span className="eyebrow">START YOUR PROJECT</span>
-            <h2>Let&apos;s Build Something Better Together.</h2>
-            <p>Have a WordPress project, redesign, or digital challenge in mind? Let&apos;s turn your ideas into a high-performing digital experience.</p>
-          </div>
-          <div className="cta-band-actions">
-            <a className="button" href="/contact">Start Your Project <ArrowRight /></a>
-            <Link className="button button--ghost" href="/services">View Services <ArrowRight /></Link>
           </div>
         </div>
       </section>

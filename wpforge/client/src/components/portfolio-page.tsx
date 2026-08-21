@@ -4,9 +4,8 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { portfolioFilters, portfolioProjects, type PortfolioFilter } from "@/data/portfolio";
-import { QuoteLink } from "@/components/quote-link";
+import { InnerPageHero } from "@/components/inner-page-hero";
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -27,20 +26,17 @@ export function PortfolioPage() {
 
   return (
     <div className="svc-page portfolio-page">
-      <section className="svc-dir-hero">
-        <div className="container">
-          <p className="svc-crumb">
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <span>Portfolio</span>
-          </p>
-          <span className="eyebrow">PORTFOLIO</span>
-          <h1>Our Recent Work</h1>
-          <p>Explore our recent WordPress, WooCommerce, UI/UX, and custom development projects, created to deliver modern digital experiences and real business value.</p>
-        </div>
-      </section>
+      <InnerPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Portfolio" },
+        ]}
+        label="Portfolio"
+        title="We Build Digital Experiences That Perform."
+        description="Explore our portfolio of high-performance WordPress, WooCommerce, and custom digital experiences designed to help businesses grow."
+      />
 
-      <section className="portfolio section">
+      <section className="portfolio section" id="recent-work">
         <div className="container">
           <motion.div className="section-heading" {...reveal}>
             <span>PORTFOLIO</span>
@@ -82,7 +78,7 @@ export function PortfolioPage() {
                       <p className="project-summary">{project.theme}</p>
                       <ul>{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
                       <Link href={`/portfolio/${project.slug}`} aria-label={`View project: ${project.title}`}>
-                        View Project <ArrowRight />
+                        View Project
                       </Link>
                     </div>
                   </div>
@@ -90,22 +86,6 @@ export function PortfolioPage() {
               ))}
             </AnimatePresence>
           </motion.div>
-        </div>
-      </section>
-
-      <section className="cta-band">
-        <div className="container cta-band-inner">
-          <div>
-            <span className="eyebrow">START YOUR PROJECT</span>
-            <h2>Let&apos;s build a WordPress experience that works as hard as your business.</h2>
-            <p>Share your goals and we&apos;ll reply with a clear next step — not a generic pitch.</p>
-          </div>
-          <div className="cta-band-actions">
-            <QuoteLink className="button">Get a Free Quote <ArrowRight /></QuoteLink>
-            <Link className="button button--ghost" href="/contact">
-              Contact Us <ArrowRight />
-            </Link>
-          </div>
         </div>
       </section>
     </div>
