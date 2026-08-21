@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { servicePillars, type ServicePillar } from "@/data/services";
-import { getServiceCardImage } from "@/data/service-images";
+import { getServiceCardAlt, getServiceCardImage } from "@/data/service-images";
 import { InnerPageHero } from "@/components/inner-page-hero";
 
 const fadeUp = {
@@ -113,9 +113,10 @@ export function ServicesDirectory() {
                         <div className="svc-catalog-media">
                           <Image
                             src={getServiceCardImage(service.slug)}
-                            alt={service.title}
+                            alt={getServiceCardAlt(service.slug, service.title)}
                             fill
                             sizes="(max-width: 540px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                            style={{ objectFit: "cover", objectPosition: "center" }}
                           />
                         </div>
                         {service.isNew && <b className="svc-new">NEW</b>}
