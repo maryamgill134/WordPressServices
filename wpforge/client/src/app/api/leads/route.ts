@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Lead submission failed", error);
     return NextResponse.json(
-      { message: "We couldn’t submit your request. Please email hello@wpservices.com." },
+      { message: "We couldn’t submit your request. Please email info@technologiallc.com." },
       { status: 500 },
     );
   }

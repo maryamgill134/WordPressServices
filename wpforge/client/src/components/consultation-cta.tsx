@@ -161,32 +161,51 @@ export function StartYourProject() {
         </motion.div>
         <motion.form className="lead-form" onSubmit={submitLead} {...reveal}>
           <div className="lead-form-row">
-            <label>Full name<input name="name" required minLength={2} autoComplete="name" placeholder="Alex Morgan" /></label>
-            <label>Work email<input name="email" required type="email" autoComplete="email" placeholder="alex@company.com" /></label>
+            <label>
+              <span className="lead-field-label">Full name</span>
+              <input name="name" required minLength={2} autoComplete="name" placeholder="Alex Morgan" />
+            </label>
+            <label>
+              <span className="lead-field-label">Work email</span>
+              <input name="email" required type="email" autoComplete="email" placeholder="alex@company.com" />
+            </label>
           </div>
           <div className="lead-form-row">
             <div className="lead-phone">
-              <span>WhatsApp number <small>Optional</small></span>
+              <span className="lead-field-label">WhatsApp number <small>Optional</small></span>
               <PhoneField resetKey={startedAt} onValidityChange={setPhoneValid} />
             </div>
-            <label>Company <small>Optional</small><input name="company" autoComplete="organization" placeholder="Company name" /></label>
+            <label>
+              <span className="lead-field-label">Company <small>Optional</small></span>
+              <input name="company" autoComplete="organization" placeholder="Company name" />
+            </label>
           </div>
           <div className="lead-form-row">
-            <label>Service
+            <label>
+              <span className="lead-field-label">Service</span>
               <select name="service" required defaultValue="">
                 <option value="" disabled>Select a service</option>
                 {serviceOptions.map((service) => <option key={service} value={service}>{service}</option>)}
               </select>
             </label>
-            <label>Estimated budget
+            <label>
+              <span className="lead-field-label">Estimated budget</span>
               <select name="budget" required defaultValue="Not sure yet">
                 {budgetOptions.map((budget) => <option key={budget} value={budget}>{budget}</option>)}
               </select>
             </label>
           </div>
-          <label>Project details<textarea name="message" required minLength={20} rows={5} placeholder="Website" /></label>
-          <label className="honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-          <label className="consent"><input name="consent" type="checkbox" required />I agree that WPServices may use these details to respond to my inquiry.</label>
+          <label className="lead-field--area">
+            <span className="lead-field-label">Project details</span>
+            <textarea name="message" required minLength={20} rows={5} placeholder="Website" />
+          </label>
+          <div className="honeypot" aria-hidden="true">
+            <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+          </div>
+          <label className="consent">
+            <input name="consent" type="checkbox" required />
+            <span>I agree that WPServices may use these details to respond to my inquiry.</span>
+          </label>
           <button className="button lead-submit" type="submit" disabled={leadStatus === "loading"}>
             {leadStatus === "loading" ? "Sending request..." : "Request a Free Consultation"}
           </button>

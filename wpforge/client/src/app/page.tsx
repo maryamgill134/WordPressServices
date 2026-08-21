@@ -6,7 +6,7 @@ export default function Home() {
     "@type": "ProfessionalService",
     name: "WPServices",
     url: "https://wpservices.com",
-    email: "hello@wpservices.com",
+    email: "info@technologiallc.com",
     description:
       "Custom WordPress development, maintenance, SEO, performance, and security.",
     areaServed: "Worldwide",

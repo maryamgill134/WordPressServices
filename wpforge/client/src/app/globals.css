@@ -2551,7 +2551,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .lead-trust strong { color: #fff; font-size: 30px; font-weight: 800; letter-spacing: -.03em; }
 .lead-trust span { margin-top: 4px; color: #94a3b8; font-size: 13px; line-height: 1.35; }
 .lead-form {
+  position: relative;
   min-width: 0;
+  display: grid;
+  gap: 16px;
   padding: 36px 32px;
   border: 1px solid rgba(255,255,255,.12);
   border-radius: 24px;
@@ -2559,9 +2562,45 @@ button, a { -webkit-tap-highlight-color: transparent; }
   background: #fff;
   box-shadow: 0 28px 70px rgba(0,0,0,.32);
 }
-.lead-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.lead-form label { margin-bottom: 16px; display: grid; gap: 8px; color: #0f172a; font-size: 13px; font-weight: 700; }
-.lead-form label small { margin-left: 4px; color: #94a3b8; font-size: 12px; font-weight: 400; }
+.lead-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.lead-form > label,
+.lead-form-row > label,
+.lead-phone {
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+}
+.lead-form-row > label,
+.lead-phone {
+  grid-template-rows: 20px 48px;
+}
+.lead-form > label.lead-field--area {
+  grid-template-rows: 20px minmax(128px, auto);
+}
+.lead-field-label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+.lead-form label small,
+.lead-phone small {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 400;
+}
 .lead-form input:not([type="checkbox"]), .lead-form select, .lead-form textarea {
   width: 100%;
   border: 1px solid #e2e8f0;
@@ -2585,16 +2624,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   box-shadow: 0 0 0 4px rgba(239,68,68,.12);
 }
 .lead-form .field-error { color: #c93650; font-size: 12px; font-weight: 600; }
-.lead-form .consent { margin: 4px 0 18px; display: flex; grid: none; gap: 10px; align-items: flex-start; color: #64748b; font-size: 13px; font-weight: 400; line-height: 1.5; }
-.lead-phone {
-  margin-bottom: 16px;
-  display: grid;
-  gap: 8px;
-  color: #0f172a;
-  font-size: 13px;
-  font-weight: 700;
-}
-.lead-phone small { margin-left: 4px; color: #94a3b8; font-size: 12px; font-weight: 400; }
+.lead-form .consent { margin: 0; display: flex; grid: none; gap: 10px; align-items: flex-start; color: #64748b; font-size: 13px; font-weight: 400; line-height: 1.5; }
 .phone-field-wrap { position: relative; }
 .phone-field {
   position: relative;
@@ -2736,7 +2766,21 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .phone-field-empty { padding: 14px 10px; color: #94a3b8; font-size: 13px; font-weight: 500; }
 .phone-field-error { margin: 6px 0 0; color: #c93650; font-size: 12px; font-weight: 600; }
 .consent input { width: 16px; height: 16px; margin-top: 2px; flex: 0 0 auto; accent-color: var(--blue); }
-.honeypot { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lead-form .honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  pointer-events: none;
+}
 .lead-submit { width: 100%; min-height: 52px; }
 .lead-submit:disabled { opacity: .65; cursor: wait; transform: none; }
 .lead-message { margin: 14px 0 0; font-size: 13px; text-align: center; }
@@ -2988,6 +3032,7 @@ footer { padding: 72px 0 22px; color: #0b1020; background: #fff; border-top: 1px
   .testimonial-portrait { min-height: 320px; }
   .testimonial-quote { padding: 28px 20px 22px; }
   .insights-stage, .faq-layout, .lead-layout, .cta-band-inner { grid-template-columns: 1fr; display: grid; }
+  .lead-form-row { grid-template-columns: 1fr; }
   .plugins .filters { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
   .plugins .filters::-webkit-scrollbar { display: none; }
   .insight-card:not(.insight-card--featured) { grid-template-columns: 1fr; }

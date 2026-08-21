@@ -17,7 +17,7 @@ const fadeUp = {
 const offices = [
   { country: "UAE", location: "Sahara Health Care City, Regus 524, Dubai", phone: "00971585847929", href: "tel:+971585847929" },
   { country: "Pakistan", location: "Gujranwala, Punjab", phone: "03042336926", href: "tel:+923042336926" },
-  { country: "USA", location: "New York, NY 10001", phone: "+1 (555) 123-4567", href: "tel:+15551234567" },
+  { country: "USA", location: "St. Petersburg, FL 33702", phone: "+1 (904) 243-5044", href: "tel:+19042435044" },
 ];
 
 const expectations = [
@@ -175,24 +175,24 @@ export function ContactPage() {
             </div>
             <div className="lead-form-row">
               <label>
-                Full Name *
+                <span className="lead-field-label">Full Name *</span>
                 <input className={errors.name ? "is-invalid" : undefined} name="name" required minLength={2} autoComplete="name" placeholder="Alex Morgan" aria-invalid={Boolean(errors.name)} />
                 {errors.name && <span className="field-error">{errors.name}</span>}
               </label>
               <div className="lead-phone">
-                <span>Phone <small>Optional</small></span>
+                <span className="lead-field-label">Phone <small>Optional</small></span>
                 <PhoneField resetKey={startedAt} onValidityChange={setPhoneValid} />
                 {errors.phone && <span className="field-error">{errors.phone}</span>}
               </div>
             </div>
             <div className="lead-form-row">
               <label>
-                Work Email *
+                <span className="lead-field-label">Work Email *</span>
                 <input className={errors.email ? "is-invalid" : undefined} name="email" required type="email" autoComplete="email" placeholder="alex@company.com" aria-invalid={Boolean(errors.email)} />
                 {errors.email && <span className="field-error">{errors.email}</span>}
               </label>
               <label>
-                Project Budget *
+                <span className="lead-field-label">Project Budget *</span>
                 <select className={errors.budget ? "is-invalid" : undefined} name="budget" required defaultValue="" aria-invalid={Boolean(errors.budget)}>
                   <option value="" disabled>Select a budget</option>
                   {budgets.map((budget) => <option key={budget}>{budget}</option>)}
@@ -200,12 +200,14 @@ export function ContactPage() {
                 {errors.budget && <span className="field-error">{errors.budget}</span>}
               </label>
             </div>
-            <label>
-              Project Brief *
+            <label className="lead-field--area">
+              <span className="lead-field-label">Project Brief *</span>
               <textarea className={errors.message ? "is-invalid" : undefined} name="message" required minLength={20} rows={7} placeholder="Tell us about the WordPress site, store, migration, or retainer you need help with." aria-invalid={Boolean(errors.message)} />
               {errors.message && <span className="field-error">{errors.message}</span>}
             </label>
-            <label className="honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+            <div className="honeypot" aria-hidden="true">
+              <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+            </div>
             <label className={`consent ${errors.consent ? "is-invalid" : ""}`}>
               <input name="consent" type="checkbox" required />
               <span>I agree to the <a href="#">Privacy Policy</a> and that WPServices may use these details to respond to my inquiry.</span>

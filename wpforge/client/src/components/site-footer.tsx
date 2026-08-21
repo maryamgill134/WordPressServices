@@ -61,8 +61,8 @@ export function SiteFooter() {
           </article>
           <article>
             <span>USA</span>
-            <p>New York, NY 10001</p>
-            <a href="tel:+15551234567">+1 (555) 123-4567</a>
+            <p>St. Petersburg, FL 33702</p>
+            <a href="tel:+19042435044">+1 (904) 243-5044</a>
           </article>
         </div>
         <div className="footer-bottom">

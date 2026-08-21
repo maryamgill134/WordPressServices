@@ -8,7 +8,7 @@ import { servicePillars } from "@/data/services";
 import { Logo } from "@/components/logo";
 import { QuoteLink } from "@/components/quote-link";
 
-const nav = ["Home", "Services", "Portfolio", "About", "Blog", "Contact"];
+const nav = ["Home", "About", "Services", "Portfolio", "Blog", "Contact"];
 const navTarget = (item: string) => (item === "Blog" ? "insights" : item.toLowerCase());
 
 export function SiteHeader() {
