@@ -22,7 +22,13 @@ export function PluginCard({ plugin, reduceMotion }: { plugin: WooPlugin; reduce
   return (
     <Link className="plugin-card glow-card" href={plugin.href} {...pointerGlow(reduceMotion)}>
       <div className="plugin-card-image">
-        <Image src={plugin.image} alt={`${plugin.name} WooCommerce extension`} fill sizes="(max-width: 540px) 100vw, (max-width: 1100px) 50vw, 25vw" />
+        <Image
+          src={plugin.image}
+          alt={plugin.imageAlt}
+          fill
+          sizes="(max-width: 540px) 100vw, (max-width: 1100px) 50vw, 25vw"
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
       </div>
       <div className="plugin-card-body">
         <span>{plugin.badge ?? plugin.category}</span>
