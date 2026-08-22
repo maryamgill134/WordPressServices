@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { CheckMark } from "@/components/check-mark";
 import type { PortfolioProject } from "@/data/portfolio";
 import { InnerPageHero } from "@/components/inner-page-hero";
 import { QuoteLink } from "@/components/quote-link";
@@ -68,13 +68,13 @@ export function PortfolioProjectPage({ project }: { project: PortfolioProject })
               <h3>Technologies</h3>
               <ul className="svc-points">
                 {project.tags.map((tag) => (
-                  <li key={tag}><span className="pricing-check"><Check /></span>{tag}</li>
+                  <li key={tag}><CheckMark size="compact" /><span>{tag}</span></li>
                 ))}
               </ul>
               <h3>Key features</h3>
               <ul className="svc-points">
                 {project.features.map((feature) => (
-                  <li key={feature}><span className="pricing-check"><Check /></span>{feature}</li>
+                  <li key={feature}><CheckMark size="compact" /><span>{feature}</span></li>
                 ))}
               </ul>
               <QuoteLink className="button">Start a Similar Project</QuoteLink>

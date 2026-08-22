@@ -2,7 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Check, Mail, Phone, Send } from "lucide-react";
+import { Mail, Phone, Send } from "lucide-react";
+import { CheckMark } from "@/components/check-mark";
 import { PhoneField } from "@/components/phone-field";
 import { contactLeadSchema } from "@/lib/lead-validation";
 import { InnerPageHero } from "@/components/inner-page-hero";
@@ -162,7 +163,7 @@ export function ContactPage() {
               <h3>What to expect</h3>
               <ul>
                 {expectations.map((item) => (
-                  <li key={item}><span className="pricing-check"><Check /></span>{item}</li>
+                  <li key={item}><CheckMark size="compact" /><span>{item}</span></li>
                 ))}
               </ul>
             </article>

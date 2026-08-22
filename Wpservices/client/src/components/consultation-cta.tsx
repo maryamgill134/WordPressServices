@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { CheckMark } from "@/components/check-mark";
 import { PhoneField } from "@/components/phone-field";
 import { QUOTE_SECTION_ID } from "@/components/quote-link";
 
@@ -149,7 +150,7 @@ export function StartYourProject() {
           <ul>
             {benefits.map((item) => (
               <li key={item}>
-                <span className="lead-check" aria-hidden="true" />
+                <CheckMark tone="on-dark" />
                 {item}
               </li>
             ))}

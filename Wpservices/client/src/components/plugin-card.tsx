@@ -3,7 +3,7 @@
 import { type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { CheckMark } from "@/components/check-mark";
 import type { WooPlugin } from "@/data/plugins";
 
 function pointerGlow(reduceMotion: boolean | null) {
@@ -36,7 +36,7 @@ export function PluginCard({ plugin, reduceMotion }: { plugin: WooPlugin; reduce
         <p>{plugin.description}</p>
         <ul>
           {plugin.features.map((feature) => (
-            <li key={feature}><span className="plugin-check"><Check /></span>{feature}</li>
+            <li key={feature}><CheckMark size="compact" /><span>{feature}</span></li>
           ))}
         </ul>
         <div className="plugin-card-meta">

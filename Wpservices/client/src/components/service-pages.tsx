@@ -3,9 +3,10 @@
 import { useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Check, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type { ServiceCategory, ServiceItem } from "@/data/services";
 import { getPillarForCategory } from "@/data/services";
+import { CheckMark } from "@/components/check-mark";
 import { serviceIconMap } from "@/components/service-icons";
 import { categoryCrumbLabel, InnerPageHero } from "@/components/inner-page-hero";
 
@@ -159,7 +160,7 @@ function extraBlocks(slug: string) {
           </div>
           <div className="svc-highlight-grid">
             {items.map((item) => (
-              <article key={item}><Check /><strong>{item}</strong></article>
+              <article key={item}><CheckMark /><strong>{item}</strong></article>
             ))}
           </div>
         </div>
@@ -188,7 +189,7 @@ function extraBlocks(slug: string) {
           </div>
           <div className="svc-highlight-grid">
             {items.map((item) => (
-              <article key={item}><Check /><strong>{item}</strong></article>
+              <article key={item}><CheckMark /><strong>{item}</strong></article>
             ))}
           </div>
         </div>
@@ -206,7 +207,7 @@ function extraBlocks(slug: string) {
           </div>
           <div className="svc-highlight-grid">
             {items.map((item) => (
-              <article key={item}><Check /><strong>{item}</strong></article>
+              <article key={item}><CheckMark /><strong>{item}</strong></article>
             ))}
           </div>
         </div>
@@ -224,7 +225,7 @@ function extraBlocks(slug: string) {
           </div>
           <div className="svc-highlight-grid">
             {items.map((item) => (
-              <article key={item}><Check /><strong>{item}</strong></article>
+              <article key={item}><CheckMark /><strong>{item}</strong></article>
             ))}
           </div>
         </div>
@@ -242,7 +243,7 @@ function extraBlocks(slug: string) {
           </div>
           <div className="svc-highlight-grid">
             {items.map((item) => (
-              <article key={item}><Check /><strong>{item}</strong></article>
+              <article key={item}><CheckMark /><strong>{item}</strong></article>
             ))}
           </div>
         </div>
@@ -281,7 +282,7 @@ export function ServiceDetailPage({ category, service }: { category: ServiceCate
           </motion.div>
           <motion.ul className="svc-points" {...reveal}>
             {service.problems.slice(0, 3).map((problem) => (
-              <li key={problem}><Check />{problem}</li>
+              <li key={problem}><CheckMark /><span>{problem}</span></li>
             ))}
           </motion.ul>
         </div>
@@ -309,7 +310,7 @@ export function ServiceDetailPage({ category, service }: { category: ServiceCate
           </motion.div>
           <ul className="svc-included">
             {service.included.map((item) => (
-              <li key={item}><span className="lead-check"><Check /></span>{item}</li>
+              <li key={item}><CheckMark /><span>{item}</span></li>
             ))}
           </ul>
         </div>

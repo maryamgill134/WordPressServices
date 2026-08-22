@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Check } from "lucide-react";
+import { CheckMark } from "@/components/check-mark";
 import type { WooPlugin } from "@/data/plugins";
 import { InnerPageHero } from "@/components/inner-page-hero";
 
@@ -30,7 +30,7 @@ export function PluginProductPage({ plugin }: { plugin: WooPlugin }) {
               <p>{summary}</p>
               <ul className="svc-points">
                 {plugin.features.map((feature) => (
-                  <li key={feature}><span className="pricing-check"><Check /></span>{feature}</li>
+                  <li key={feature}><CheckMark size="compact" /><span>{feature}</span></li>
                 ))}
               </ul>
             </div>

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -27,6 +26,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getHomePlugins } from "@/data/plugins";
+import { CheckMark } from "@/components/check-mark";
 import { PluginCard } from "@/components/plugin-card";
 import { QuoteLink } from "@/components/quote-link";
 
@@ -682,7 +682,7 @@ export function LandingPage() {
                   <small>{plan.audience}</small>
                 </div>
                 <strong>Custom <span>Quote</span></strong>
-                <ul>{plan.features.map((feature) => <li key={feature}><span className="pricing-check"><Check /></span>{feature}</li>)}</ul>
+                <ul>{plan.features.map((feature) => <li key={feature}><CheckMark size="compact" />{feature}</li>)}</ul>
                 <a className="button" href="/contact" aria-label={`Get started with the ${plan.name} plan`}>
                   Get Started</a>
               </motion.article>
