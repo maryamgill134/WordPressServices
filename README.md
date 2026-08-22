@@ -254,11 +254,6 @@ Open `http://localhost:3000`.
 
 Environment:
 
-```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/wpservices?schema=public"
-LEAD_HASH_SALT="use-a-long-random-production-secret"
-```
-
 ## Quality and deployment
 
 ```bash
