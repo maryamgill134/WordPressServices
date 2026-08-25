@@ -5,8 +5,6 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   CircleGauge,
   Code2,
   Compass,
@@ -16,19 +14,15 @@ import {
   MonitorSmartphone,
   Palette,
   PenTool,
-  Quote,
   ShieldCheck,
   Sparkles,
-  Star,
   Users,
-  X,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { getHomePlugins } from "@/data/plugins";
 import { CheckMark } from "@/components/check-mark";
-import { PluginCard } from "@/components/plugin-card";
 import { QuoteLink } from "@/components/quote-link";
+import { insightHref, insights } from "@/data/insights";
 
 const process = [
   { icon: Compass, number: "01", title: "Discovery", text: "We understand your business, audience, and goals." },
@@ -39,117 +33,10 @@ const process = [
   { icon: Sparkles, number: "06", title: "Launch & Support", text: "We launch your website and provide ongoing support." },
 ];
 
-const testimonials = [
-  { name: "James Carter", role: "CEO, Northstar", quote: "The team completely transformed our website. The new design looks stunning and has increased our lead quality.", avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1600&q=85" },
-  { name: "Sarah Mitchell", role: "Marketing Director, Brightland", quote: "Professional, responsive, and highly skilled. WPServices delivered exactly what we needed, ahead of schedule.", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1600&q=85" },
-  { name: "David Lee", role: "Founder, ShopBlend", quote: "Our new WooCommerce store runs incredibly fast and is finally easy to manage. Sales improved from week one.", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1600&q=85" },
-];
-
 const pricing = [
   { name: "Starter", audience: "For Small Businesses", features: ["5-page website", "Responsive design", "Contact form", "Basic SEO setup", "Social media integration", "Security setup"] },
   { name: "Business", audience: "For Growing Businesses", featured: true, features: ["Up to 10 pages", "Custom design", "Advanced forms", "SEO optimization", "Performance optimization", "Analytics", "Security"] },
   { name: "E-commerce", audience: "For Online Stores", features: ["WooCommerce", "Product setup", "Payment integration", "Shopping cart", "Checkout", "Order management", "Responsive design"] },
-];
-
-const insights = [
-  {
-    category: "Performance",
-    title: "How to Make WordPress Faster Without Breaking Your Site",
-    text: "A practical Core Web Vitals checklist for faster pages and stronger conversions.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85",
-    sections: [
-      {
-        heading: "Start with what visitors actually feel",
-        paragraphs: [
-          "Speed work should protect conversions, not just improve a lab score. Measure Largest Contentful Paint, Interaction to Next Paint, and Cumulative Layout Shift on the pages that bring in leads or sales.",
-          "Fix the homepage, key service pages, and checkout or contact templates first. Those pages decide whether someone stays long enough to take action.",
-        ],
-      },
-      {
-        heading: "A Core Web Vitals checklist that stays safe",
-        paragraphs: ["Use this sequence so optimization does not break layout, forms, or WooCommerce:"],
-        items: [
-          "Compress and serve images in WebP or AVIF, with correct width and height attributes.",
-          "Remove unused plugins, then delay non-critical JavaScript instead of stripping scripts the theme still needs.",
-          "Cache HTML for anonymous visitors and keep cart, account, and form pages excluded.",
-          "Preload only the hero font and the main image. Extra preloads can slow first paint.",
-          "Test forms, menus, and checkout after every change, not only PageSpeed scores.",
-        ],
-      },
-      {
-        heading: "Keep the site maintainable",
-        paragraphs: [
-          "Document what you changed and why. A faster site that nobody can update safely is not a win. Re-test after plugin and theme updates so performance gains do not quietly disappear.",
-        ],
-      },
-    ],
-  },
-  {
-    category: "Security",
-    title: "The WordPress Security Checklist Every Business Needs",
-    text: "Reduce risk with sensible hardening, monitoring, backups, and access controls.",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=85",
-    sections: [
-      {
-        heading: "Lock down access before you add more tools",
-        paragraphs: [
-          "Most WordPress incidents start with weak logins, leftover admin accounts, or outdated plugins. Hardening is useful only if the basics are already in place.",
-        ],
-        items: [
-          "Use unique admin usernames, strong passwords, and two-factor authentication.",
-          "Limit login attempts and hide unused author archives.",
-          "Give each teammate the lowest role they need. Do not share one administrator login.",
-          "Remove inactive users, demo accounts, and plugins that are no longer in use.",
-        ],
-      },
-      {
-        heading: "Backups, updates, and monitoring",
-        paragraphs: [
-          "A clean backup is the difference between a short recovery and a lost week. Keep automated offsite backups, then confirm you can restore them.",
-          "Apply core, theme, and plugin updates on a schedule. Pair that with malware scanning and uptime alerts so you notice problems before customers do.",
-        ],
-      },
-      {
-        heading: "Sensible hardening",
-        paragraphs: [
-          "Disable file editing in wp-admin, keep XML-RPC restricted unless you need it, and serve the site over HTTPS everywhere. Security is a process, not a one-time plugin install.",
-        ],
-      },
-    ],
-  },
-  {
-    category: "WooCommerce",
-    title: "Seven Ways to Improve Your Store’s Conversion Rate",
-    text: "Remove buying friction and create a checkout experience customers trust.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85",
-    sections: [
-      {
-        heading: "Make the path to purchase obvious",
-        paragraphs: [
-          "Shoppers abandon stores when they cannot find shipping costs, product details, or a simple next step. Conversion work is mostly about removing doubt.",
-        ],
-      },
-      {
-        heading: "Seven changes that usually move the needle",
-        paragraphs: [],
-        items: [
-          "Show price, stock, and delivery expectations on the product page, not only at checkout.",
-          "Use clear product photos and short benefit-led descriptions above the fold.",
-          "Keep the cart visible and make “Add to cart” the strongest action on the page.",
-          "Offer guest checkout so first-time buyers are not forced to create an account.",
-          "Cut extra form fields. Ask only for what you need to fulfill the order.",
-          "Display trust signals near payment: secure checkout, return policy, and real support.",
-          "Test the mobile checkout on a real phone. Most drop-off happens there.",
-        ],
-      },
-      {
-        heading: "Measure, then refine",
-        paragraphs: [
-          "Watch add-to-cart rate, checkout start rate, and completed orders after each change. Improve one friction point at a time so you know what actually helped.",
-        ],
-      },
-    ],
-  },
 ];
 
 const faqs = [
@@ -363,30 +250,8 @@ export function LandingPage() {
   const [openFaq, setOpenFaq] = useState(0);
   const [selectedPlan, setSelectedPlan] = useState("Business");
   const [activeProcess, setActiveProcess] = useState(0);
-  const [article, setArticle] = useState<(typeof insights)[number] | null>(null);
-  const [activeReview, setActiveReview] = useState(0);
-  const articleCloseRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
   const reveal = reduceMotion ? { initial: false as const } : fadeUp;
-
-  useEffect(() => {
-    document.body.style.overflow = article ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [article]);
-
-  useEffect(() => {
-    if (!article) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setArticle(null);
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    articleCloseRef.current?.focus();
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [article]);
-
-  const homePlugins = getHomePlugins();
 
   return (
     <main>
@@ -522,29 +387,72 @@ export function LandingPage() {
         </div>
       </motion.section>
 
-      <section className="plugins section" id="plugins">
-        <div className="container">
-          <Heading
-            label="WOOCOMMERCE PLUGINS"
-            title="WooCommerce Plugins Built for Real Stores"
-            text="Powerful WooCommerce extensions designed to simplify operations, improve conversions, and help online stores grow."
-          />
-          <motion.div layout className="plugins-grid">
-            {homePlugins.map((plugin, index) => (
-              <motion.article
-                key={plugin.name}
-                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: reduceMotion ? 0 : 0.4, delay: reduceMotion ? 0 : index * 0.04, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <PluginCard plugin={plugin} reduceMotion={reduceMotion} />
-              </motion.article>
-            ))}
-          </motion.div>
-          <motion.div className="plugins-more" {...reveal}>
-            <Link className="button" href="/products">View All Plugins</Link>
-          </motion.div>
+      <section className="wpdev-section" aria-labelledby="wpdev-heading">
+        <div className="container wpdev-inner">
+          <motion.figure
+            className="wpdev-stage"
+            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Image
+              className="wpdev-mockup"
+              src="/wpdev-device-cluster.png"
+              alt="Responsive WordPress websites shown on desktop, laptop, tablet, and phone"
+              width={912}
+              height={573}
+              sizes="(max-width: 540px) 92vw, (max-width: 1100px) 48vw, 560px"
+            />
+          </motion.figure>
+
+          <div className="wpdev-copy">
+            <motion.h2
+              id="wpdev-heading"
+              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            >
+              High-Performance
+              <em>WordPress Development</em>
+              Solutions
+            </motion.h2>
+            <motion.p
+              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.55, delay: reduceMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Experts at WPServices build fast, secure, and conversion-focused WordPress websites designed to help businesses grow.
+            </motion.p>
+            <motion.p
+              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.55, delay: reduceMotion ? 0 : 0.14, ease: [0.22, 1, 0.36, 1] }}
+            >
+              From small businesses to established enterprises, every site is optimized for performance, usability, SEO, responsiveness, and conversions—so the experience stays clear on every device.
+            </motion.p>
+            <motion.p
+              className="wpdev-support"
+              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.55, delay: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Let&apos;s Build Something Great for You.
+            </motion.p>
+            <motion.div
+              className="wpdev-cta"
+              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.55, delay: reduceMotion ? 0 : 0.26, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <QuoteLink className="button">Get a Free Consultation</QuoteLink>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -578,71 +486,6 @@ export function LandingPage() {
               </motion.article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="testimonials section">
-        <div className="container">
-          <Heading label="TESTIMONIALS" title="What Our Clients Say" />
-          <motion.div className="testimonial-board" {...reveal}>
-            <div className="testimonial-portrait">
-              {testimonials.map((review, index) => (
-                <div
-                  key={review.name}
-                  className={`testimonial-portrait-frame ${index === activeReview ? "is-active" : ""}`}
-                  aria-hidden={index !== activeReview}
-                >
-                  <Image src={review.avatar} alt={review.name} fill sizes="(max-width: 780px) 100vw, 38vw" />
-                </div>
-              ))}
-            </div>
-            <figure className="testimonial-quote">
-              <Quote className="quote-mark" aria-hidden="true" />
-              <div className="stars" aria-label="5 out of 5 stars">{Array.from({ length: 5 }).map((_, star) => <Star key={star} fill="currentColor" />)}</div>
-              <blockquote key={testimonials[activeReview].name} className="testimonial-copy">
-                &ldquo;{testimonials[activeReview].quote}&rdquo;
-              </blockquote>
-              <figcaption>
-                <strong>{testimonials[activeReview].name}</strong>
-                <small>{testimonials[activeReview].role}</small>
-              </figcaption>
-              <div className="testimonial-controls">
-                <button type="button" aria-label="Previous testimonial" onClick={() => setActiveReview((current) => (current - 1 + testimonials.length) % testimonials.length)}>
-                  <ChevronLeft />
-                </button>
-                <div className="testimonial-dots" role="tablist" aria-label="Choose a testimonial">
-                  {testimonials.map((review, index) => (
-                    <button
-                      type="button"
-                      key={review.name}
-                      className={index === activeReview ? "is-active" : ""}
-                      aria-label={`Show review from ${review.name}`}
-                      aria-pressed={index === activeReview}
-                      onClick={() => setActiveReview(index)}
-                    />
-                  ))}
-                </div>
-                <button type="button" aria-label="Next testimonial" onClick={() => setActiveReview((current) => (current + 1) % testimonials.length)}>
-                  <ChevronRight />
-                </button>
-              </div>
-              <div className="testimonial-people">
-                {testimonials.map((review, index) => (
-                  <button
-                    type="button"
-                    key={review.name}
-                    className={index === activeReview ? "is-active" : ""}
-                    aria-label={`Show review from ${review.name}`}
-                    aria-pressed={index === activeReview}
-                    onClick={() => setActiveReview(index)}
-                  >
-                    <Image src={review.avatar} alt="" width={48} height={48} />
-                    <span>{review.name.split(" ")[0]}</span>
-                  </button>
-                ))}
-              </div>
-            </figure>
-          </motion.div>
         </div>
       </section>
 
@@ -712,59 +555,27 @@ export function LandingPage() {
           <div className="insights-stage">
             {insights.map((articleItem, index) => (
               <motion.article
-                key={articleItem.title}
+                key={articleItem.slug}
                 className={`insight-card glow-card ${index === 0 ? "insight-card--featured" : ""}`}
                 {...reveal}
                 {...pointerGlow(reduceMotion)}
                 whileHover={reduceMotion ? undefined : { y: -6, transition: { duration: 0.22 } }}
                 transition={reduceMotion ? { duration: 0 } : { ...fadeUp.transition, delay: index * 0.06 }}
               >
-                <div className="insight-image"><Image src={articleItem.image} alt={articleItem.title} fill sizes="(max-width: 760px) 100vw, 50vw" /></div>
+                <div className="insight-image"><Image src={articleItem.image} alt={articleItem.imageAlt} fill sizes="(max-width: 760px) 100vw, 50vw" /></div>
                 <div>
                   <span>{articleItem.category}</span>
                   <h3>{articleItem.title}</h3>
-                  <p>{articleItem.text}</p>
-                  <button type="button" onClick={() => setArticle(articleItem)} aria-label={`Read article: ${articleItem.title}`}>
-                    Read article</button>
+                  <p>{articleItem.excerpt}</p>
+                  <Link className="insight-read" href={insightHref(articleItem.slug)} aria-label={`Read article: ${articleItem.title}`}>
+                    Read article
+                  </Link>
                 </div>
               </motion.article>
             ))}
           </div>
         </div>
       </section>
-
-      {article && (
-        <div
-          className="case-study-backdrop"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setArticle(null);
-          }}
-        >
-          <article className="case-study-modal article-modal" role="dialog" aria-modal="true" aria-labelledby="article-title">
-            <button ref={articleCloseRef} className="case-study-close" type="button" onClick={() => setArticle(null)} aria-label="Close article">
-              <X aria-hidden="true" />
-            </button>
-            <div className="case-study-image">
-              <Image src={article.image} alt="" fill sizes="(max-width: 760px) 92vw, 720px" />
-            </div>
-            <small>{article.category}</small>
-            <h2 id="article-title">{article.title}</h2>
-            <p className="case-study-type">{article.text}</p>
-            {article.sections.map((section) => (
-              <div className="case-study-block" key={section.heading}>
-                <h3>{section.heading}</h3>
-                {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                {section.items && (
-                  <ul className="article-points">
-                    {section.items.map((item) => <li key={item}>{item}</li>)}
-                  </ul>
-                )}
-              </div>
-            ))}
-            <a className="button" href="/contact" onClick={() => setArticle(null)}>Talk to a WordPress specialist</a>
-          </article>
-        </div>
-      )}
 
       <section className="faq section" id="faq">
         <div className="container faq-layout">

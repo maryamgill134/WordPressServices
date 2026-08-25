@@ -442,19 +442,24 @@ export const servicePillars: ServicePillar[] = [
             short: "Updates, backups, security, monitoring, and support on a predictable cadence.",
             benefit: "A WordPress site that stays healthy after launch.",
             icon: "wrench",
-            overview: "WordPress Maintenance is a retainer for the unglamorous work that keeps a site safe and available: core and plugin updates, offsite backups, uptime monitoring, malware checks, and a specialist to call when something fails.",
+            overview: "WordPress Maintenance is ongoing care for a live site: core, plugin, and theme updates, daily backups, security and malware checks, performance and uptime monitoring, database cleanup, and a specialist to call when something fails. The work stays on a predictable cadence so the site remains healthy after launch.",
             problems: ["No one owns updates until the site breaks", "Backups that have never been tested", "Plugin lag creating security risk", "No staging, so live edits become incidents"],
-            included: ["Core, theme, and plugin updates", "Offsite backups and restore checks", "Security monitoring", "Uptime alerts", "Performance watch", "Priority technical support"],
+            included: ["WordPress Updates", "Daily Backups", "Security Monitoring", "Performance Monitoring", "Uptime Monitoring", "Bug Fixes & Support"],
             benefits: [
               { title: "Security", text: "Patching and monitoring against known WordPress risks." },
-              { title: "Updates", text: "A cadence that keeps the stack current without surprise breakage." },
+              { title: "Performance", text: "Slowdowns are noticed before they become a conversion problem." },
               { title: "Backups", text: "Restorable copies, not a false sense of safety." },
-              { title: "Technical support", text: "A specialist who already knows your site." },
+              { title: "Peace of mind", text: "A specialist who already knows your site owns the technical care." },
             ],
             faqs: [
-              { q: "Do you update plugins directly on production?", a: "Critical patches may go live quickly. Larger updates are tested on staging when the stack allows." },
-              { q: "What happens if a plugin update breaks the site?", a: "We roll back, isolate the issue, and fix it under the care plan." },
-              { q: "Is hosting included?", a: "Hosting can be advised or managed separately. Maintenance focuses on the WordPress application." },
+              { q: "What is included in WordPress maintenance?", a: "Typical care covers WordPress core, plugin, and theme updates, daily backups, security and malware checks, performance and uptime monitoring, database cleanup, bug fixes, and a monthly report. The exact mix is confirmed in your plan." },
+              { q: "How often do you update WordPress, plugins, and themes?", a: "Security patches are treated as a priority. Larger updates are reviewed for compatibility and applied on a cadence that fits the site. When staging is available, we test there first." },
+              { q: "Do you take backups before making changes?", a: "Yes. Daily offsite backups are part of ongoing care, and we take a restore point before significant updates. A backup only matters if it can be restored." },
+              { q: "What happens if an update breaks the site?", a: "We isolate the change, roll back if needed, and restore a working site. The goal is a stable live site first, then a controlled fix for the plugin or theme that caused the conflict." },
+              { q: "Is hosting included in the maintenance plan?", a: "Hosting can be advised or managed separately. Maintenance focuses on the WordPress application: updates, backups, security, performance, uptime, and support." },
+              { q: "How quickly do you respond to downtime or errors?", a: "Uptime monitoring means we often see an outage before you do. Response speed depends on the plan, but every care plan includes a named technical owner instead of a generic ticket queue." },
+              { q: "Will I receive reports on the work you do?", a: "Yes. You receive a monthly maintenance report covering updates, backups, incidents, and anything that needs a decision." },
+              { q: "Can you maintain a WooCommerce or membership site?", a: "Yes. Stores and membership sites need extra care around checkout, product data, and plugins. We confirm the stack during onboarding and recommend the right plan when commerce or high traffic is involved." },
             ],
           }),
         ],
@@ -829,6 +834,13 @@ export function getService(categorySlug: string, serviceSlug: string) {
   const service = category.services.find((item) => item.slug === serviceSlug);
   if (!service) return null;
   return { category, service };
+}
+
+export const WORDPRESS_MAINTENANCE_HREF = "/services/wordpress-maintenance";
+
+export function servicePageHref(categorySlug: string, serviceSlug: string) {
+  if (serviceSlug === "wordpress-maintenance") return WORDPRESS_MAINTENANCE_HREF;
+  return `/services/${categorySlug}/${serviceSlug}`;
 }
 
 export function getAllServicePaths() {

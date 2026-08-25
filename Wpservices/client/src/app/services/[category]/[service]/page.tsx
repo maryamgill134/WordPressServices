@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ServiceDetailPage } from "@/components/service-pages";
+import { ServiceDetailPage } from "@/components/service-detail-page";
 import { getAllServicePaths, getService } from "@/data/services";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getAllServicePaths();
+  return getAllServicePaths().filter(
+    (path) => !(path.category === "maintain" && path.service === "wordpress-maintenance"),
+  );
 }
 
 export function generateMetadata({ params }: { params: { category: string; service: string } }): Metadata {

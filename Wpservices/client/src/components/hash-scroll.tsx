@@ -1,20 +1,35 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { QUOTE_SECTION_ID, scrollToQuoteForm } from "@/components/quote-link";
+import { usePathname, useRouter } from "next/navigation";
+import { QUOTE_SECTION_ID } from "@/components/quote-link";
+import { QUOTE_PAGE_HREF } from "@/data/quote-form";
+
+function scrollToHashTarget(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return false;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  return true;
+}
 
 export function HashScroll() {
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    if (pathname === "/contact" || pathname.startsWith("/contact/")) return;
-    if (window.location.hash !== `#${QUOTE_SECTION_ID}`) return;
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+    if (hash === QUOTE_SECTION_ID) {
+      router.replace(QUOTE_PAGE_HREF);
+      return;
+    }
+
     const timer = window.setTimeout(() => {
-      scrollToQuoteForm();
-    }, 40);
+      scrollToHashTarget(hash);
+    }, 80);
     return () => window.clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, router]);
 
   return null;
 }

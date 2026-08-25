@@ -181,7 +181,7 @@ export function ContactPage() {
                 {errors.name && <span className="field-error">{errors.name}</span>}
               </label>
               <div className="lead-phone">
-                <span className="lead-field-label">Phone <small>Optional</small></span>
+                <span className="lead-field-label">Phone</span>
                 <PhoneField resetKey={startedAt} onValidityChange={setPhoneValid} />
                 {errors.phone && <span className="field-error">{errors.phone}</span>}
               </div>

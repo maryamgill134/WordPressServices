@@ -4,7 +4,7 @@ import { useMemo, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { servicePillars, type ServicePillar } from "@/data/services";
+import { servicePillars, type ServicePillar, servicePageHref } from "@/data/services";
 import { getServiceCardAlt, getServiceCardImage } from "@/data/service-images";
 import { InnerPageHero } from "@/components/inner-page-hero";
 
@@ -123,7 +123,7 @@ export function ServicesDirectory() {
                         <div className="svc-catalog-copy">
                           <h4>{service.title}</h4>
                           <p>{service.short}</p>
-                          <Link href={`/services/${category.slug}/${service.slug}`}>Learn More</Link>
+                          <Link href={servicePageHref(category.slug, service.slug)}>Learn More</Link>
                         </div>
                       </motion.article>
                     ))}

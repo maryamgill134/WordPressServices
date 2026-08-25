@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { leadSchema } from "@/lib/lead-validation";
+import { leadSchema, quoteLeadSchema, toStoredLeadFromQuote } from "@/lib/lead-validation";
 import { getPrisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -32,7 +32,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body: unknown = await request.json();
-    const parsed = leadSchema.safeParse(body);
+    const isQuote = typeof body === "object" && body !== null && "building" in body;
+    const parsed = isQuote ? quoteLeadSchema.safeParse(body) : leadSchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -47,7 +48,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { website, startedAt, ...lead } = parsed.data;
+    const stored = "building" in parsed.data ? toStoredLeadFromQuote(parsed.data) : parsed.data;
+    const { website, startedAt, ...lead } = stored;
 
     // Honeypot submissions receive a normal response so bots do not adapt.
     if (website) {
@@ -79,6 +81,7 @@ export async function POST(request: NextRequest) {
         phone: lead.phone || null,
         company: lead.company || null,
         budget: lead.budget || null,
+        source: isQuote ? "get-a-free-quote" : "website",
         ipHash,
         userAgent: request.headers.get("user-agent")?.slice(0, 500) || null,
       },

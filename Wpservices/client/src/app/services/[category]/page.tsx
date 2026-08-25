@@ -12,6 +12,14 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { category: string } }): Metadata {
   const category = getCategory(params.category);
   if (!category) return { title: "Services" };
+  if (category.slug === "maintain") {
+    return {
+      title: "WordPress Maintenance",
+      description:
+        "Keep your WordPress website secure, updated, fast, stable, and running smoothly with reliable ongoing maintenance and professional technical support.",
+      alternates: { canonical: "/services/maintain" },
+    };
+  }
   return {
     title: category.title,
     description: category.summary,

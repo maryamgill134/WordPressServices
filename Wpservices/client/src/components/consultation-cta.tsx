@@ -173,11 +173,11 @@ export function StartYourProject() {
           </div>
           <div className="lead-form-row">
             <div className="lead-phone">
-              <span className="lead-field-label">WhatsApp number <small>Optional</small></span>
+              <span className="lead-field-label">WhatsApp number</span>
               <PhoneField resetKey={startedAt} onValidityChange={setPhoneValid} />
             </div>
             <label>
-              <span className="lead-field-label">Company <small>Optional</small></span>
+              <span className="lead-field-label">Company</span>
               <input name="company" autoComplete="organization" placeholder="Company name" />
             </label>
           </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { servicePillars } from "@/data/services";
+import { servicePageHref, servicePillars } from "@/data/services";
 import { Logo } from "@/components/logo";
 import { QuoteLink } from "@/components/quote-link";
 
@@ -16,6 +16,7 @@ export function SiteHeader() {
   const isHome = pathname === "/";
   const onServices = pathname.startsWith("/services");
   const onContact = pathname === "/contact";
+  const onBlog = pathname.startsWith("/blog");
   const root = isHome ? "" : "/";
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -160,7 +161,7 @@ export function SiteHeader() {
                             {category.isNew && <small>NEW</small>}
                           </Link>
                           {category.services.map((service) => (
-                            <Link className="service-menu-item" href={`/services/${category.slug}/${service.slug}`} key={service.slug} onClick={closeMenus}>
+                            <Link className="service-menu-item" href={servicePageHref(category.slug, service.slug)} key={service.slug} onClick={closeMenus}>
                               {service.title}
                               {service.isNew && <small>NEW</small>}
                             </Link>
@@ -201,6 +202,16 @@ export function SiteHeader() {
               >
                 Contact
               </Link>
+            ) : item === "Blog" ? (
+              <a
+                key={item}
+                href={`${root}#insights`}
+                className={onBlog || (isHome && activeSection === "insights") ? "nav-link--active" : undefined}
+                aria-current={onBlog || (isHome && activeSection === "insights") ? "page" : undefined}
+                onClick={closeMenus}
+              >
+                Blog
+              </a>
             ) : item === "Home" ? (
               <Link
                 key={item}
