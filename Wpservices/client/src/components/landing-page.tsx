@@ -398,11 +398,13 @@ export function LandingPage() {
           >
             <Image
               className="wpdev-mockup"
-              src="/wpdev-device-cluster.png"
+              src="/wpdev-device-cluster.jpg"
               alt="Responsive WordPress websites shown on desktop, laptop, tablet, and phone"
-              width={912}
-              height={573}
-              sizes="(max-width: 540px) 92vw, (max-width: 1100px) 48vw, 560px"
+              width={1024}
+              height={682}
+              quality={100}
+              unoptimized
+              sizes="(max-width: 540px) min(92vw, 520px), (max-width: 1100px) 46vw, 640px"
             />
           </motion.figure>
 

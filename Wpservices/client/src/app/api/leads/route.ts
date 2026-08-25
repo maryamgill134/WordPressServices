@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { leadSchema, quoteLeadSchema, toStoredLeadFromQuote } from "@/lib/lead-validation";
 import { getPrisma } from "@/lib/prisma";
+import { sendContactLeadEmail, sendQuoteLeadEmail } from "@/lib/send-quote-email";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,34 @@ function isRateLimited(key: string) {
   recent.push(now);
   requestLog.set(key, recent);
   return recent.length > MAX_REQUESTS;
+}
+
+function requestOrigin(request: NextRequest) {
+  const origin = request.headers.get("origin")?.trim();
+  if (origin) return origin;
+  const referer = request.headers.get("referer")?.trim();
+  if (referer) {
+    try {
+      return new URL(referer).origin;
+    } catch {
+      /* ignore invalid referer */
+    }
+  }
+  if (process.env.NODE_ENV !== "production") return "http://localhost:3000";
+  return "https://wpservices.com";
+}
+
+function requestPath(request: NextRequest) {
+  const referer = request.headers.get("referer")?.trim();
+  if (referer) {
+    try {
+      const path = new URL(referer).pathname;
+      if (path) return path;
+    } catch {
+      /* ignore invalid referer */
+    }
+  }
+  return "/contact";
 }
 
 export async function POST(request: NextRequest) {
@@ -74,18 +103,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await getPrisma().lead.create({
-      data: {
-        ...lead,
-        email: lead.email.toLowerCase(),
-        phone: lead.phone || null,
-        company: lead.company || null,
-        budget: lead.budget || null,
-        source: isQuote ? "get-a-free-quote" : "website",
-        ipHash,
-        userAgent: request.headers.get("user-agent")?.slice(0, 500) || null,
-      },
-    });
+    if ("building" in parsed.data) {
+      try {
+        await sendQuoteLeadEmail(parsed.data, requestOrigin(request));
+      } catch (error) {
+        console.error("Quote email delivery failed", error);
+        return NextResponse.json(
+          { message: "We couldn’t send your request. Please try again or email Info@technologiallc.com." },
+          { status: 500 },
+        );
+      }
+    } else {
+      try {
+        await sendContactLeadEmail(parsed.data, requestOrigin(request), requestPath(request));
+      } catch (error) {
+        console.error("Consultation email delivery failed", error);
+        return NextResponse.json(
+          { message: "We couldn’t send your request. Please try again or email Info@technologiallc.com." },
+          { status: 500 },
+        );
+      }
+    }
+
+    try {
+      await getPrisma().lead.create({
+        data: {
+          ...lead,
+          email: lead.email.toLowerCase(),
+          phone: lead.phone || null,
+          company: lead.company || null,
+          budget: lead.budget || null,
+          source: isQuote ? "get-a-free-quote" : "contact",
+          ipHash,
+          userAgent: request.headers.get("user-agent")?.slice(0, 500) || null,
+        },
+      });
+    } catch (error) {
+      console.error("Lead saved after email failed", error);
+    }
 
     return NextResponse.json(
       { message: "Thanks! We’ll reply within one business day." },
@@ -94,7 +149,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Lead submission failed", error);
     return NextResponse.json(
-      { message: "We couldn’t submit your request. Please email info@technologiallc.com." },
+      { message: "We couldn’t submit your request. Please email Info@technologiallc.com." },
       { status: 500 },
     );
   }

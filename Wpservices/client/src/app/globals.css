@@ -721,14 +721,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .wpdev-inner {
   display: grid;
-  grid-template-columns: minmax(0, .95fr) minmax(280px, 1.05fr);
-  gap: 40px 56px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 1fr);
+  gap: 48px 72px;
   align-items: center;
 }
 .wpdev-stage {
   margin: 0;
   width: 100%;
-  max-width: 560px;
+  max-width: 640px;
   min-width: 0;
   justify-self: start;
 }
@@ -736,6 +736,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
   display: block;
   width: 100%;
   height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 .wpdev-copy { min-width: 0; max-width: 560px; }
 .wpdev-copy h2 {
@@ -3582,8 +3585,8 @@ footer { padding: 72px 0 22px; color: #0b1020; background: #fff; border-top: 1px
   .contact-layout { gap: 28px; }
   .plugins-grid { grid-template-columns: 1fr 1fr; }
   .footer-top { grid-template-columns: 1fr; gap: 40px; }
-  .wpdev-inner { gap: 32px 36px; }
-  .wpdev-stage { max-width: 480px; }
+  .wpdev-inner { gap: 36px 44px; }
+  .wpdev-stage { max-width: 520px; }
   .wpdev-copy h2 { font-size: clamp(32px, 3.6vw, 42px); }
 }
 
@@ -3680,8 +3683,8 @@ footer { padding: 72px 0 22px; color: #0b1020; background: #fff; border-top: 1px
   .trust-row { padding: 44px 0; gap: 24px; }
   .trust-logos { gap: 52px; padding-right: 52px; }
   .wpdev-section { padding: 72px 0 80px; }
-  .wpdev-inner { gap: 24px 28px; }
-  .wpdev-stage { max-width: 360px; }
+  .wpdev-inner { gap: 28px 32px; }
+  .wpdev-stage { max-width: 100%; }
   .wpdev-copy h2 { font-size: clamp(28px, 3.8vw, 34px); }
   .wpdev-copy p { font-size: 16px; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
@@ -3760,9 +3763,9 @@ footer { padding: 72px 0 22px; color: #0b1020; background: #fff; border-top: 1px
   .hero-trust b { font-size: 18px; }
   .hero-benefits { justify-content: center; }
   .wpdev-section { padding: 56px 0 64px; }
-  .wpdev-inner { grid-template-columns: 1fr; gap: 32px; }
+  .wpdev-inner { grid-template-columns: 1fr; gap: 36px; }
   .wpdev-stage {
-    max-width: 420px;
+    max-width: min(520px, 100%);
     justify-self: center;
   }
   .wpdev-copy {

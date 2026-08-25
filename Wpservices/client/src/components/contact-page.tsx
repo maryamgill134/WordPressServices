@@ -105,7 +105,7 @@ export function ContactPage() {
       form.reset();
       setStartedAt(Date.now());
       setLeadStatus("success");
-      setLeadMessage(result.message ?? "Thanks! We’ll reply within one business day.");
+      setLeadMessage("Thanks! We’ve received your consultation request and sent it to our team. We’ll reply within one business day.");
     } catch (error) {
       setLeadStatus("error");
       setLeadMessage(error instanceof Error ? error.message : "Please try again.");

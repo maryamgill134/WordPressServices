@@ -794,6 +794,51 @@
 
 .svc-detail-stack { padding: 80px 0; background: #fff; }
 .svc-detail-page > .section:last-child { padding-bottom: 96px; }
+
+#maintenance-faq .faq-layout {
+  gap: 64px;
+  align-items: start;
+}
+#maintenance-faq .faq-layout > div:first-child {
+  max-width: 400px;
+  padding-top: 6px;
+}
+#maintenance-faq .faq-layout > div:first-child h2 {
+  margin: 10px 0 14px;
+  max-width: 13ch;
+  letter-spacing: -.045em;
+}
+#maintenance-faq .faq-layout > div:first-child p {
+  margin: 0 0 28px;
+  max-width: 34ch;
+  font-size: 15px;
+  line-height: 1.7;
+}
+#maintenance-faq .faq-list { gap: 12px; }
+#maintenance-faq .faq-list article {
+  border-radius: 18px;
+  overflow: hidden;
+}
+#maintenance-faq .faq-list article > button {
+  min-height: 64px;
+  padding: 20px 22px;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.35;
+}
+#maintenance-faq .faq-list button svg {
+  width: 20px;
+  height: 20px;
+}
+#maintenance-faq .faq-list article p {
+  padding: 0 22px 22px;
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.7;
+}
 .svc-detail-tech {
   margin: 0;
   padding: 0;
@@ -887,6 +932,12 @@
   .svc-ui-course { grid-template-columns: 1fr; }
   .svc-ui-flow { grid-auto-flow: row; justify-content: stretch; }
   .svc-ui-flow i { width: 2px; height: 12px; margin-inline: auto; }
+  #maintenance-faq .faq-layout { gap: 36px; }
+  #maintenance-faq .faq-layout > div:first-child,
+  #maintenance-faq .faq-layout > div:first-child h2,
+  #maintenance-faq .faq-layout > div:first-child p { max-width: none; }
+  #maintenance-faq .faq-list article > button { min-height: 56px; padding: 16px 18px; font-size: 15px; }
+  #maintenance-faq .faq-list article p { padding: 0 18px 18px; }
 }
 
 @media (max-width: 540px) {

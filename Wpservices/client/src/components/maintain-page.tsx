@@ -72,11 +72,11 @@ export function MaintenanceDetailExtras({ faqs }: { faqs: ServiceItem["faqs"] })
           <div>
             <span className="eyebrow">FAQ</span>
             <h2>Questions teams ask before they start care</h2>
-            <p>If your stack or hosting is unusual, tell us on the quote form — we will say what belongs in the plan and what does not.</p>
+            <p>Clear answers on scope, recovery, backups, and response — before you start a care plan.</p>
             <QuoteLink className="button">Get a Quote</QuoteLink>
           </div>
           <div className="faq-list">
-            {faqs.map((item, index) => (
+            {faqs.slice(0, 4).map((item, index) => (
               <article className={openFaq === index ? "open" : ""} key={item.q}>
                 <button
                   type="button"

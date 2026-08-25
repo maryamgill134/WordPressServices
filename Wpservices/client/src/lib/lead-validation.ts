@@ -53,6 +53,20 @@ export const contactLeadSchema = leadSchema.extend({
   budget: z.string().trim().min(1, "Select a project budget."),
 });
 
+export function contactLeadFieldRows(data: LeadInput) {
+  const blank = "—";
+  return [
+    { label: "Name", value: data.name.trim() || blank },
+    { label: "Email", value: data.email.trim() || blank },
+    { label: "Phone", value: data.phone?.trim() || blank },
+    { label: "Company", value: data.company?.trim() || blank },
+    { label: "Service", value: data.service.trim() || blank },
+    { label: "Budget", value: data.budget.trim() || blank },
+    { label: "Message", value: data.message.trim() || blank },
+    { label: "Consent", value: data.consent ? "Yes" : "No" },
+  ];
+}
+
 export const quoteLeadSchema = z.object({
   name: z.string().trim().min(2, "Please enter your full name.").max(120),
   email: z.string().trim().email("Please enter a valid email address.").max(254),
@@ -105,18 +119,29 @@ export const quoteLeadSchema = z.object({
 
 export type QuoteLeadInput = z.infer<typeof quoteLeadSchema>;
 
-export function formatQuoteMessage(data: QuoteLeadInput) {
-  const lines = [
-    `What they're building: ${data.building.join(", ")}`,
-    `Project size: ${data.projectSize}`,
-    `What they need: ${data.needs.join(", ")}`,
-    `Budget: ${data.budget}`,
-    `Timeline: ${data.timeline}`,
+export function quoteLeadFieldRows(data: QuoteLeadInput) {
+  const blank = "—";
+  return [
+    { label: "Name", value: data.name.trim() || blank },
+    { label: "Email", value: data.email.trim() || blank },
+    { label: "Phone", value: data.phone?.trim() || blank },
+    { label: "Company", value: data.company?.trim() || blank },
+    { label: "Service / what they're building", value: data.building.join(", ") || blank },
+    { label: "Project size", value: data.projectSize.trim() || blank },
+    { label: "What they need", value: data.needs.join(", ") || blank },
+    { label: "Budget", value: data.budget.trim() || blank },
+    { label: "Timeline", value: data.timeline.trim() || blank },
+    { label: "Website URL", value: data.websiteUrl?.trim() || blank },
+    { label: "Reference URL", value: data.referenceUrl?.trim() || blank },
+    { label: "Message", value: data.message.trim() || blank },
+    { label: "Consent", value: data.consent ? "Yes" : "No" },
   ];
-  if (data.websiteUrl) lines.push(`Website: ${data.websiteUrl}`);
-  if (data.referenceUrl) lines.push(`Reference: ${data.referenceUrl}`);
-  lines.push("", "Project details:", data.message);
-  return lines.join("\n");
+}
+
+export function formatQuoteMessage(data: QuoteLeadInput) {
+  return quoteLeadFieldRows(data)
+    .map((row) => `${row.label}: ${row.value}`)
+    .join("\n");
 }
 
 export function toStoredLeadFromQuote(data: QuoteLeadInput): LeadInput {

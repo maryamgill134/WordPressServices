@@ -250,7 +250,7 @@ export function QuotePage() {
             <motion.div className="lead-form quote-form quote-success" {...reveal} role="status">
               <span className="eyebrow">QUOTE RECEIVED</span>
               <h2>Thank You!</h2>
-              <p>We&apos;ve received your project details. Our team will review your request and get back to you shortly.</p>
+              <p>We&apos;ve received your project details and sent them to our team. We&apos;ll review your request and get back to you shortly.</p>
               <Link className="button" href="/">Back to Home</Link>
             </motion.div>
           ) : (
