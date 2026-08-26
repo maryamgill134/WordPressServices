@@ -389,25 +389,6 @@ export function LandingPage() {
 
       <section className="wpdev-section" aria-labelledby="wpdev-heading">
         <div className="container wpdev-inner">
-          <motion.figure
-            className="wpdev-stage"
-            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Image
-              className="wpdev-mockup"
-              src="/wpdev-device-cluster.jpg"
-              alt="Responsive WordPress websites shown on desktop, laptop, tablet, and phone"
-              width={1024}
-              height={682}
-              quality={100}
-              unoptimized
-              sizes="(max-width: 540px) min(92vw, 520px), (max-width: 1100px) 46vw, 640px"
-            />
-          </motion.figure>
-
           <div className="wpdev-copy">
             <motion.h2
               id="wpdev-heading"
@@ -455,6 +436,75 @@ export function LandingPage() {
               <QuoteLink className="button">Get a Free Consultation</QuoteLink>
             </motion.div>
           </div>
+
+          <motion.figure
+            className="wpdev-stage"
+            initial={reduceMotion ? false : { opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: reduceMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="wpdev-frame">
+              <Image
+                className="wpdev-mockup"
+                src="/wpdev-wordpress-dashboard.jpg"
+                alt="WordPress performance dashboard on a laptop, showing a 98 PageSpeed score and Core Web Vitals"
+                width={1536}
+                height={1024}
+                quality={90}
+                sizes="(max-width: 780px) 92vw, (max-width: 1100px) 60vw, 1080px"
+              />
+            </div>
+            <div className="wpdev-float wpdev-float--score" aria-hidden="true">
+              <span className="wpdev-float-inner">
+                <span className="wpdev-float-icon"><CircleGauge /></span>
+                <span>
+                  <b>98</b>
+                  <small>Performance</small>
+                </span>
+              </span>
+            </div>
+            <div className="wpdev-float wpdev-float--speed" aria-hidden="true">
+              <span className="wpdev-float-inner">
+                <span className="wpdev-float-icon"><Zap /></span>
+                <span>
+                  <b>1.2s</b>
+                  <small>Load time</small>
+                </span>
+              </span>
+            </div>
+            <div className="wpdev-float wpdev-float--wp" aria-hidden="true">
+              <span className="wpdev-float-inner">
+                <span className="wpdev-float-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 2a10 10 0 100 20A10 10 0 0012 2zm-1.1 16.7L7.4 8.6h2.1l2.1 6.7 1.6-4.4H11l.6-1.8h5.3l-3.9 10.6h-2.1zm7.7-1.2l-1.6-4.6 1.5-4.3h2.1l-2 8.9zM5.3 8.6l3.5 10.1A8.2 8.2 0 013.8 12c0-1.2.3-2.4.7-3.4h.8z" />
+                  </svg>
+                </span>
+                <span>
+                  <b>WordPress</b>
+                  <small>Native build</small>
+                </span>
+              </span>
+            </div>
+            <div className="wpdev-float wpdev-float--mobile" aria-hidden="true">
+              <span className="wpdev-float-inner">
+                <span className="wpdev-float-icon"><MonitorSmartphone /></span>
+                <span>
+                  <b>Responsive</b>
+                  <small>Every device</small>
+                </span>
+              </span>
+            </div>
+            <div className="wpdev-float wpdev-float--secure" aria-hidden="true">
+              <span className="wpdev-float-inner">
+                <span className="wpdev-float-icon"><ShieldCheck /></span>
+                <span>
+                  <b>Secure</b>
+                  <small>SSL &amp; hardening</small>
+                </span>
+              </span>
+            </div>
+          </motion.figure>
         </div>
       </section>
 
