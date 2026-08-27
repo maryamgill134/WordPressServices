@@ -4,15 +4,19 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import {
+  Building2,
   Code2,
   Ellipsis,
   FolderSync,
   Globe,
   GraduationCap,
   LayoutTemplate,
+  Link2,
+  Mail,
   Puzzle,
   RefreshCcw,
   ShoppingBag,
+  User,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -411,27 +415,33 @@ export function QuotePage() {
                   </span>
                 </legend>
                 <div className="lead-form-row">
-                  <label>
+                  <label className="quote-field">
                     <span className="lead-field-label">Full name <small>*</small></span>
-                    <input
-                      name="name"
-                      autoComplete="name"
-                      placeholder="Alex Morgan"
-                      className={errors.name ? "is-invalid" : undefined}
-                      aria-invalid={Boolean(errors.name)}
-                    />
+                    <span className="quote-field-control">
+                      <span className="quote-field-icon" aria-hidden="true"><User /></span>
+                      <input
+                        name="name"
+                        autoComplete="name"
+                        placeholder="Alex Morgan"
+                        className={errors.name ? "is-invalid" : undefined}
+                        aria-invalid={Boolean(errors.name)}
+                      />
+                    </span>
                     {errors.name && <p className="field-error">{errors.name}</p>}
                   </label>
-                  <label id="quote-email">
+                  <label className="quote-field" id="quote-email">
                     <span className="lead-field-label">Email <small>*</small></span>
-                    <input
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      placeholder="alex@company.com"
-                      className={errors.email ? "is-invalid" : undefined}
-                      aria-invalid={Boolean(errors.email)}
-                    />
+                    <span className="quote-field-control">
+                      <span className="quote-field-icon" aria-hidden="true"><Mail /></span>
+                      <input
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="alex@company.com"
+                        className={errors.email ? "is-invalid" : undefined}
+                        aria-invalid={Boolean(errors.email)}
+                      />
+                    </span>
                     {errors.email && <p className="field-error">{errors.email}</p>}
                   </label>
                 </div>
@@ -441,21 +451,27 @@ export function QuotePage() {
                     <PhoneField resetKey={startedAt} onValidityChange={setPhoneValid} />
                     {errors.phone && <p className="field-error">{errors.phone}</p>}
                   </div>
-                  <label>
+                  <label className="quote-field">
                     <span className="lead-field-label">Company / Brand</span>
-                    <input name="company" autoComplete="organization" placeholder="Company name" />
+                    <span className="quote-field-control">
+                      <span className="quote-field-icon" aria-hidden="true"><Building2 /></span>
+                      <input name="company" autoComplete="organization" placeholder="Company name" />
+                    </span>
                   </label>
                 </div>
-                <label id="quote-websiteUrl">
+                <label className="quote-field" id="quote-websiteUrl">
                   <span className="lead-field-label">Website URL</span>
-                  <input
-                    name="websiteUrl"
-                    inputMode="url"
-                    autoComplete="url"
-                    placeholder="https://yourwebsite.com"
-                    className={errors.websiteUrl ? "is-invalid" : undefined}
-                    aria-invalid={Boolean(errors.websiteUrl)}
-                  />
+                  <span className="quote-field-control">
+                    <span className="quote-field-icon" aria-hidden="true"><Globe /></span>
+                    <input
+                      name="websiteUrl"
+                      inputMode="url"
+                      autoComplete="url"
+                      placeholder="https://yourwebsite.com"
+                      className={errors.websiteUrl ? "is-invalid" : undefined}
+                      aria-invalid={Boolean(errors.websiteUrl)}
+                    />
+                  </span>
                   {errors.websiteUrl && <p className="field-error">{errors.websiteUrl}</p>}
                 </label>
               </fieldset>
@@ -468,26 +484,31 @@ export function QuotePage() {
                     <small>The more context you share, the better we can help.</small>
                   </span>
                 </legend>
-                <label className="lead-field--area">
+                <label className="lead-field--area quote-field quote-field--area">
                   <span className="lead-field-label">Tell us about your project <small>*</small></span>
-                  <textarea
-                    name="message"
-                    rows={5}
-                    placeholder="Tell us about your business, project goals, required features, target audience, existing website, or anything else that will help us understand your project."
-                    className={errors.message ? "is-invalid" : undefined}
-                    aria-invalid={Boolean(errors.message)}
-                  />
+                  <span className="quote-field-control">
+                    <textarea
+                      name="message"
+                      rows={5}
+                      placeholder="Tell us about your business, project goals, required features, target audience, existing website, or anything else that will help us understand your project."
+                      className={errors.message ? "is-invalid" : undefined}
+                      aria-invalid={Boolean(errors.message)}
+                    />
+                  </span>
                   {errors.message && <p className="field-error">{errors.message}</p>}
                 </label>
-                <label id="quote-referenceUrl">
+                <label className="quote-field" id="quote-referenceUrl">
                   <span className="lead-field-label">Reference / Website URL</span>
-                  <input
-                    name="referenceUrl"
-                    inputMode="url"
-                    placeholder="https://example.com"
-                    className={errors.referenceUrl ? "is-invalid" : undefined}
-                    aria-invalid={Boolean(errors.referenceUrl)}
-                  />
+                  <span className="quote-field-control">
+                    <span className="quote-field-icon" aria-hidden="true"><Link2 /></span>
+                    <input
+                      name="referenceUrl"
+                      inputMode="url"
+                      placeholder="https://example.com"
+                      className={errors.referenceUrl ? "is-invalid" : undefined}
+                      aria-invalid={Boolean(errors.referenceUrl)}
+                    />
+                  </span>
                   {errors.referenceUrl && <p className="field-error">{errors.referenceUrl}</p>}
                 </label>
               </fieldset>
