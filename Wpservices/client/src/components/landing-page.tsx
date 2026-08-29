@@ -22,6 +22,7 @@ import {
 import Link from "next/link";
 import { CheckMark } from "@/components/check-mark";
 import { QuoteLink } from "@/components/quote-link";
+import { Marquee } from "@/components/ui/marquee";
 import { insightHref, insights } from "@/data/insights";
 
 const process = [
@@ -369,20 +370,23 @@ export function LandingPage() {
         <div className="trust-row">
           <p className="trust-label">TRUSTED BY BUSINESSES WORLDWIDE</p>
           <div className="trust-marquee">
-            <div className="trust-track">
-              {[0, 1].map((copy) => (
-                <ul className="trust-logos" key={copy} aria-hidden={copy === 1}>
-                  {trustBrands.map((brand) => (
-                    <li key={`${copy}-${brand.name}`}>
-                      <span className={`trust-logo ${brand.className ?? ""}`}>
-                        {brand.icon}
-                        {brand.wordmark}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              ))}
-            </div>
+            <Marquee
+              pauseOnHover={!reduceMotion}
+              repeat={reduceMotion ? 1 : 2}
+              animate={!reduceMotion}
+              className="p-0 [--duration:32s] [--gap:4.5rem]"
+            >
+              <ul className="trust-logos">
+                {trustBrands.map((brand) => (
+                  <li key={brand.name}>
+                    <span className={`trust-logo ${brand.className ?? ""}`}>
+                      {brand.icon}
+                      {brand.wordmark}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Marquee>
           </div>
         </div>
       </motion.section>

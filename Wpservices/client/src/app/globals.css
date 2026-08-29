@@ -672,20 +672,44 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .wpdev-section + .process.section { padding-top: 64px; }
 .trust-label { margin: 0; color: #93a0b5; font-size: 11px; font-weight: 700; letter-spacing: .22em; }
 .trust-marquee {
+  --duration: 32s;
+  --gap: 4.5rem;
   width: 100%;
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
-.trust-track { display: flex; width: max-content; animation: trustMarquee 32s linear infinite; }
-.trust-marquee:hover .trust-track { animation-play-state: paused; }
+.trust-marquee > .group {
+  --duration: 32s;
+  --gap: 4.5rem;
+  width: 100%;
+  padding: 0;
+}
 .trust-logos {
   margin: 0;
-  padding: 0 72px 0 0;
+  padding: 0;
   display: flex;
   flex: 0 0 auto;
   align-items: center;
   gap: 72px;
   list-style: none;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-100% - var(--gap))); }
+}
+.animate-marquee {
+  align-items: center;
+  animation: marquee var(--duration) linear infinite;
+}
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration) linear infinite;
+}
+.trust-marquee:hover .animate-marquee {
+  animation-play-state: paused;
 }
 .trust-logo {
   display: inline-flex;
@@ -706,11 +730,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .trust-logo svg [fill="none"] { fill: none; }
 .trust-logo--godaddy { font-family: Arial, Helvetica, sans-serif; font-weight: 800; letter-spacing: -.04em; }
 .trust-logo--elementor { font-weight: 700; letter-spacing: -.045em; }
-
-@keyframes trustMarquee {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
-}
 
 .wpdev-section {
   position: relative;
@@ -3910,7 +3929,8 @@ footer { padding: 72px 0 22px; color: #0b1020; background: #fff; border-top: 1px
     grid-template-columns: repeat(5, minmax(140px, 1fr));
   }
   .trust-row { padding: 44px 0; gap: 24px; }
-  .trust-logos { gap: 52px; padding-right: 52px; }
+  .trust-marquee { --gap: 3.25rem; }
+  .trust-logos { gap: 52px; }
   .wpdev-section { padding: 72px 0 80px; }
   .wpdev-inner { grid-template-columns: 1fr; gap: 36px; }
   .wpdev-copy { max-width: none; }
@@ -4090,8 +4110,11 @@ footer { padding: 72px 0 22px; color: #0b1020; background: #fff; border-top: 1px
   .hero-actions .button:hover { transform: none; }
   .hero-visual { transform: none !important; }
   .glow-card::after { display: none; }
-  .trust-track { animation: none !important; transform: none !important; }
-  .trust-logos:last-child { display: none; }
+  .trust-marquee .animate-marquee,
+  .trust-marquee .animate-marquee-vertical {
+    animation: none !important;
+    transform: none !important;
+  }
   .trust-marquee { mask-image: none; }
   .trust-logo:hover { transform: none; }
   .wpdev-copy h2, .wpdev-copy p, .wpdev-cta, .wpdev-stage, .wpdev-float { animation: none !important; transform: none !important; }
